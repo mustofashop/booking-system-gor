@@ -6,7 +6,8 @@
         <li><a href="{{ $navbarItem->route }}" class="nav-link scrollto">{{ $navbarItem->name }}</a></li>
         @else
         <li class="dropdown">
-            <a href="{{ $navbarItem->route }}" class="nav-link"><span>{{ $navbarItem->name }}</span><i class="bi bi-chevron-down"></i></a>
+            <a href="{{ $navbarItem->route }}" class="nav-link"><span>{{ $navbarItem->name }}</span><i
+                    class="bi bi-chevron-down"></i></a>
             <ul>
                 @foreach ($navbarItem->navbarsub as $navbarItem1)
                 <li><a href="{{ $navbarItem1->route }}" class="nav-link">{{ $navbarItem1->name}}</a></li>
@@ -21,11 +22,21 @@
         &nbsp;
         <div class="text-center">
             @foreach ($button as $item)
-            @if ( $item->code == 'login')
-            <button OnClick="location.href='{!!html_entity_decode($item->url)!!}'" type="submit" class="btn btn-warning">{!!html_entity_decode($item->title)!!}</button>
+            @if ($item->code == 'login')
+            @if (Auth::check()) <!-- Periksa apakah pengguna sudah login -->
+            <button onclick="location.href='{{ route('dashboard') }}'" type="button" class="btn btn-warning">{{
+                $item->title
+                }}
+            </button>
+            @else
+            <button onclick="location.href='{{ $item->url }}'" type="button" class="btn btn-warning">{{ $item->title
+                }}
+            </button>
+            @endif
             @endif
             @endforeach
         </div>
+
         <li>
             @foreach ($button as $item)
             @if ( $item->code == 'instagram')

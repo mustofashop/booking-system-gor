@@ -17,10 +17,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'master_users';
+
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'phone',
         'password',
+        'permission',
+        'status'
     ];
 
     /**
@@ -42,4 +49,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Check if user has permission
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'setup_user_permission', 'user_id', 'permission_id');
+    }
 }
