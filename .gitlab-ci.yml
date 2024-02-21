@@ -1,0 +1,20 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Building the application"
+
+test:
+  stage: test
+  script:
+    - echo "Running tests"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to dev server"
+    - ssh root@193.203.161.35 "cd /var/www/html/membership.nht1.web.id && git pull origin master && ./deploy.sh"
