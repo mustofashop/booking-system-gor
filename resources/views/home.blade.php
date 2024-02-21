@@ -26,16 +26,17 @@
                     </div>
                 </div>
                 <div class="col-lg-4 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="300">
-                    @foreach ($image as $item)
-                    @if ( $item->code == 'hero')
-                    <img class="img-fluid animated" src="{{ asset('storage/image/'. $item->image) }}">
-                    @endif
-                    @endforeach
+                    <!--                    @foreach ($image as $item)-->
+                    <!--                    @if ( $item->code == 'hero')-->
+                    <!--                    <img class="img-fluid animated" src="{{ asset('storage/image/'. $item->image) }}">-->
+                    <!--                    @endif-->
+                    <!--                    @endforeach-->
                 </div>
             </div>
         </div>
 
-        <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28 " preserveAspectRatio="none">
+        <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 28 " preserveAspectRatio="none">
             <defs>
                 <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z">
             </defs>
@@ -61,7 +62,8 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch" data-aos="fade-right">
+                <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch"
+                     data-aos="fade-right">
                     @foreach ($button as $item)
                     @if ( $item->code == 'channel')
                     <a target="_blank" href="{!!html_entity_decode($item->url)!!}" class="glightbox play-btn mb-4"></a>
@@ -69,7 +71,9 @@
                     @endforeach
                 </div>
 
-                <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5" data-aos="fade-left">
+                <div
+                    class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5"
+                    data-aos="fade-left">
                     @foreach ($label as $item)
                     @if ( $item->code == 'history')
                     <h3>{!!html_entity_decode($item->title)!!}</h3>
@@ -103,7 +107,8 @@
 
                     <div class="count-box">
                         <i class="bi bi-people"></i>
-                        <span data-purecounter-start="0" data-purecounter-end="{{ $value->count }}" data-purecounter-duration="1" class="purecounter"></span>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ $value->count }}"
+                              data-purecounter-duration="1" class="purecounter"></span>
                         <p>{{ $value->title }}</p>
                     </div>
 
@@ -135,29 +140,32 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
-                                    @foreach($event as $value)
-                                    <tr>
-                                        <td rowspan="4" style="vertical-align: middle;">
-                                            <a href="{{ asset('storage/event/'. $value->image) }}" target="_blank">
-                                                <img src="{{ asset('storage/event/'. $value->image) }}" class="img-thumbnail" alt="" style="max-width: 200px; max-height: 200px;">
-                                            </a>
-                                        </td>
-                                        <td><strong>#{{$loop->iteration}}</strong></td>
-                                        <td><span>{{ date('d F Y', strtotime($value->date)) }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>{{ $value->title }}</strong></td>
-                                        <td><i class="fas fa-map-marker-alt"></i> <span>{{ $value->location }}</span><br>
-                                            <i class="fas fa-clock"></i> <span>{{ $value->time }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <small> {!! Str::words(html_entity_decode($value->description), 70, ' ...') !!}</small>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong style="color: 
+                                @foreach($event as $value)
+                                <tr>
+                                    <td rowspan="4" style="vertical-align: middle;">
+                                        <a href="{{ asset('storage/event/'. $value->image) }}" target="_blank">
+                                            <img src="{{ asset('storage/event/'. $value->image) }}"
+                                                 class="img-thumbnail" alt=""
+                                                 style="max-width: 200px; max-height: 200px;">
+                                        </a>
+                                    </td>
+                                    <td><strong>#{{$loop->iteration}}</strong></td>
+                                    <td><span>{{ date('d F Y', strtotime($value->date)) }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>{{ $value->title }}</strong></td>
+                                    <td><i class="fas fa-map-marker-alt"></i> <span>{{ $value->location }}</span><br>
+                                        <i class="fas fa-clock"></i> <span>{{ $value->time }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <small> {!! Str::words(html_entity_decode($value->description), 70, ' ...')
+                                            !!}</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong style="color:
         @if($value->status == 'ACTIVE')
             green; /* Set the color to green for 'ACTIVE' status */
         @elseif($value->status == 'INACTIVE')
@@ -166,47 +174,47 @@
             black; /* Set the color to black for other statuses */
         @endif
     ">
-                                                @if($value->status == 'ACTIVE')
-                                                <span>OPEN</span>
-                                                @elseif($value->status == 'INACTIVE')
-                                                <span>CLOSE</span>
-                                                @else
-                                                {{ $value->status }}
-                                                @endif
-                                            </strong>
-                                        </td>
-
-                                        <td>
                                             @if($value->status == 'ACTIVE')
-
-                                            @foreach ($button as $item)
-                                            @if ( $item->code == 'read')
-                                            <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
-                                            @endif
-                                            @if ( $item->code == 'order')
-                                            <a href="#" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
-                                            @endif
-                                            @endforeach
-
+                                            <span>OPEN</span>
                                             @elseif($value->status == 'INACTIVE')
-
-                                            @foreach ($button as $item)
-                                            @if ( $item->code == 'read')
-                                            <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
-                                            @endif
-                                            @endforeach
+                                            <span>CLOSE</span>
                                             @else
-
-                                            @foreach ($button as $item)
-                                            @if ( $item->code == 'read')
-                                            <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                            {{ $value->status }}
                                             @endif
-                                            @endforeach
+                                        </strong>
+                                    </td>
 
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                    <td>
+                                        @if($value->status == 'ACTIVE')
+
+                                        @foreach ($button as $item)
+                                        @if ( $item->code == 'read')
+                                        <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                        @endif
+                                        @if ( $item->code == 'order')
+                                        <a href="#" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                        @endif
+                                        @endforeach
+
+                                        @elseif($value->status == 'INACTIVE')
+
+                                        @foreach ($button as $item)
+                                        @if ( $item->code == 'read')
+                                        <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                        @endif
+                                        @endforeach
+                                        @else
+
+                                        @foreach ($button as $item)
+                                        @if ( $item->code == 'read')
+                                        <a href="#" class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                        @endif
+                                        @endforeach
+
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -246,7 +254,8 @@
                     </span>
                     @foreach ($button as $item)
                     @if ( $item->code == 'more')
-                    <a class="butn small margin-10px-top md-no-margin-top" href="{!!html_entity_decode($item->url)!!}"> {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="butn small margin-10px-top md-no-margin-top" href="{!!html_entity_decode($item->url)!!}">
+                        {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
                     @endif
                     @endforeach
                 </div>
@@ -268,7 +277,8 @@
                     </span>
                     @foreach ($button as $item)
                     @if ( $item->code == 'more')
-                    <a class="butn small margin-10px-top md-no-margin-top" href="{!!html_entity_decode($item->url)!!}"> {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="butn small margin-10px-top md-no-margin-top" href="{!!html_entity_decode($item->url)!!}">
+                        {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
                     @endif
                     @endforeach
                 </div>
@@ -329,7 +339,8 @@
                 @foreach($team as $value)
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="pic"><img src="{{ asset('storage/team/'. $value->image) }}" class="img-fluid" alt=""></div>
+                        <div class="pic"><img src="{{ asset('storage/team/'. $value->image) }}" class="img-fluid"
+                                              alt=""></div>
                         <div class="member-info">
                             <h4>{{ $value->name }}</h4>
                             <span>{{ $value->place }}, {{ date('d F Y', strtotime($value->date)) }}</span>
