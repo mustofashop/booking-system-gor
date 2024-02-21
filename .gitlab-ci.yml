@@ -21,4 +21,6 @@ deploy:
     - touch /root/.ssh/known_hosts  # Buat file known_hosts jika belum ada
     - chmod 600 /root/.ssh/known_hosts  # Berikan izin yang tepat
     - ssh-keyscan -H 193.203.161.35 >> /root/.ssh/known_hosts  # Tambahkan host key ke known_hosts
-    - ssh root@193.203.161.35 "cd /var/www/html/membership.nht1.web.id && git pull origin main"
+    - echo "Contents of known_hosts file:"  # Tambahkan debugging: cetak isi file known_hosts
+    - cat /root/.ssh/known_hosts  # Tambahkan debugging: cetak isi file known_hosts
+    - ssh -v root@193.203.161.35 "cd /var/www/html/membership.nht1.web.id && git pull origin main"
