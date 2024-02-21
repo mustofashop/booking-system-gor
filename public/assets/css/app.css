@@ -130,11 +130,11 @@ h6 {
     transition: all 0.5s;
     z-index: 997;
     transition: all 0.5s;
-    background: #dc0000;
+    background: #1a1919;
 }
 
 #header.header-transparent {
-    background: transparent;
+    background: #282727;
 }
 
 #header.header-scrolled {
@@ -166,7 +166,7 @@ h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation 
+* Desktop Navigation
 */
 .navbar {
     padding: 0;
@@ -300,7 +300,7 @@ h6 {
 }
 
 /**
-* Mobile Navigation 
+* Mobile Navigation
 */
 .mobile-nav-toggle {
     color: #fff;
@@ -431,7 +431,7 @@ h6 {
 
 #hero:before {
     content: "";
-    background: rgba(161, 2, 2, 0.91);
+    background: rgba(161, 2, 2, 0.76);
     position: absolute;
     bottom: 0;
     top: 0;
@@ -1075,6 +1075,7 @@ section {
     .event-date {
         padding: 8px 15px 4px 15px
     }
+
     .events-date {
         padding: 10px 15px 6px 15px
     }
@@ -1087,6 +1088,7 @@ section {
 .margin-40px-bottom {
     margin-bottom: 40px;
 }
+
 .padding-60px-lr {
     padding-left: 60px;
     padding-right: 60px;
@@ -1095,18 +1097,23 @@ section {
 .margin-15px-bottom {
     margin-bottom: 15px;
 }
+
 .font-weight-500 {
     font-weight: 500;
 }
+
 .font-size22 {
     font-size: 22px;
 }
+
 .text-theme-color {
     color: #a11a1a;
 }
+
 .margin-10px-bottom {
     margin-bottom: 10px;
 }
+
 .margin-10px-right {
     margin-right: 10px;
 }
@@ -1840,7 +1847,7 @@ section {
     position: relative
 }
 
-.card+.card {
+.card + .card {
     margin-left: 2%
 }
 
@@ -1913,7 +1920,7 @@ section {
     text-decoration: line-through
 }
 
-.card-cont>div {
+.card-cont > div {
     display: table-row
 }
 
@@ -1963,9 +1970,11 @@ section {
         width: 100%;
         margin-bottom: 10px
     }
-    .card+.card {
+
+    .card + .card {
         margin-left: 0
     }
+
     .card-cont .even-date,
     .card-cont .even-info {
         font-size: 75%
