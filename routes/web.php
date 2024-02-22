@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', WebsiteController::class);
+//route resource
+Route::resource('/event', \App\Http\Controllers\EventController::class);
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -51,6 +53,4 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['member'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
     });
-
 });
-
