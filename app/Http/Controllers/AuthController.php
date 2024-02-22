@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -46,48 +47,39 @@ class AuthController extends Controller
 
         if (!$user) {
             // Username tidak ditemukan
-            $errorMessage = 'Akun tidak ditemukan';
-        } elseif ($user->status == 'INACTIVE') {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Account not found']);
+        } elseif ($user->status === 'INACTIVE') {
             // Akun tidak aktif
-            $errorMessage = 'Akun tidak aktif, silahkan hubungi admin';
+            return redirect()->back()->withInput()->withErrors(['error' => 'Account is not active']);
         } elseif (!Hash::check($password, $user->password)) {
             // Password tidak cocok
-            $errorMessage = 'Password salah';
+            return redirect()->back()->withInput()->withErrors(['error' => 'Password is incorrect']);
         } else {
             // Login berhasil
             Auth::login($user);
 
             // Periksa peran pengguna setelah login
-            $userRoles = $user->permission; // Anda harus memiliki relasi permission pada model User
-
-//            echo json_encode($userRoles);
-//            die();
+            $userRoles = $user->permissions; // Perlu diubah menjadi permissions
 
             if (!$userRoles) {
-                // Pengguna tidak memiliki peran, kirim pesan kesalahan
-                $errorMessage = 'Anda tidak memiliki hak akses, silahkan hubungi admin';
+                // Pengguna tidak memiliki peran
+                return redirect()->back()->withInput()->withErrors(['error' => 'User does not have any permission']);
             } else {
-                if ($userRoles === 'ADMIN') {
-                    // Pengguna memiliki peran "ADMIN", atur menu yang sesuai untuk ADMIN
-                    return redirect()->intended(route('dashboard'));
-                } elseif ($userRoles === 'EVENT') {
-                    // Pengguna memiliki peran "EVENT", atur menu yang sesuai untuk EVENT
-                    return redirect()->intended(route('dashboard'));
-                } elseif ($userRoles === 'MEMBER') {
-                    // Pengguna memiliki peran "MEMBER", atur menu yang sesuai untuk MEMBER
-                    return redirect()->intended(route('dashboard'));
+                // Redirect sesuai peran pengguna
+                if ($userRoles->contains('ADMIN')) {
+                    return redirect()->intended(route('dashboard.admin'));
+                } elseif ($userRoles->contains('EVENT')) {
+                    return redirect()->intended(route('dashboard.event'));
+                } elseif ($userRoles->contains('MEMBER')) {
+                    return redirect()->intended(route('dashboard.member'));
                 } else {
-                    // Pengguna memiliki peran yang tidak dikenali, kirim pesan kesalahan
-                    $errorMessage = 'Hak akses tidak dikenali, silahkan hubungi admin';
+                    // Pengguna memiliki peran yang tidak dikenali
+                    return redirect()->back()->withInput()->withErrors(['error' => 'User has an unknown permission']);
                 }
             }
         }
-
-        // Jika ada kesalahan, kirim pesan kesalahan sesuai kondisi
-        return redirect()->back()->withInput()->withErrors([
-            'login_failed' => $errorMessage,
-        ]);
     }
+
 
     public function logout(Request $request)
     {
@@ -96,5 +88,56 @@ class AuthController extends Controller
         $request->session()->regenerateToken(); // Regenerate CSRF token
 
         return redirect()->route('login'); // Redirect to login page
+    }
+
+    public function showRegisterForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('dashboard'); // Redirect to dashboard if user already logged in
+        }
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        return view('auth.register', compact('label', 'button')
+        );
+    }
+
+    public function register(Request $request)
+    {
+        // Validasi data input
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:master_users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:master_users'],
+            'phone' => ['required', 'string', 'max:15', 'unique:master_users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Buat user baru
+        try {
+            $user = User::create([
+                'name' => $request->input('name'),
+                'username' => $request->input('username'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'password' => Hash::make($request->input('password')),
+                'permission' => 'MEMBER', // Atur peran pengguna sebagai 'MEMBER'
+                'status' => 'INACTIVE', // Atur status pengguna sebagai 'INACTIVE'
+            ]);
+        } catch (\Exception $e) {
+            // Jika terjadi kesalahan saat pembuatan user
+            return redirect()->back()->withInput()->with('error', 'Failed to create user! ' . $e->getMessage());
+        }
+
+        // Tampilkan pesan sukses dan redirect ke halaman login
+        return redirect()->route('login')->with('success', 'User created successfully! Please login to continue');
     }
 }

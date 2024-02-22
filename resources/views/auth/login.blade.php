@@ -2,18 +2,43 @@
 
 @section('content')
 <div class="card card-danger">
-    <div class="card-header">
+    <div class="card-header" style="display: flex; justify-content: space-between;">
         @foreach ($label as $item)
         @if ($item->code == 'login')
         <span>
-            <h3 class="container text-dark">{!! html_entity_decode($item->title) !!}</h3>
-            <p class="container text-dark">{!! html_entity_decode($item->desc) !!}</p>
-        </span>
+        <h3 class="container text-dark">{!! html_entity_decode($item->title) !!}</h3>
+        <p class="container text-dark">{!! html_entity_decode($item->desc) !!}</p>
+    </span>
         @endif
         @endforeach
+        <a href="/" class="btn btn-dark">
+            <i class="fas fa-times"></i>
+        </a>
     </div>
 
     <div class="card-body">
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
