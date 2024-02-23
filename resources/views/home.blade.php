@@ -83,7 +83,7 @@
 
                     @foreach($historys as $value)
                     <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="icon"><i class="bx bx-building-house"></i></div>
+                        <div class="icon"><i class="bx bx-{!!html_entity_decode($value->image)!!}"></i></div>
                         <h4 class="title"><a href="">{!!html_entity_decode($value->title)!!}</a></h4>
                         <p class="description">{!! Str::words(html_entity_decode($value->desc), 25, ' ...') !!}</p>
                     </div>
@@ -106,10 +106,11 @@
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
 
                     <div class="count-box">
-                        <i class="bi bi-people"></i>
+                        <i class="bi bi-{{ $value->image }}"></i>
                         <span data-purecounter-start="0" data-purecounter-end="{{ $value->count }}"
-                              data-purecounter-duration="1" class="purecounter"></span>
-                        <p>{{ $value->title }}</p>
+                              data-purecounter-duration="1" class="purecounter">
+                        </span>
+                        <p>++ {{ $value->title }}</p>
                     </div>
 
                 </div>
@@ -127,7 +128,7 @@
 
             <div class="section-title" data-aos="fade-up">
                 @foreach ($label as $item)
-                @if ($item->code == 'event')
+                @if ($item->code == 'events')
                 <h2>{!!html_entity_decode($item->title)!!}</h2>
                 <p>{!!html_entity_decode($item->desc)!!}</p>
                 @endif
@@ -370,6 +371,40 @@
     </section>
     <!-- End Team Section -->
 
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq section-bg">
+        <div class="container">
+
+            <div class="section-title" data-aos="fade-up">
+                @foreach ($label as $item)
+                @if ( $item->code == 'faq')
+                <h2>{!!html_entity_decode($item->title)!!}</h2>
+                <p>{!!html_entity_decode($item->desc)!!}</p>
+                @endif
+                @endforeach
+            </div>
+
+            <div class="faq-list">
+                <ul>
+                    @foreach($question as $value)
+                    <li data-aos="fade-up" data-aos-delay="100">
+                        <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse"
+                                                                       data-bs-target="#faq-list-{{ $value->id }}"> {{
+                            $value->question }} <i class="bx bx-chevron-down icon-show"></i><i
+                                class="bx bx-chevron-up icon-close"></i></a>
+                        <div id="faq-list-{{ $value->id }}" class="collapse" data-bs-parent=".faq-list">
+                            <p>
+                                {!!html_entity_decode($value->answer)!!}
+                            </p>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- End F.A.Q Section -->
+
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container">
@@ -380,7 +415,8 @@
                     @foreach($testimonial as $value)
                     <div class="swiper-slide">
                         <div class="testimonial-item">
-                            <img src="{{ asset('storage/testimoni/'. $value->image) }}" class="testimonial-img" alt="">
+                            <img src="{{ asset('storage/testimoni/'. $value->image) }}" class="testimonial-img" alt=""
+                                 style="width: 100px; height: 100px;">
                             <h3>{{ $value->name }}</h3>
                             <h4>{{ $value->position }}</h4>
                             <p>

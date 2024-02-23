@@ -26,7 +26,8 @@
                 <ul class="dropdown-menu">
                     @foreach($masterSidebar->sidebarMain->sortBy('ordering') as $sidebar)
                     <li class="active">
-                        <a class="nav-link" href="{{ $sidebar->url }}">{{ $sidebar->name }}</a>
+                        <a class="nav-link" href="{{ $sidebar->url }}" title="{{ $sidebar->description }}">{{
+                            $sidebar->name }}</a>
                     </li>
                     @endforeach
                 </ul>

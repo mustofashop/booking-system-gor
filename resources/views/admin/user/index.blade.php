@@ -92,7 +92,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <div class="alert alert-danger">
+                            <div class="alert alert-dark m-5">
                                 Data not found
                             </div>
                             @endforelse

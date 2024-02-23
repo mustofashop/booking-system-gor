@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Administrator\AboutController;
 use App\Http\Controllers\Administrator\ButtonController;
+use App\Http\Controllers\Administrator\CountController;
+use App\Http\Controllers\Administrator\FaqController;
 use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
+use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -80,6 +84,42 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/image/{id}/edit', [ImageController::class, 'edit'])->name('image.edit');
         Route::put('/image/{id}', [ImageController::class, 'update'])->name('image.update');
         Route::delete('/image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
+
+        // About Management
+        Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+        Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
+        Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+        Route::get('/about/{id}', [AboutController::class, 'show'])->name('about.show');
+        Route::get('/about/{id}/edit', [AboutController::class, 'edit'])->name('about.edit');
+        Route::put('/about/{id}', [AboutController::class, 'update'])->name('about.update');
+        Route::delete('/about/destroy/{id}', [AboutController::class, 'destroy'])->name('about.destroy');
+
+        // Count Management
+        Route::get('/count', [CountController::class, 'index'])->name('count.index');
+        Route::get('/count/create', [CountController::class, 'create'])->name('count.create');
+        Route::post('/count', [CountController::class, 'store'])->name('count.store');
+        Route::get('/count/{id}', [CountController::class, 'show'])->name('count.show');
+        Route::get('/count/{id}/edit', [CountController::class, 'edit'])->name('count.edit');
+        Route::put('/count/{id}', [CountController::class, 'update'])->name('count.update');
+        Route::delete('/count/destroy/{id}', [CountController::class, 'destroy'])->name('count.destroy');
+
+        // Testimoni Management
+        Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
+        Route::get('/testimoni/create', [TestimoniController::class, 'create'])->name('testimoni.create');
+        Route::post('/testimoni', [TestimoniController::class, 'store'])->name('testimoni.store');
+        Route::get('/testimoni/{id}', [TestimoniController::class, 'show'])->name('testimoni.show');
+        Route::get('/testimoni/{id}/edit', [TestimoniController::class, 'edit'])->name('testimoni.edit');
+        Route::put('/testimoni/{id}', [TestimoniController::class, 'update'])->name('testimoni.update');
+        Route::delete('/testimoni/destroy/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
+
+        // FAQ Management
+        Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+        Route::get('/faq/create', [FaqController::class, 'create'])->name('faq.create');
+        Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
+        Route::get('/faq/{id}', [FaqController::class, 'show'])->name('faq.show');
+        Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
+        Route::put('/faq/{id}', [FaqController::class, 'update'])->name('faq.update');
+        Route::delete('/faq/destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
 
     });
 

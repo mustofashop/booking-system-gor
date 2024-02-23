@@ -1,9 +1,9 @@
-@extends('layout.dashboard.app', ['title' => 'List Button'])
+@extends('layout.dashboard.app', ['title' => 'List Testimoni'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'button')
+    @if ($item->code == 'testimoni')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('button.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('testimoni.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Add"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -27,9 +27,10 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>CODE</th>
-                                <th>TITLE</th>
-                                <th>URL</th>
+                                <th>IMAGE</th>
+                                <th>NAME</th>
+                                <th>POSITION</th>
+                                <th>DESCRIPTION</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
@@ -38,15 +39,22 @@
                             @forelse ($data as $item)
                             <tr>
                                 <td>
-                                    <div class="badge badge-dark">
-                                        {{ $item->code }}
-                                    </div>
+                                    @if ($item->image && Storage::exists('public/testimoni/' . $item->image))
+                                    <img src="{{ asset('storage/testimoni/' . $item->image) }}" class="img-thumbnail"
+                                         width="100">
+                                    @else
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                                         width="100">
+                                    @endif
                                 </td>
                                 <td>
-                                    {{ $item->title }}
+                                    {{ $item->name }}
                                 </td>
                                 <td>
-                                    {{ $item->url }}
+                                    {{ $item->position }}
+                                </td>
+                                <td>
+                                    {!! Str::words(html_entity_decode($item->desc), 80, ' ...') !!}
                                 </td>
                                 <td>
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
@@ -55,14 +63,13 @@
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('button.edit', $item->id) }}"
-                                           class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
+                                        <a href="{{ route('testimoni.edit', $item->id) }}"
+                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i
                                                 class="fas fa-pencil-alt"></i></a>
-                                        &nbsp;
-                                        &nbsp;
-                                        <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
-                                        <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->
-                                        <!--                                        </button>-->
+                                        <button class="btn btn-danger m-1"
+                                                onclick="deleteConfirmation('{{ $item->id }}', '{{ $item->name }}')"
+                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -85,32 +92,33 @@
     </div>
 
     <script type="text/javascript">
-        function deleteConfirmation(id) {
+        function deleteConfirmation(id, title) {
             swal({
-                title: "Are you sure you delete data ?",
-                text: "Please confirm and then confirm !",
+                title: "Are you sure you want to delete data " + title + " ?",
+                text: "Please confirm to proceed!",
                 type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Hapus",
-                cancelButtonText: "Batal",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+                cancelButtonText: "Cancel",
                 cancelButtonColor: "#F0E701",
                 confirmButtonColor: "#1AA13E",
-                reverseButtons: !0
+                reverseButtons: true
             }).then(function (e) {
                 if (e.value === true) {
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/button/destroy')}}/" + id,
+                        url: "{{ url('/testimoni/destroy') }}" + '/' + id,
                         data: {
                             _token: CSRF_TOKEN,
-                            "id": id
+                            _method: 'DELETE',
+                            id: id
                         },
                         dataType: 'JSON',
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('button') }}");
+                                window.location.replace("{{ url('testimoni') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }
