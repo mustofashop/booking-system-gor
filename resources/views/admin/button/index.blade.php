@@ -1,9 +1,9 @@
-@extends('layout.dashboard.app', ['title' => 'List User'])
+@extends('layout.dashboard.app', ['title' => 'List Button'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'user')
+    @if ($item->code == 'button')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('user.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('button.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Add"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -27,11 +27,9 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>NAME</th>
-                                <th>USERNAME</th>
-                                <th>EMAIL</th>
-                                <th>PHONE</th>
-                                <th>PERMISSION</th>
+                                <th>CODE</th>
+                                <th>TITLE</th>
+                                <th>URL</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
@@ -40,38 +38,15 @@
                             @forelse ($data as $item)
                             <tr>
                                 <td>
-                                    {{ $item->name }}
-                                </td>
-                                <td>
-                                    {{ $item->username }}
-                                </td>
-                                <td>
-                                    {{ $item->email }}
-                                </td>
-                                <td>
-                                    {{ $item->phone }}
-                                </td>
-                                <td>
-                                    @php
-                                    $badgeClass = '';
-                                    $iconClass = 'fas fa-key';
-                                    switch ($item->permission) {
-                                    case 'ADMIN':
-                                    $badgeClass = 'badge-info';
-                                    break;
-                                    case 'EVENT':
-                                    $badgeClass = 'badge-primary';
-                                    break;
-                                    case 'MEMBER':
-                                    $badgeClass = 'badge-warning';
-                                    break;
-                                    default:
-                                    $badgeClass = 'badge-dark';
-                                    }
-                                    @endphp
-                                    <div class="badge {{ $badgeClass }}">
-                                        <i class="{{ $iconClass }}"></i> {{ $item->permission }}
+                                    <div class="badge badge-dark">
+                                        {{ $item->code }}
                                     </div>
+                                </td>
+                                <td>
+                                    {{ $item->title }}
+                                </td>
+                                <td>
+                                    {{ $item->url }}
                                 </td>
                                 <td>
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
@@ -80,14 +55,14 @@
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('user.edit', $item->id) }}"
+                                        <a href="{{ route('button.edit', $item->id) }}"
                                            class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
                                                 class="fas fa-pencil-alt"></i></a>
                                         &nbsp;
                                         &nbsp;
-                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"
-                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
-                                        </button>
+                                        <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
+                                        <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->
+                                        <!--                                        </button>-->
                                     </div>
                                 </td>
                             </tr>
@@ -126,7 +101,7 @@
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/user/destroy')}}/" + id,
+                        url: "{{url('/button/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
                             "id": id
@@ -135,7 +110,7 @@
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('user') }}");
+                                window.location.replace("{{ url('button') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }

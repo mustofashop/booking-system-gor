@@ -43,43 +43,49 @@ class AuthController extends Controller
         $username = $request->input('email');
         $password = $request->input('password');
 
-        $user = User::with('permissions')->where('email', $username)->first();
+        // Cek apakah pengguna ada dalam database
+        $user = User::where('email', $username)->first();
 
         if (!$user) {
-            // Username tidak ditemukan
             return redirect()->back()->withInput()->withErrors(['error' => 'Account not found']);
-        } elseif ($user->status === 'INACTIVE') {
-            // Akun tidak aktif
-            return redirect()->back()->withInput()->withErrors(['error' => 'Account is not active']);
-        } elseif (!Hash::check($password, $user->password)) {
-            // Password tidak cocok
+        }
+
+        // Cek apakah password sesuai
+        if (!Hash::check($password, $user->password)) {
             return redirect()->back()->withInput()->withErrors(['error' => 'Password is incorrect']);
-        } else {
-            // Login berhasil
-            Auth::login($user);
+        }
 
-            // Periksa peran pengguna setelah login
-            $userRoles = $user->permissions; // Perlu diubah menjadi permissions
+        // Cek apakah pengguna aktif
+        if ($user->status === 'INACTIVE') {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Account is not active']);
+        }
 
-            if (!$userRoles) {
-                // Pengguna tidak memiliki peran
-                return redirect()->back()->withInput()->withErrors(['error' => 'User does not have any permission']);
+        // Login berhasil
+        Auth::login($user);
+
+        // Periksa peran pengguna setelah login
+        $user->load('permissions'); // Memuat relasi permissions
+
+        $userPermissions = $user->permissions;
+
+        if (!$userPermissions->isEmpty()) {
+            // Pengguna memiliki izin
+            // Redirect sesuai peran pengguna
+            if ($userPermissions->contains('ADMIN')) {
+                return redirect()->route('dashboard.admin');
+            } elseif ($userPermissions->contains('EVENT')) {
+                return redirect()->route('dashboard.event');
+            } elseif ($userPermissions->contains('MEMBER')) {
+                return redirect()->route('dashboard.member');
             } else {
-                // Redirect sesuai peran pengguna
-                if ($userRoles->contains('ADMIN')) {
-                    return redirect()->intended(route('dashboard.admin'));
-                } elseif ($userRoles->contains('EVENT')) {
-                    return redirect()->intended(route('dashboard.event'));
-                } elseif ($userRoles->contains('MEMBER')) {
-                    return redirect()->intended(route('dashboard.member'));
-                } else {
-                    // Pengguna memiliki peran yang tidak dikenali
-                    return redirect()->back()->withInput()->withErrors(['error' => 'User has an unknown permission']);
-                }
+                // Pengguna memiliki peran yang tidak dikenali
+                return redirect()->back()->withInput()->withErrors(['error' => 'User has an unknown permission']);
             }
+        } else {
+            // Pengguna tidak memiliki izin
+            return redirect()->back()->withInput()->withErrors(['error' => 'User does not have any permission']);
         }
     }
-
 
     public function logout(Request $request)
     {

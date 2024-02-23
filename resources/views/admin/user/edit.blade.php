@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <div class="card border-0 shadow rounded">
                 <div class="card-header">
-                    <h4>Ubah Direktori</h4>
+                    <h4>Edit</h4>
                     <div class="card-header-action">
                         <a href="{{ route('user.index') }}" class="btn btn-warning" data-toggle="tooltip"
                            title="Back"><i class="fas fa-backward"></i></a>
