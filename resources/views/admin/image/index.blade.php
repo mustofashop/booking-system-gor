@@ -1,9 +1,9 @@
-@extends('layout.dashboard.app', ['title' => 'List User'])
+@extends('layout.dashboard.app', ['title' => 'List Image'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'user')
+    @if ($item->code == 'image')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('user.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('image.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Add"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -27,11 +27,10 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>NAME</th>
-                                <th>USERNAME</th>
-                                <th>EMAIL</th>
-                                <th>PHONE</th>
-                                <th>PERMISSION</th>
+                                <th>IMAGE</th>
+                                <th>CODE</th>
+                                <th>TITEL</th>
+                                <th>DESCRIPTION</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
@@ -40,38 +39,24 @@
                             @forelse ($data as $item)
                             <tr>
                                 <td>
-                                    {{ $item->name }}
+                                    @if ($item->image && Storage::exists('public/image/' . $item->image))
+                                    <img src="{{ asset('storage/image/' . $item->image) }}" class="img-thumbnail"
+                                         width="100">
+                                    @else
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                                         width="100">
+                                    @endif
                                 </td>
                                 <td>
-                                    {{ $item->username }}
-                                </td>
-                                <td>
-                                    {{ $item->email }}
-                                </td>
-                                <td>
-                                    {{ $item->phone }}
-                                </td>
-                                <td>
-                                    @php
-                                    $badgeClass = '';
-                                    $iconClass = 'fas fa-key';
-                                    switch ($item->permission) {
-                                    case 'ADMIN':
-                                    $badgeClass = 'badge-info';
-                                    break;
-                                    case 'EVENT':
-                                    $badgeClass = 'badge-primary';
-                                    break;
-                                    case 'MEMBER':
-                                    $badgeClass = 'badge-warning';
-                                    break;
-                                    default:
-                                    $badgeClass = 'badge-dark';
-                                    }
-                                    @endphp
-                                    <div class="badge {{ $badgeClass }}">
-                                        <i class="{{ $iconClass }}"></i> {{ $item->permission }}
+                                    <div class="badge badge-dark">
+                                        {{ $item->code }}
                                     </div>
+                                </td>
+                                <td>
+                                    {{ $item->title }}
+                                </td>
+                                <td>
+                                    {{ strlen($item->desc) > 80 ? substr($item->desc, 0, 80) . '...' : $item->desc }}
                                 </td>
                                 <td>
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
@@ -80,14 +65,14 @@
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('user.edit', $item->id) }}"
+                                        <a href="{{ route('image.edit', $item->id) }}"
                                            class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
                                                 class="fas fa-pencil-alt"></i></a>
                                         &nbsp;
                                         &nbsp;
-                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"
-                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
-                                        </button>
+                                        <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
+                                        <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->
+                                        <!--                                        </button>-->
                                     </div>
                                 </td>
                             </tr>
@@ -126,7 +111,7 @@
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/user/destroy')}}/" + id,
+                        url: "{{url('/image/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
                             "id": id
@@ -135,7 +120,7 @@
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('user') }}");
+                                window.location.replace("{{ url('image') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }

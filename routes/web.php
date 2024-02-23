@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Administrator\ButtonController;
+use App\Http\Controllers\Administrator\ImageController;
+use App\Http\Controllers\Administrator\LabelController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -50,6 +53,34 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
         Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+        // Label Management
+        Route::get('/label', [LabelController::class, 'index'])->name('label.index');
+        Route::get('/label/create', [LabelController::class, 'create'])->name('label.create');
+        Route::post('/label', [LabelController::class, 'store'])->name('label.store');
+        Route::get('/label/{id}', [LabelController::class, 'show'])->name('label.show');
+        Route::get('/label/{id}/edit', [LabelController::class, 'edit'])->name('label.edit');
+        Route::put('/label/{id}', [LabelController::class, 'update'])->name('label.update');
+        Route::delete('/label/{id}', [LabelController::class, 'destroy'])->name('label.destroy');
+
+        // Button Management
+        Route::get('/button', [ButtonController::class, 'index'])->name('button.index');
+        Route::get('/button/create', [ButtonController::class, 'create'])->name('button.create');
+        Route::post('/button', [ButtonController::class, 'store'])->name('button.store');
+        Route::get('/button/{id}', [ButtonController::class, 'show'])->name('button.show');
+        Route::get('/button/{id}/edit', [ButtonController::class, 'edit'])->name('button.edit');
+        Route::put('/button/{id}', [ButtonController::class, 'update'])->name('button.update');
+        Route::delete('/button/{id}', [ButtonController::class, 'destroy'])->name('button.destroy');
+
+        // Image Management
+        Route::get('/image', [ImageController::class, 'index'])->name('image.index');
+        Route::get('/image/create', [ImageController::class, 'create'])->name('image.create');
+        Route::post('/image', [ImageController::class, 'store'])->name('image.store');
+        Route::get('/image/{id}', [ImageController::class, 'show'])->name('image.show');
+        Route::get('/image/{id}/edit', [ImageController::class, 'edit'])->name('image.edit');
+        Route::put('/image/{id}', [ImageController::class, 'update'])->name('image.update');
+        Route::delete('/image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
+
     });
 
     // Role Event
