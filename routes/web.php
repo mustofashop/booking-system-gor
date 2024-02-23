@@ -3,7 +3,7 @@
 use App\Http\Controllers\Administrator\AboutController;
 use App\Http\Controllers\Administrator\ButtonController;
 use App\Http\Controllers\Administrator\CountController;
-use App\Http\Controllers\Administrator\FaqController;
+use App\Http\Controllers\Administrator\FAQController;
 use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
 use App\Http\Controllers\Administrator\TestimoniController;
@@ -113,13 +113,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/testimoni/destroy/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
 
         // FAQ Management
-        Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
-        Route::get('/faq/create', [FaqController::class, 'create'])->name('faq.create');
-        Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
-        Route::get('/faq/{id}', [FaqController::class, 'show'])->name('faq.show');
-        Route::get('/faq/{id}/edit', [FaqController::class, 'edit'])->name('faq.edit');
-        Route::put('/faq/{id}', [FaqController::class, 'update'])->name('faq.update');
-        Route::delete('/faq/destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+        Route::get('/faq', [FAQController::class, 'index'])->name('faq.index');
+        Route::get('/faq/create', [FAQController::class, 'create'])->name('faq.create');
+        Route::post('/faq', [FAQController::class, 'store'])->name('faq.store');
+        Route::get('/faq/{id}', [FAQController::class, 'show'])->name('faq.show');
+        Route::get('/faq/{id}/edit', [FAQController::class, 'edit'])->name('faq.edit');
+        Route::put('/faq/{id}', [FAQController::class, 'update'])->name('faq.update');
+        Route::delete('/faq/destroy/{id}', [FAQController::class, 'destroy'])->name('faq.destroy');
 
     });
 
