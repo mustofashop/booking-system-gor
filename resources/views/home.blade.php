@@ -142,32 +142,26 @@
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="hero">
-
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-7 pt-5 pt-lg-0 order-2 order-lg-1 d-flex align-items-center">
-                    <div data-aos="zoom-out">
-                        @foreach ($label as $item)
-                        @if ( $item->code == 'hero')
-                        <h1 style="color:#F0E701;">{!!html_entity_decode($item->title)!!}</h1>
-                        <h2 style="color:#FFFFFF;">{!!html_entity_decode($item->desc)!!}</h2>
+            <div class="row justify-content-center align-items-center" style="height: 60vh;">
+                <div class="col-lg-12" data-aos="zoom-out">
+                    @foreach ($label as $item)
+                    @if ($item->code == 'hero')
+                    <h1 style="color:#F0E701; text-align: center;">{!! html_entity_decode($item->title) !!}</h1>
+                    <h2 style="color:#FFFFFF; text-align: center;">{!! html_entity_decode($item->desc) !!}</h2>
+                    @endif
+                    @endforeach
+                    <div class="text-center mt-2">
+                        @foreach ($button as $item)
+                        @if ($item->code == 'register')
+                        <a href="{!! html_entity_decode($item->url) !!}" class="btn-get-started scrollto">{!!
+                            html_entity_decode($item->title) !!}</a>
                         @endif
                         @endforeach
-                        <div class="text-center text-lg-start">
-                            @foreach ($button as $item)
-                            @if ( $item->code == 'register')
-                            <a href="{!!html_entity_decode($item->url)!!}" class="btn-get-started scrollto">{!!html_entity_decode($item->title)!!}</a>
-                            @endif
-                            @endforeach
-                        </div>
                     </div>
                 </div>
-                <div class="col-lg-4 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="300">
-                    <!--                    @foreach ($image as $item)-->
-                    <!--                    @if ( $item->code == 'hero')-->
-                    <!--                    <img class="img-fluid animated" src="{{ asset('storage/image/'. $item->image) }}">-->
-                    <!--                    @endif-->
-                    <!--                    @endforeach-->
+                <div class="col-lg-4 order-lg-first" data-aos="zoom-out" data-aos-delay="300">
+                    <!-- Your image here -->
                 </div>
             </div>
         </div>
@@ -188,7 +182,6 @@
                 <use xlink:href="#wave-path" x="50" y="9" fill="#fff">
             </g>
         </svg>
-
     </section>
     <!-- End Hero -->
 
