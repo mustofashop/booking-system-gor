@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\Administrator\AboutController;
 use App\Http\Controllers\Administrator\ButtonController;
+use App\Http\Controllers\Administrator\CountController;
+use App\Http\Controllers\Administrator\FAQController;
 use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
+use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
+use App\Http\Controllers\Event\EventController;
+use App\Http\Controllers\Event\MemberController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfilController;
@@ -26,8 +32,17 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', WebsiteController::class);
-//route resource
-Route::resource('/event', \App\Http\Controllers\EventController::class);
+// <<<<<<< HEAD
+// //route resource
+// Route::resource('/event', \App\Http\Controllers\EventController::class);
+// =======
+Route::get('/event-all', [WebsiteController::class, 'showEventForm'])->name('event-all');
+Route::get('/event-show/{id}', [WebsiteController::class, 'showEventDetail'])->name('event-show');
+Route::get('/news-all', [WebsiteController::class, 'showNewsForm'])->name('news-all');
+Route::get('/news-show/{id}', [WebsiteController::class, 'showNewsDetail'])->name('news-show');
+Route::get('/calendar', [WebsiteController::class, 'showCalendarForm'])->name('calendar');
+Route::get('/calendar-show/{id}', [WebsiteController::class, 'showCalendarDetail'])->name('calendar-show');
+// >>>>>>> 28493b1340fae53cf665d15422c78bcec0722ef4
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -83,12 +98,69 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/image/{id}', [ImageController::class, 'update'])->name('image.update');
         Route::delete('/image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
 
+        // About Management
+        Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+        Route::get('/about/create', [AboutController::class, 'create'])->name('about.create');
+        Route::post('/about', [AboutController::class, 'store'])->name('about.store');
+        Route::get('/about/{id}', [AboutController::class, 'show'])->name('about.show');
+        Route::get('/about/{id}/edit', [AboutController::class, 'edit'])->name('about.edit');
+        Route::put('/about/{id}', [AboutController::class, 'update'])->name('about.update');
+        Route::delete('/about/destroy/{id}', [AboutController::class, 'destroy'])->name('about.destroy');
+
+        // Count Management
+        Route::get('/count', [CountController::class, 'index'])->name('count.index');
+        Route::get('/count/create', [CountController::class, 'create'])->name('count.create');
+        Route::post('/count', [CountController::class, 'store'])->name('count.store');
+        Route::get('/count/{id}', [CountController::class, 'show'])->name('count.show');
+        Route::get('/count/{id}/edit', [CountController::class, 'edit'])->name('count.edit');
+        Route::put('/count/{id}', [CountController::class, 'update'])->name('count.update');
+        Route::delete('/count/destroy/{id}', [CountController::class, 'destroy'])->name('count.destroy');
+
+        // Testimoni Management
+        Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
+        Route::get('/testimoni/create', [TestimoniController::class, 'create'])->name('testimoni.create');
+        Route::post('/testimoni', [TestimoniController::class, 'store'])->name('testimoni.store');
+        Route::get('/testimoni/{id}', [TestimoniController::class, 'show'])->name('testimoni.show');
+        Route::get('/testimoni/{id}/edit', [TestimoniController::class, 'edit'])->name('testimoni.edit');
+        Route::put('/testimoni/{id}', [TestimoniController::class, 'update'])->name('testimoni.update');
+        Route::delete('/testimoni/destroy/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
+
+        // FAQ Management
+        Route::get('/faq', [FAQController::class, 'index'])->name('faq.index');
+        Route::get('/faq/create', [FAQController::class, 'create'])->name('faq.create');
+        Route::post('/faq', [FAQController::class, 'store'])->name('faq.store');
+        Route::get('/faq/{id}', [FAQController::class, 'show'])->name('faq.show');
+        Route::get('/faq/{id}/edit', [FAQController::class, 'edit'])->name('faq.edit');
+        Route::put('/faq/{id}', [FAQController::class, 'update'])->name('faq.update');
+        Route::delete('/faq/destroy/{id}', [FAQController::class, 'destroy'])->name('faq.destroy');
     });
 
     // Role Event
     Route::middleware(['event'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
+
+        // User Management
+        Route::get('/event', [EventController::class, 'index'])->name('event.index');
+        Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+        Route::post('/event', [EventController::class, 'store'])->name('event.store');
+        Route::get('/event/{id}', [EventController::class, 'show'])->name('event.show');
+        Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+        Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
+        Route::delete('/event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+
+
+        // Member Management
+        Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+        Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
+        Route::post('/member', [MemberController::class, 'store'])->name('member.store');
+        Route::get('/member/{id}', [MemberController::class, 'show'])->name('member.show');
+        Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
+        Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
+        Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
     });
+
+
+
 
     // Role Member
     Route::middleware(['member'])->group(function () {

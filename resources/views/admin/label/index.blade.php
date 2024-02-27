@@ -47,7 +47,7 @@
                                     {{ $item->title }}
                                 </td>
                                 <td>
-                                    {{ strlen($item->desc) > 80 ? substr($item->desc, 0, 80) . '...' : $item->desc }}
+                                    {!! Str::words(html_entity_decode($item->desc), 80, ' ...') !!}
                                 </td>
                                 <td>
                                     {{ $item->ordering }}
@@ -71,7 +71,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <div class="alert alert-danger">
+                            <div class="alert alert-dark m-5">
                                 Data not found
                             </div>
                             @endforelse
