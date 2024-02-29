@@ -8,6 +8,8 @@ use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
 use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
+use App\Http\Controllers\Event\EventController;
+use App\Http\Controllers\Event\MemberController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Member\BookingController;
@@ -31,12 +33,17 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', WebsiteController::class);
+// <<<<<<< HEAD
+// //route resource
+// Route::resource('/event', \App\Http\Controllers\EventController::class);
+// =======
 Route::get('/event-all', [WebsiteController::class, 'showEventForm'])->name('event-all');
 Route::get('/event-show/{id}', [WebsiteController::class, 'showEventDetail'])->name('event-show');
 Route::get('/news-all', [WebsiteController::class, 'showNewsForm'])->name('news-all');
 Route::get('/news-show/{id}', [WebsiteController::class, 'showNewsDetail'])->name('news-show');
 Route::get('/calendar', [WebsiteController::class, 'showCalendarForm'])->name('calendar');
 Route::get('/calendar-show/{id}', [WebsiteController::class, 'showCalendarDetail'])->name('calendar-show');
+// >>>>>>> 28493b1340fae53cf665d15422c78bcec0722ef4
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -127,13 +134,34 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/faq/{id}/edit', [FAQController::class, 'edit'])->name('faq.edit');
         Route::put('/faq/{id}', [FAQController::class, 'update'])->name('faq.update');
         Route::delete('/faq/destroy/{id}', [FAQController::class, 'destroy'])->name('faq.destroy');
-
     });
 
     // Role Event
     Route::middleware(['event'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
+
+        // User Management
+        Route::get('/event', [EventController::class, 'index'])->name('event.index');
+        Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+        Route::post('/event', [EventController::class, 'store'])->name('event.store');
+        Route::get('/event/{id}', [EventController::class, 'show'])->name('event.show');
+        Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+        Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
+        Route::delete('/event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+
+
+        // Member Management
+        Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+        Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
+        Route::post('/member', [MemberController::class, 'store'])->name('member.store');
+        Route::get('/member/{id}', [MemberController::class, 'show'])->name('member.show');
+        Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
+        Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
+        Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
     });
+
+
+
 
     // Role Member
     Route::middleware(['member'])->group(function () {
@@ -148,6 +176,4 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
         Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
     });
-
 });
-
