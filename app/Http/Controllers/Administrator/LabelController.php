@@ -95,6 +95,8 @@ class LabelController extends Controller
         $label->desc = $request->input('desc');
         $label->ordering = $request->input('ordering');
         $label->status = $request->input('status');
+        $label->updated_by = strtoupper(auth()->user()->username);
+        $label->save();
 
         return redirect()->route('label.index')->with('success', 'Label has been updated');
     }

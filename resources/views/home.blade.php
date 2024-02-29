@@ -227,29 +227,29 @@
     <!-- End About Section -->
 
     <!-- ======= Counts Section ======= -->
-    <section id="count" class="counts">
-        <div class="container">
-
-            <div class="row" data-aos="fade-up">
-
-                @foreach($about as $value)
-                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-
-                    <div class="count-box">
-                        <i class="bi bi-{{ $value->image }}"></i>
-                        <span data-purecounter-start="0" data-purecounter-end="{{ $value->count }}"
-                              data-purecounter-duration="1" class="purecounter">
-                        </span>
-                        <p>++ {{ $value->title }}</p>
-                    </div>
-
-                </div>
-                @endforeach
-
-            </div>
-
-        </div>
-    </section>
+    <!--    <section id="count" class="counts">-->
+    <!--        <div class="container">-->
+    <!---->
+    <!--            <div class="row" data-aos="fade-up">-->
+    <!---->
+    <!--                @foreach($about as $value)-->
+    <!--                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">-->
+    <!---->
+    <!--                    <div class="count-box">-->
+    <!--                        <i class="bi bi-{{ $value->image }}"></i>-->
+    <!--                        <span data-purecounter-start="0" data-purecounter-end="{{ $value->count }}"-->
+    <!--                              data-purecounter-duration="1" class="purecounter">-->
+    <!--                        </span>-->
+    <!--                        <p>++ {{ $value->title }}</p>-->
+    <!--                    </div>-->
+    <!---->
+    <!--                </div>-->
+    <!--                @endforeach-->
+    <!---->
+    <!--            </div>-->
+    <!---->
+    <!--        </div>-->
+    <!--    </section>-->
     <!-- End Counts Section -->
 
     <!-- ======= Prosedur Section ======= -->
@@ -312,7 +312,14 @@
                                    class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
                                 @endif
                                 @if ( $item->code == 'order')
-                                <a href="#" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+
+                                @if (Auth::check())
+                                <a href="{{ route('booking', $event->id) }}"
+                                   class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                @else
+                                <a href="login" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                @endif
+
                                 @endif
                                 @if ( $item->code == 'maps')
                                 <a target="_blank" href="{{ $event->maps }}" class="btn btn-outline-dark btn-block">{!!html_entity_decode($item->title)!!}</a>

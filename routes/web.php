@@ -10,6 +10,7 @@ use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Member\BookingController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -137,6 +138,15 @@ Route::middleware(['auth'])->group(function () {
     // Role Member
     Route::middleware(['member'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
+
+        // Booking Event
+        Route::get('/booking/{id}', [BookingController::class, 'showBookingForm'])->name('booking.show');
+        Route::post('/booking/{id}', [BookingController::class, 'storeBookingForm'])->name('booking.bucket');
+        Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
+        Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
+        Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+        Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
+        Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
     });
 
 });

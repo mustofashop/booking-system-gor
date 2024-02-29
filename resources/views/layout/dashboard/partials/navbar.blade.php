@@ -13,14 +13,14 @@
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ ucfirst(Auth()->user()->name) }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-title">Selamat datang</div>
+                <div class="dropdown-title">Welcome</div>
                 <a href="" class="dropdown-item has-icon">
-                    <i class="far fa-user"></i> Profil
+                    <i class="far fa-user"></i> Account
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" class="dropdown-item has-icon text-success"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> {{ __('Keluar') }}
+                    <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
