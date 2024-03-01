@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Event\MemberController;
 use App\Http\Controllers\Member\BookingController;
+use App\Http\Controllers\Member\RiderController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard Auth
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/welcome', [DashboardController::class, 'welcome'])->name('dashboard.welcome');
+    // Account Auth
+    Route::get('/account', ProfilController::class)->name('account');
 
     // Role Administrator
     Route::middleware(['administrator'])->group(function () {
@@ -158,7 +161,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Role Member
     Route::middleware(['member'])->group(function () {
-        Route::get('/profil', ProfilController::class)->name('profil');
 
         // Booking Event
         Route::get('/booking/{id}', [BookingController::class, 'showBookingForm'])->name('booking.show');
@@ -168,5 +170,16 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
         Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
         Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
+        Route::get('/getEventById/{id}', [BookingController::class, 'getEventById'])->name('booking.event');
+        Route::get('/booking/{id}', [BookingController::class, 'showInvoice'])->name('booking.invoice');
+
+        // Rider Management
+        Route::get('/profile', [RiderController::class, 'index'])->name('profile.index');
+        Route::get('/profile/create', [RiderController::class, 'create'])->name('profile.create');
+        Route::post('/profile', [RiderController::class, 'store'])->name('profile.store');
+        Route::get('/profile/{id}', [RiderController::class, 'show'])->name('profile.show');
+        Route::get('/profile/{id}/edit', [RiderController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile/{id}', [RiderController::class, 'update'])->name('profile.update');
+        Route::delete('/profile/{id}', [RiderController::class, 'destroy'])->name('profile.destroy');
     });
 });

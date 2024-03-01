@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>E-Event | Membership</title>
+<title>Front-End | Membership</title>
 
 <!-- Favicons -->
 <link href="{{asset('assets/img/favicon.png')}}" rel="icon">

@@ -62,18 +62,19 @@
                                             @endif
                                         </div>
                                         <br>
-                                        <p>{!! Str::words(html_entity_decode($item->note), 80, ' ...') !!}
+                                        <br>
+                                        <i class="fas fa-calendar-alt"></i> {{ date('d F Y',
+                                        strtotime($item->event->date)) }}
+                                        <i class="fas fa-clock"></i> {{ date('H:i',
+                                        strtotime($item->event->time)) }}
+                                        <i class="fas fa-map-marker-alt"></i> {{ $item->event->location }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="event-info mt-3 mb-3">
-                                        <i class="fas fa-calendar-alt"></i> {{ date('d F Y',
-                                        strtotime($item->event->date)) }} <br>
-                                        <i class="fas fa-clock"></i> {{ date('H:i',
-                                        strtotime($item->event->time)) }} <br>
-                                        <i class="fas fa-map-marker-alt"></i> {{ $item->event->location }} <br>
                                         <i class="fas fa-building"></i> {{ $item->event->organizer }}
                                         <br>
+                                        <p>{!! Str::words(html_entity_decode($item->note), 80, ' ...') !!} </p>
                                         <h3>Rp. {{ number_format($item->event->price, 0, ',', '.') }}</h3>
                                         <a href="{{ $item->event->maps }}" target="_blank" class="mb-3">{{
                                             $item->event->maps }}</a>
@@ -100,11 +101,11 @@
                                 <!--                                </td>-->
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('booking.edit', $item->id) }}"
-                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i
-                                                class="fas fa-pencil-alt"></i></a>
+                                        <!--                                        <a href="{{ route('booking.edit', $item->id) }}"-->
+                                        <!--                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i-->
+                                        <!--                                                class="fas fa-pencil-alt"></i></a>-->
                                         <a class="btn btn-primary btn-action m-1"
-                                           href="{{ route('booking.show', $item->id) }}"
+                                           href="{{ route('booking.invoice', $item->id) }}"
                                            data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></a>
                                         <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
                                         <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->

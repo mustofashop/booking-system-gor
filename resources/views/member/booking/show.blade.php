@@ -129,7 +129,7 @@
                                     <select class="form-control select2" name="category" value="{{ old('category') }}"
                                             placeholder="Choose category" required="">
                                         <option value="">-- Choose --</option>
-                                        <option value="RESERVATION">RESERVATION</option>
+                                        <option value="CONFIRMATION">RESERVATION</option>
                                         <!--                                        <option value="MODIFICATION">MODIFICATION</option>-->
                                         <!--                                        <option value="CANCELLATION">CANCELLATION</option>-->
                                     </select>
