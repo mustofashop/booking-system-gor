@@ -180,7 +180,14 @@
                                    class="btn btn-outline-danger btn-block">{!!html_entity_decode($item->title)!!}</a>
                                 @endif
                                 @if ( $item->code == 'order')
-                                <a href="#" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+
+                                @if (Auth::check())
+                                <a href="{{ route('booking.show', $event->id) }}"
+                                   class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                @else
+                                <a href="login" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                @endif
+                                
                                 @endif
                                 @if ( $item->code == 'maps')
                                 <a target="_blank" href="{{ $event->maps }}" class="btn btn-outline-dark btn-block">{!!html_entity_decode($item->title)!!}</a>
