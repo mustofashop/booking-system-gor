@@ -61,7 +61,10 @@ class BookingController extends Controller
             $booking->member_id = $member->id;
             $booking->created_by = strtoupper(Auth::user()->username);
             $booking->save();
-            return redirect()->route('booking.index')->with('success', 'Booking success');
+
+            $this->generateInvoice($booking->id);
+
+            return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
         } else {
             return redirect()->route('booking.index')->with('error', 'Booking failed, quota is full');
         }
