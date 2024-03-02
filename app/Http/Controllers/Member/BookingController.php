@@ -34,14 +34,34 @@ class BookingController extends Controller
         $data = Event::find($id);
 
         if (!$data) {
-            $event = Event::where('status', 'ACTIVE')->get();
             $member = Member::where('user_id', Auth::user()->id)->first();
+            $event = Event::where('status', 'ACTIVE')
+                ->whereDoesntHave('booking', function ($query) use ($member) {
+                    $query->where('member_id', $member->id);
+                })
+                ->get();
+
             return view('member.booking.create', compact('label', 'event', 'member'));
         } else {
             $member = Member::where('user_id', Auth::user()->id)->first();
             $quota = TransactionBooking::where('event_id', $data->id)->sum('event_id');
+            // cek booking userid
+            $booking = TransactionBooking::where('event_id', $data->id)
+                ->where('member_id', $member->id)
+                ->first();
 
-            return view('member.booking.show', compact('data', 'label', 'member', 'quota'));
+            if ($booking) {
+                $event = Event::where('status', 'ACTIVE')
+                    ->whereDoesntHave('booking', function ($query) use ($member) {
+                        $query->where('member_id', $member->id);
+                    })
+                    ->get();
+                return view('member.booking.create', compact('label', 'event', 'member'));
+            } else {
+                // cek event status
+                $event = Event::find($id);
+                return view('member.booking.show', compact('data', 'label', 'member', 'quota', 'event'));
+            }
         }
     }
 

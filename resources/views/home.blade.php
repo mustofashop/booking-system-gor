@@ -317,7 +317,7 @@
                                 <a href="{{ route('booking.show', $event->id) }}"
                                    class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
                                 @else
-                                <a href="login" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                                <a href="/login" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
                                 @endif
 
                                 @endif

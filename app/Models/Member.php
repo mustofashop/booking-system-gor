@@ -12,7 +12,7 @@ class Member extends Model
     protected $table = 'master_members';
 
     protected $fillable = [
-        'id', 'code', 'image', 'name', 'nickname', 'place', 'date', 'gender', 'height', 'weight', 'address', 'phone', 'email', 'socmed', 'status',
+        'id', 'code', 'user_id', 'image', 'name', 'nickname', 'place', 'date', 'gender', 'height', 'weight', 'address', 'phone', 'email', 'socmed', 'status',
         'created_by', 'created_at', 'updated_by', 'updated_at', 'number_booking', 'number_identity', 'story', 'banner'
     ];
 }

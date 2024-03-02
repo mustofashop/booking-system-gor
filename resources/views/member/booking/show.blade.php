@@ -151,7 +151,7 @@
                             </div>
                         </div>
 
-                        @if ($member != null)
+                        @if ($member != null && $event->status == 'ACTIVE')
                         <input type="hidden" name="member_id" value="{{ $member->id }}">
                         <!-- BUTTON -->
                         <div class="form-group">
@@ -164,6 +164,7 @@
                         <div class="alert alert-danger">
                             <strong>Sorry!</strong> You are not a member yet, please setup your profile first.
                             <a class="btn btn-dark" href="/profile">Click</a>
+                            <strong>Status event</strong> {{ $event->status }}
                         </div>
                         @endif
                     </form>

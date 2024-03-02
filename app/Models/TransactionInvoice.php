@@ -15,9 +15,15 @@ class TransactionInvoice extends Model
         'id', 'code', 'methode', 'description', 'amount', 'date', 'category', 'booking_id',
         'created_at', 'updated_at', 'created_by', 'updated_by'
     ];
-    
+
     public function booking()
     {
         return $this->belongsTo(TransactionBooking::class, 'booking_id', 'id');
     }
+
+    public function payment()
+    {
+        return $this->hasMany(TransactionPayment::class, 'invoice_number', 'code');
+    }
+
 }

@@ -7,8 +7,20 @@
         </ul>
     </form>
     <ul class="navbar-nav navbar-right">
-        <li class="dropdown"><a href="#" data-toggle="dropdown"
-                                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                                                     class="nav-link nav-link-lg message-toggle beep"
+                                                     aria-expanded="false"><i class="far fa-bookmark"></i></a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                <div class="dropdown-header">Ctrl + W
+                    <div class="float-right">
+                        <a target="_blank" href="/">View Frontend</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown"
+               class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{asset('assets/img/avatar/avatar-2.png')}}" class="rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ ucfirst(Auth()->user()->name) }}</div>
             </a>

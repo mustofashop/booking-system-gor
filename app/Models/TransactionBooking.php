@@ -24,4 +24,10 @@ class TransactionBooking extends Model
     {
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
+
+    public function invoice()
+    {
+        return $this->hasOne(TransactionInvoice::class, 'booking_id', 'id');
+    }
+    
 }

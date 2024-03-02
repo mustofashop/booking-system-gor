@@ -14,4 +14,9 @@ class Event extends Model
     protected $fillable = [
         'id', 'image', 'title', 'description', 'date', 'time', 'location', 'maps', 'ordering', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'
     ];
+
+    public function booking()
+    {
+        return $this->hasMany(TransactionBooking::class, 'event_id', 'id');
+    }
 }
