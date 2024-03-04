@@ -10,7 +10,9 @@
                     class="bi bi-chevron-down"></i></a>
             <ul>
                 @foreach ($navbarItem->navbarsub as $navbarItem1)
+                @if ($navbarItem1->status == 'ACTIVE')
                 <li><a href="{{ $navbarItem1->route }}" class="nav-link">{{ $navbarItem1->name}}</a></li>
+                @endif
                 @endforeach
             </ul>
         </li>

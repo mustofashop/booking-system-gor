@@ -1,10 +1,10 @@
-@extends('layout.dashboard.app', ['title' => 'Edit Label'])
+@extends('layout.dashboard.app', ['title' => 'Create Image'])
 
 @section('content')
 
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'label.edit')
+    @if ($item->code == 'image.create')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -17,24 +17,35 @@
         <div class="col-md-12">
             <div class="card border-0 shadow rounded">
                 <div class="card-header">
-                    <h4>Edit</h4>
+                    <h4>Create</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('label.index') }}" class="btn btn-warning" data-toggle="tooltip"
+                        <a href="{{ route('image.index') }}" class="btn btn-warning" data-toggle="tooltip"
                            title="Back"><i class="fas fa-backward"></i></a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="fmlabel-edit" action="{{ route('label.update', $data->id) }}" method="POST"
+                    <form id="fmlabel" action="{{ route('image.store') }}" method="POST"
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
-                        @method('PUT')
                         <div class="row">
+                            <!-- IMAGE -->
+                            <div class="col-6">
+                                <div id="image-preview" class="image-preview">
+                                    <img id="preview" src="" alt="Image Preview"
+                                         style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload" id="image-label">Choose File</label>
+                                    <input type="file" name="image" id="image-upload" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the image
+                                    </div>
+                                </div>
+                            </div>
                             <!-- CODE -->
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">CODE</label>
-                                    <input type="text" class="form-control" name="code" value="{{ $data->code }}"
-                                           placeholder="Enter code" required="" readonly>
+                                    <input type="text" class="form-control" name="code" value="{{ old('code') }}"
+                                           placeholder="Enter code" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the code
                                     </div>
@@ -44,7 +55,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">TITLE</label>
-                                    <input type="text" class="form-control" name="title" value="{{ $data->title }}"
+                                    <input type="text" class="form-control" name="title" value="{{ old('title') }}"
                                            placeholder="Enter title" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the title
@@ -55,9 +66,8 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="font-weight-bold">DESCRIPTION</label>
-                                    <textarea class="summernote-simple form-control" name="desc" form="fmlabel-edit"
-                                              placeholder="Enter description" rows="5"
-                                              required="">{{ $data->desc }}</textarea>
+                                    <textarea class="form-control" name="desc" rows="5"
+                                              placeholder="Enter description" required="">{{ old('desc') }}</textarea>
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the description
                                     </div>
@@ -68,7 +78,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold">ORDERING</label>
                                     <input type="number" class="form-control" name="ordering"
-                                           value="{{ $data->ordering }}"
+                                           value="{{ old('ordering') }}"
                                            placeholder="Enter ordering" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the ordering
@@ -79,23 +89,21 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">STATUS</label>
-                                    <select class="form-control" name="status" required="">
-                                        <option value="ACTIVE" {{ $data->status == 'ACTIVE' ? 'selected' : '' }}>
-                                            ACTIVE
-                                        </option>
-                                        <option value="INACTIVE" {{ $data->status == 'INACTIVE' ? 'selected' : '' }}>
-                                            INACTIVE
-                                        </option>
+                                    <select class="form-control select2" name="status" value="{{ old('status') }}"
+                                            placeholder="Pilih status" required="">
+                                        <option value="">-- Choose --</option>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="INACTIVE">INACTIVE</option>
                                     </select>
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please select the status
+                                        Please fill in the status
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- BUTTON -->
                         <div class="form-group">
-                            <button type="submit" style="width:100px" class="btn btn-success btn-action"
+                            <button type="submit" style="width:100px" class="btn btn-danger btn-action"
                                     data-toggle="tooltip" title="Save"><i class="fas fa-save"></i></button>
                             <button type="reset" onclick="myReset()" class="btn btn-dark btn-action"
                                     data-toggle="tooltip" title="Reset"><i class="fas fa-redo-alt"></i></button>
@@ -106,5 +114,20 @@
         </div>
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#image-upload').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result).show();
+                $('#image-label').text(file.name);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
 @endsection

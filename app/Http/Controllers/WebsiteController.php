@@ -28,10 +28,10 @@ class WebsiteController extends Controller
             ->where('category', 'PARALLAX')
             ->orderBy('ordering')
             ->get();
-        $subnavbars = NavbarSub::orderBy('ordering')->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         // Label
-        $label = Label::orderBy('ordering')->get();
+        $label = Label::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         // Button
         $button = Button::orderBy('created_at')->get();
@@ -95,7 +95,7 @@ class WebsiteController extends Controller
             ->where('category', 'PAGES')
             ->orderBy('ordering')
             ->get();
-        $subnavbars = NavbarSub::orderBy('ordering')->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         // Label
         $label = Label::orderBy('ordering')->get();
@@ -127,7 +127,7 @@ class WebsiteController extends Controller
             ->where('category', 'PAGES')
             ->orderBy('ordering')
             ->get();
-        $subnavbars = NavbarSub::orderBy('ordering')->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         // Label
         $label = Label::orderBy('ordering')->get();
@@ -159,7 +159,7 @@ class WebsiteController extends Controller
             ->where('category', 'PAGES')
             ->orderBy('ordering')
             ->get();
-        $subnavbars = NavbarSub::orderBy('ordering')->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         // Label
         $label = Label::orderBy('ordering')->get();
@@ -201,6 +201,42 @@ class WebsiteController extends Controller
             'button' => $button,
             'image' => $image,
             'events' => $events
+        ]);
+    }
+
+    public function showCalendarDetail($id)
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // News
+        $news = News::orderBy('created_at', 'desc')->get();
+
+        // Event
+        $event = Event::find($id);
+
+        return view('front.event-detail', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'news' => $news,
+            'event' => $event
         ]);
     }
 }

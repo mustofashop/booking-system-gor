@@ -54,8 +54,9 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="font-weight-bold">DESCRIPTION</label>
-                                    <textarea class="form-control" name="desc" value="{{ old('desc') }}"
-                                              placeholder="Enter description" required=""></textarea>
+                                    <textarea class="summernote-simple form-control" name="desc" form="fmlabel"
+                                              placeholder="Enter description" rows="5" value="{{ old('desc') }}"
+                                              required=""></textarea>
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the description
                                     </div>

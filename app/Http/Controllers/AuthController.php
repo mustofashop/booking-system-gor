@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Button;
 use App\Models\Label;
+use App\Models\Permission;
+use App\Models\SetupPermission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -136,7 +138,15 @@ class AuthController extends Controller
                 'phone' => $request->input('phone'),
                 'password' => Hash::make($request->input('password')),
                 'permission' => 'MEMBER', // Atur peran pengguna sebagai 'MEMBER'
-                'status' => 'INACTIVE', // Atur status pengguna sebagai 'INACTIVE'
+                'status' => 'ACTIVE', // Atur status pengguna sebagai 'INACTIVE'
+            ]);
+
+            // Cek peran pengguna
+            $userPermissions = Permission::where('level', $user->permission)->first();
+            // Buat setup permission untuk user
+            SetupPermission::create([
+                'user_id' => $user->id,
+                'permission_id' => $userPermissions->id,
             ]);
         } catch (\Exception $e) {
             // Jika terjadi kesalahan saat pembuatan user

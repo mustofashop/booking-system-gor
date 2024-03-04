@@ -2,16 +2,20 @@
 
 use App\Http\Controllers\Administrator\AboutController;
 use App\Http\Controllers\Administrator\ButtonController;
+use App\Http\Controllers\Administrator\ConfirmController;
 use App\Http\Controllers\Administrator\CountController;
 use App\Http\Controllers\Administrator\FAQController;
 use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
 use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
-use App\Http\Controllers\Event\EventController;
-use App\Http\Controllers\Event\MemberController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\EventController;
+use App\Http\Controllers\Event\MemberController;
+use App\Http\Controllers\Member\BookingController;
+use App\Http\Controllers\Member\PaymentController;
+use App\Http\Controllers\Member\RiderController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -32,17 +36,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', WebsiteController::class);
-// <<<<<<< HEAD
-// //route resource
-// Route::resource('/event', \App\Http\Controllers\EventController::class);
-// =======
 Route::get('/event-all', [WebsiteController::class, 'showEventForm'])->name('event-all');
 Route::get('/event-show/{id}', [WebsiteController::class, 'showEventDetail'])->name('event-show');
 Route::get('/news-all', [WebsiteController::class, 'showNewsForm'])->name('news-all');
 Route::get('/news-show/{id}', [WebsiteController::class, 'showNewsDetail'])->name('news-show');
 Route::get('/calendar', [WebsiteController::class, 'showCalendarForm'])->name('calendar');
 Route::get('/calendar-show/{id}', [WebsiteController::class, 'showCalendarDetail'])->name('calendar-show');
-// >>>>>>> 28493b1340fae53cf665d15422c78bcec0722ef4
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -57,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard Auth
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/welcome', [DashboardController::class, 'welcome'])->name('dashboard.welcome');
+    // Account Auth
+    Route::get('/account', ProfilController::class)->name('account');
 
     // Role Administrator
     Route::middleware(['administrator'])->group(function () {
@@ -133,6 +134,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/faq/{id}/edit', [FAQController::class, 'edit'])->name('faq.edit');
         Route::put('/faq/{id}', [FAQController::class, 'update'])->name('faq.update');
         Route::delete('/faq/destroy/{id}', [FAQController::class, 'destroy'])->name('faq.destroy');
+
+        // Payment Confirmation
+        Route::get('/confirm', [ConfirmController::class, 'index'])->name('confirm.index');
+        Route::get('/confirm/create', [ConfirmController::class, 'create'])->name('confirm.create');
+        Route::post('/confirm', [ConfirmController::class, 'store'])->name('confirm.store');
+        Route::get('/confirm/{id}', [ConfirmController::class, 'show'])->name('confirm.show');
+        Route::get('/confirm/{id}/edit', [ConfirmController::class, 'edit'])->name('confirm.edit');
+        Route::put('/confirm/{id}', [ConfirmController::class, 'update'])->name('confirm.update');
+        Route::delete('/confirm/destroy/{id}', [ConfirmController::class, 'destroy'])->name('confirm.destroy');
+
     });
 
     // Role Event
@@ -160,10 +171,36 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-
-
     // Role Member
     Route::middleware(['member'])->group(function () {
-        Route::get('/profil', ProfilController::class)->name('profil');
+
+        // Booking Event
+        Route::get('/booking/{id}', [BookingController::class, 'showBookingForm'])->name('booking.show');
+        Route::post('/booking/{id}', [BookingController::class, 'storeBookingForm'])->name('booking.bucket');
+        Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
+        Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
+        Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+        Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
+        Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
+        Route::get('/getEventById/{id}', [BookingController::class, 'getEventById'])->name('booking.event');
+        Route::get('/booking/invoice/{id}', [BookingController::class, 'showInvoice'])->name('booking.invoice');
+
+        // Rider Management
+        Route::get('/profile', [RiderController::class, 'index'])->name('profile.index');
+        Route::get('/profile/create', [RiderController::class, 'create'])->name('profile.create');
+        Route::post('/profile', [RiderController::class, 'store'])->name('profile.store');
+        Route::get('/profile/{id}', [RiderController::class, 'show'])->name('profile.show');
+        Route::get('/profile/{id}/edit', [RiderController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile/{id}', [RiderController::class, 'update'])->name('profile.update');
+        Route::delete('/profile/{id}', [RiderController::class, 'destroy'])->name('profile.destroy');
+
+        // Payment
+        Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+        Route::get('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
+        Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+        Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
+        Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('payment.edit');
+        Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('payment.update');
+        Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
     });
 });

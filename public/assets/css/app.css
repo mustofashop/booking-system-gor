@@ -9,7 +9,8 @@
 # General
 --------------------------------------------------------------*/
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Advent Pro', sans-serif;
+    /*font-family: "Open Sans", sans-serif;*/
     color: #444444;
 }
 
@@ -29,7 +30,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -192,7 +194,8 @@ h6 {
     padding: 10px 0 10px 30px;
     font-size: 15px;
     font-weight: 500;
-    font-family: "Poppins", sans-serif;
+    /*font-family: "Poppins", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     color: rgba(255, 255, 255, 0.7);
     white-space: nowrap;
     transition: 0.3s;
@@ -459,7 +462,8 @@ h6 {
 }
 
 #hero .btn-get-started {
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 1px;
@@ -658,7 +662,8 @@ section {
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #aaaaaa;
-    font-family: "Poppins", sans-serif;
+    /*font-family: "Poppins", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
 }
 
 .section-title h2::after {
@@ -676,7 +681,8 @@ section {
     font-size: 36px;
     font-weight: 700;
     text-transform: uppercase;
-    font-family: "Poppins", sans-serif;
+    /*font-family: "Poppins", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     color: #a11a1a;
 }
 
@@ -993,7 +999,8 @@ section {
 .counts .count-box p {
     padding: 0;
     margin: 0;
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     font-size: 14px;
 }
 
@@ -1352,7 +1359,8 @@ section {
     font-size: 36px;
     color: #a11a1a;
     font-weight: 600;
-    font-family: "Poppins", sans-serif;
+    /*font-family: "Poppins", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     margin-bottom: 20px;
 }
 
@@ -1408,7 +1416,8 @@ section {
     transition: none;
     font-size: 14px;
     font-weight: 400;
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     font-weight: 600;
     transition: 0.3s;
 }
@@ -1462,7 +1471,8 @@ section {
 .faq .faq-list a {
     display: block;
     position: relative;
-    font-family: "Poppins", sans-serif;
+    /*font-family: "Poppins", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
@@ -1702,7 +1712,8 @@ section {
     font-size: 14px;
     line-height: 24px;
     margin-bottom: 0;
-    font-family: "Montserrat", sans-serif;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
 }
 
 #footer .footer-top .social-links a {
@@ -1841,7 +1852,8 @@ section {
     background-color: #fff;
     color: #989898;
     margin-bottom: 10px;
-    font-family: 'Oswald', sans-serif;
+    /*font-family: 'Oswald', sans-serif;*/
+    font-family: 'Advent Pro', sans-serif;
     text-transform: uppercase;
     border-radius: 4px;
     position: relative
