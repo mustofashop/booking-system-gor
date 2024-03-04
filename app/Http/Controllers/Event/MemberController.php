@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Event;
 //import Model "Post
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\User;
 use App\Models\Label;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -34,8 +35,9 @@ class MemberController extends Controller
 
     public function create(): View
     {
-        $label = Label::all();
-        return view('event.rider.create', compact('label'));
+        $label  = Label::all();
+        $member = User::where('permission', 'MEMBER')->get();
+        return view('event.rider.create', compact('label', 'member'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -43,7 +45,6 @@ class MemberController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            // 'code'          => 'required',
             'name'          => 'required',
             'nickname'      => 'required',
             'place'         => 'required',
@@ -56,8 +57,6 @@ class MemberController extends Controller
             'email'         => 'required',
             'socmed'        => 'required',
             'status'        => 'required',
-            // 'created_by'    => 'required',
-            // 'updated_by'    => 'required',
             'number_booking' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
@@ -89,27 +88,24 @@ class MemberController extends Controller
 
             //create post
             $member = new Member;
-            $member->image       = $imageName;
-            $member->code        = $kodeMember;
-            // $member->name        = $request->input('user_id');
-            $member->name        = $request->input('name');
-            $member->nickname    = $request->input('nickname');
-            $member->place       = $request->input('place');
-            $member->date        = $request->input('date');
-            $member->gender      = $request->input('gender');
-            $member->height      = $request->input('height');
-            $member->weight      = $request->input('weight');
-            $member->address     = $request->input('address');
-            $member->phone       = $request->input('phone');
-            $member->email       = $request->input('email');
-            $member->socmed      = $request->input('socmed');
-            $member->status      = $request->input('status');
-            // $member->created_by  = $request->input('created_by');
-            // $member->updated_by  = $request->input('updated_by');
-            $member->number_booking       = $request->input('number_booking');
-            $member->number_identity      = $request->input('number_identity');
-            $member->story                = $request->input('story');
-            $member->user_id              = auth()->id();
+            $member->image                 = $imageName;
+            $member->code                  = $kodeMember;
+            $member->name                  = $request->input('name');
+            $member->nickname              = $request->input('nickname');
+            $member->place                 = $request->input('place');
+            $member->date                  = $request->input('date');
+            $member->gender                = $request->input('gender');
+            $member->height                = $request->input('height');
+            $member->weight                = $request->input('weight');
+            $member->address               = $request->input('address');
+            $member->phone                 = $request->input('phone');
+            $member->email                 = $request->input('email');
+            $member->socmed                = $request->input('socmed');
+            $member->status                = $request->input('status');
+            $member->number_booking        = $request->input('number_booking');
+            $member->number_identity       = $request->input('number_identity');
+            $member->story                 = $request->input('story');
+            $member->user_id               = $request->input('user_id');
             // $member->banner               = $request->input('banner');
             $member->save();
         }
@@ -131,14 +127,14 @@ class MemberController extends Controller
     {
         $data = Member::findOrFail($id);
         $label = Label::all();
-        return view('event.rider.edit', compact('data', 'label'));
+        $member = User::where('permission', 'MEMBER')->get();
+        return view('event.rider.edit', compact('data', 'label', 'member'));
     }
 
     public function update(Request $request, $id): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            // 'code'          => 'required',
             'name'          => 'required',
             'nickname'      => 'required',
             'place'         => 'required',
@@ -151,8 +147,6 @@ class MemberController extends Controller
             'email'         => 'required',
             'socmed'        => 'required',
             'status'        => 'required',
-            // 'created_by'    => 'required',
-            // 'updated_by'    => 'required',
             'number_booking' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
@@ -194,39 +188,46 @@ class MemberController extends Controller
             $member->image = $imageName;
         }
 
-        $member->image       = $imageName;
-        $member->code        = $kodeMember;
-        // $member->name        = $request->input('user_id');
-        $member->name        = $request->input('name');
-        $member->nickname    = $request->input('nickname');
-        $member->place       = $request->input('place');
-        $member->date        = $request->input('date');
-        $member->gender      = $request->input('gender');
-        $member->height      = $request->input('height');
-        $member->weight      = $request->input('weight');
-        $member->address     = $request->input('address');
-        $member->phone       = $request->input('phone');
-        $member->email       = $request->input('email');
-        $member->socmed      = $request->input('socmed');
-        $member->status      = $request->input('status');
-        // $member->created_by  = $request->input('created_by');
-        // $member->updated_by  = $request->input('updated_by');
+        $member->image                = $imageName;
+        $member->code                 = $kodeMember;
+        $member->name                 = $request->input('name');
+        $member->nickname             = $request->input('nickname');
+        $member->place                = $request->input('place');
+        $member->date                 = $request->input('date');
+        $member->gender               = $request->input('gender');
+        $member->height               = $request->input('height');
+        $member->weight               = $request->input('weight');
+        $member->address              = $request->input('address');
+        $member->phone                = $request->input('phone');
+        $member->email                = $request->input('email');
+        $member->socmed               = $request->input('socmed');
+        $member->status               = $request->input('status');
         $member->number_booking       = $request->input('number_booking');
         $member->number_identity      = $request->input('number_identity');
         $member->story                = $request->input('story');
-        $member->user_id              = auth()->id();
+        $member->user_id              = $request->input('user_id');
         // $member->banner               = $request->input('banner');
         $member->save();
 
         return redirect()->route('member.index')->with('success', 'User updated successfully.');
     }
 
-    public function destroy($id): RedirectResponse
+    public function destroy($id)
     {
-        //get post by ID
-        Member::findOrFail($id)->delete();
+        //delete data
+        $delete = Member::where('id', $id)->delete();
 
-        //redirect to index
-        return redirect()->route('event.rider.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        if ($delete == 1) {
+            $success = true;
+            $message = "About deleted successfully.";
+        } else {
+            $success = false;
+            $message = "About deleted failed !";
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message
+        ]);
     }
 }

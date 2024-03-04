@@ -12,6 +12,14 @@
     </p>
     @endif
     @endforeach
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', '#detail', function(){
+               var code = $(this).data('code');
+               $('#code').text('code');
+        });
+    });
+    </script>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -28,11 +36,12 @@
                             <thead>
                             <tr style="text-align:left">
                                 <th>IMAGE</th>
-                                <th>Title</th>
-                                <th>DESCRIPTION</th>
-                                <th>DATE</th>
-                                <th>TIME</th>
-                                <th>STATUS</th>
+                                <th colspan="2">EVENT</th>
+                                {{-- <th>DESCRIPTION</th> --}}
+                                <th colspan="2">INFO</th>
+                                {{-- <th>TIME</th> --}}
+                                {{-- <th>PRICE</th> --}}
+                                {{-- <th>STATUS</th> --}}
                                 <th style="text-align:center">ACTION</th>
                             </tr>
                             </thead>
@@ -48,36 +57,56 @@
                                          width="100">
                                     @endif
                                 </td>
-                                <td>
-                                    {{ $item->title }}
-                                </td>
-                                <td>
-                                    {{ strlen($item->description) > 10 ? substr($item->description, 0, 10) . '...' : $item->description }}
-                                </td>
-                                <td>
-                                    {{ $item->date }}
-                                </td>
-                                <td>
-                                    {{ $item->time }}
-                                </td>
-                                <td>
-                                    <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
-                                        {{ $item->status }}
+                                <td colspan="2">
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-md-12">
+                                            <h5>{{ $item->title }}</h5>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p>  {{ $item->code }} </p>
+                                          </div>
+                                        <div class="col-md-12">
+                                            <p>{{ strlen($item->description) > 50 ? substr($item->description, 0, 50) . '...' : $item->description }}</p>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p>  {{ "Rp " . number_format($item->price, 2, ',', '.') }} </p>
+                                          </div>
                                     </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('event.edit', $item->id) }}"
-                                           class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
-                                                class="fas fa-pencil-alt"></i></a>
-                                        &nbsp;
-                                        <a href="{{ route('event.show', $item->id) }}"
-                                            class="btn btn-primary btn-action" data-toggle="tooltip" title="Show"><i
-                                            class="fas fa-eye"></i></a>
-                                        &nbsp;
-                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"
+                                        <div class="col-md-12">
+                                            <p>{{ date('d F Y', strtotime($item->date)) }}</p>
+                                        </div>
+                                        <div class="col-md-12">
+                                          <p>  {{ $item->time }} </p>
+                                        </div>
+                                        <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
+                                            {{ $item->status }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row justify-content-md-center">
+                                        <div class="col-md-4">
+                                            <a href="{{ route('event.edit', $item->id) }}"
+                                               class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit">
+                                               <i class="fas fa-pencil-alt"></i></a>
+                                        </div>
+                                        <div class="col-md-4">
+                                        <a href="{{ route('event.show', $item->id) }}" class="btn btn-primary btn-action" data-toggle="tooltip"
+                                            title="Show"><i class="fas fa-eye"></i></a>
+                                        </div>
+                                        {{-- <div class="col-md-4">
+                                            <a id="productDetailModal" data-toggle="modal" class="btn btn-primary btn-action" href="#dataModal" title="Show">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div> --}}
+                                        <div class="col-md-4">
+                                        <a class="btn btn-danger btn-action" onclick="deleteConfirmation('{{$item->id}}', '{{ $item->code }}')"
                                                 data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
-                                        </button>
+                                        </a>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -99,10 +128,33 @@
         </div>
     </div>
 
+    <!-- MODAL -->
+
+    {{-- <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productDetailModalLabel">Product Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Name:</strong> <span id="productName"></span></p>
+                    <p><strong>Description:</strong> <span id="productDescription"></span></p>
+                    <!-- Add more information as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+   
     <script type="text/javascript">
-        function deleteConfirmation(id) {
+        function deleteConfirmation(id, code) {
             swal({
-                title: "Are you sure you delete data ?",
+                title: "Are you sure you want to delete data " + code + " ?",
                 text: "Please confirm and then confirm !",
                 type: "warning",
                 showCancelButton: !0,
@@ -119,7 +171,8 @@
                         url: "{{url('/event/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
-                            "id": id
+                            _method: 'DELETE',
+                            id: id
                         },
                         dataType: 'JSON',
                         success: function (results) {
@@ -142,3 +195,4 @@
 
 </section>
 @endsection
+

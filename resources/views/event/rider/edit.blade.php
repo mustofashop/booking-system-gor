@@ -23,7 +23,7 @@
               </div>
               </div>
               <div class="card-body">
-                <form id="fmuser-edit" action="{{ route('member.edit', $data->id) }}" method="POST"
+                <form id="fmuser-edit" action="{{ route('member.update', $data->id) }}" method="POST"
                     enctype="multipart/form-data" class="needs-validation" novalidate="">
                   @csrf
                   @method('PUT')
@@ -51,29 +51,36 @@
                         </div>
                     </div>
                 </div> --}}
-                     {{-- <div class="row">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">MEMBER</label>
+                            <select class="form-control select2" name="user_id" value="{{ old('user_id', $data->user_id) }}"
+                                    placeholder="Pilih MEMBER" required="">
+                                <option value="">-- Choose --</option>
+                                @forelse ($member as $item)
+                                <option value="{{$item->id}}" {{ $item->id == $data->user_id ? 'selected': '' }}>{{$item->name}}</option>
+                                            @empty
+                                            @endforelse
+                            </select>
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the gender
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DESCRIPTION -->
                         <div class="col-6">
                           <div class="form-group">
-                              <label class="font-weight-bold">CODE</label>
-                              <input type="text" class="form-control" name="code" value="{{ old('code') }}"
-                                     placeholder="Enter code" required="">
+                              <label class="font-weight-bold">NAME</label>
+                              <input type="text" class="form-control" name="name" value="{{ old('name', $data->name) }}"
+                                     placeholder="Enter name" required="">
+                                     <input type="hidden" id="code" name="code">
                               <div class="invalid-feedback alert alert-danger mt-2">
-                                  Please fill in the code
+                                  Please fill in the name
                               </div>
                           </div>
-                      </div> --}}
-                <!-- DESCRIPTION -->
-                    <div class="col-6">
-                      <div class="form-group">
-                          <label class="font-weight-bold">NAME</label>
-                          <input type="text" class="form-control" name="name" value="{{ old('name', $data->name) }}"
-                                 placeholder="Enter name" required="">
-                                 <input type="hidden" id="code" name="code">
-                          <div class="invalid-feedback alert alert-danger mt-2">
-                              Please fill in the name
-                          </div>
                       </div>
-                  </div>
+                    </div>
                 </div>
                <!-- DATE -->
                <div class="row">

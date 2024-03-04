@@ -143,10 +143,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event', [EventController::class, 'index'])->name('event.index');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
         Route::post('/event', [EventController::class, 'store'])->name('event.store');
-        Route::get('/event/{id}', [EventController::class, 'show'])->name('event.show');
+        Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
         Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
         Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
-        Route::delete('/event/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+        Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
 
 
         // Member Management
@@ -156,7 +156,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/member/{id}', [MemberController::class, 'show'])->name('member.show');
         Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
         Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
-        Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
+        Route::delete('/member/destroy/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
     });
 
 

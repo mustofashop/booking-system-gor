@@ -51,6 +51,16 @@
                               </div>
                           </div>
                       </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">PRICE</label>
+                            <input type="text" class="form-control" name="price" id="price" value="{{ old('price', $data->price) }}"
+                                   placeholder="Enter price" readonly="">
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the name
+                            </div>
+                        </div>
+                  </div>
                     </div>
                 <!-- DESCRIPTION -->
                 <div class="row">
@@ -208,6 +218,31 @@
     if (imageUrl) {
         $('#preview').attr('src', imageUrl).show();
         $('#image-label').text('Change File');
+    }
+
+    //price
+
+    /* Tanpa Rupiah */
+    var tanpa_rupiah = document.getElementById('price');
+    tanpa_rupiah.addEventListener('keyup', function(e) {
+        tanpa_rupiah.value = formatRupiah(this.value);
+    });
+
+    /* Fungsi */
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 </script>
 

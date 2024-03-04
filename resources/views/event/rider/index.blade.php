@@ -80,7 +80,7 @@
                                             class="btn btn-primary btn-action" data-toggle="tooltip" title="Show"><i
                                             class="fas fa-eye"></i></a>
                                         &nbsp;
-                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"
+                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}', '{{ $item->code }}')"
                                                 data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -105,9 +105,9 @@
     </div>
 
     <script type="text/javascript">
-        function deleteConfirmation(id) {
+        function deleteConfirmation(id, code) {
             swal({
-                title: "Are you sure you delete data ?",
+                title: "Are you sure you want to delete data " + code + " ?",
                 text: "Please confirm and then confirm !",
                 type: "warning",
                 showCancelButton: !0,
@@ -124,7 +124,8 @@
                         url: "{{url('/member/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
-                            "id": id
+                            _method: 'DELETE',
+                            id: id
                         },
                         dataType: 'JSON',
                         success: function (results) {

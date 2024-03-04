@@ -51,17 +51,23 @@
                         </div>
                     </div>
                 </div> --}}
-                     {{-- <div class="row">
-                        <div class="col-6">
-                          <div class="form-group">
-                              <label class="font-weight-bold">CODE</label>
-                              <input type="text" class="form-control" name="code" value="{{ old('code') }}"
-                                     placeholder="Enter code" required="">
-                              <div class="invalid-feedback alert alert-danger mt-2">
-                                  Please fill in the code
-                              </div>
-                          </div>
-                      </div> --}}
+                <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">MEMBER</label>
+                        <select class="form-control select2" name="user_id" value="{{ old('user_id') }}"
+                                placeholder="Pilih MEMBER" required="">
+                            <option value="">-- Choose --</option>
+                            @forelse ($member as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @empty
+                                        @endforelse
+                        </select>
+                        <div class="invalid-feedback alert alert-danger mt-2">
+                            Please fill in the gender
+                        </div>
+                    </div>
+                </div>
                 <!-- DESCRIPTION -->
                     <div class="col-6">
                       <div class="form-group">
@@ -75,6 +81,7 @@
                       </div>
                   </div>
                 </div>
+            </div>
                <!-- DATE -->
                <div class="row">
                <div class="col-6">

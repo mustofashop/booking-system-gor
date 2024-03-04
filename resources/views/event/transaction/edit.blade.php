@@ -1,10 +1,10 @@
-@extends('layout.dashboard.app', ['title' => 'Create Event'])
+@extends('layout.dashboard.app', ['title' => 'Edit Event'])
 
 @section('content')
 
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'event.create')
+    @if ($item->code == 'event.edit')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -25,7 +25,7 @@
               </div>
               </div>
               <div class="card-body">
-                <form id="fmuser-edit" action="{{ route('event.edit', $data->id) }}" method="POST"
+                <form id="fmuser-edit" action="{{ route('event.update', $data->id) }}" method="POST"
                     enctype="multipart/form-data" class="needs-validation" novalidate="">
                   @csrf
                   @method('PUT')
@@ -41,6 +41,7 @@
                                 <input type="file" name="image" id="image-upload">
                             </div>
                         </div>
+                        &nbsp;
                         <div class="col-6">
                           <div class="form-group">
                               <label class="font-weight-bold">TITLE</label>
@@ -51,6 +52,16 @@
                               </div>
                           </div>
                       </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">PRICE</label>
+                            <input type="text" class="form-control" name="price" id="price" value="{{ old('price', $data->price) }}"
+                                   placeholder="Enter price" required="">
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the name
+                            </div>
+                        </div>
+                  </div>
                     </div>
                 <!-- DESCRIPTION -->
                 <div class="row">
@@ -208,6 +219,31 @@
     if (imageUrl) {
         $('#preview').attr('src', imageUrl).show();
         $('#image-label').text('Change File');
+    }
+
+    //price
+
+    /* Tanpa Rupiah */
+    var tanpa_rupiah = document.getElementById('price');
+    tanpa_rupiah.addEventListener('keyup', function(e) {
+        tanpa_rupiah.value = formatRupiah(this.value);
+    });
+
+    /* Fungsi */
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 </script>
 

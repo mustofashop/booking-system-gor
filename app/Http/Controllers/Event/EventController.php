@@ -38,12 +38,13 @@ class EventController extends Controller
         return view('event.transaction.create', compact('label'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, $id): RedirectResponse
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048' . $id,
             'title'         => 'required',
+            'price'         => 'required',
             'description'   => 'required',
             'date'          => 'required',
             'time'          => 'required',
@@ -63,13 +64,13 @@ class EventController extends Controller
                 ->withInput();
         }
 
-        // $event = \App\Models\Event::latest()->first();
-        // $kodeEvent = "EPB-";
-        // if ($event == null) {
-        //     $kodeEvent = "EPB-0000";
-        // } else {
-        //     $kodeEvent = "EPB-" . sprintf("%04s", $event->id + 1);
-        // }
+        $event = \App\Models\Event::latest()->first();
+        $kodeEvent = "EPB-";
+        if ($event == null) {
+            $kodeEvent = "EPB-0001";
+        } else {
+            $kodeEvent = "EPB-" . sprintf("%04s", $event->id + 1);
+        }
 
         //upload image
         if ($request->hasFile('image')) {
@@ -81,9 +82,10 @@ class EventController extends Controller
             //create post
             $event = new Event;
             $event->image       = $imageName;
-            // $event->code        = $kodeEvent;
+            $event->code        = $kodeEvent;
             $event->title       = $request->input('title');
-            $event->description = str_replace('&nbsp;', ' ', $request->input('description'));
+            $event->price       = str_replace(".", "", $request->input('price'));
+            $event->description = strip_tags($request->input('description'));
             $event->date        = $request->input('date');
             $event->time        = $request->input('time');
             $event->location    = $request->input('location');
@@ -93,19 +95,18 @@ class EventController extends Controller
             $event->start_date  = $request->input('start_date');
             $event->end_date    = $request->input('end_date');
             $event->expiry_date = $request->input('expiry_date');
-            // $event->user_id     = $request->input('user_id');
-            // $event->ordering    = $request->input('ordering');
             $event->save();
         }
         //redirect to index
-        return redirect()->route('event.transaction.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('event.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    public function show(string $id): View
+    public function show(string $id)
     {
         //get post by ID
         $data = Event::findOrFail($id);
         $label = Label::all();
+        // return response()->json($data);
 
         //render view with post
         return view('event.transaction.show', compact('data', 'label'));
@@ -118,11 +119,12 @@ class EventController extends Controller
         return view('event.transaction.edit', compact('data', 'label'));
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'image'         => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
             'title'         => 'required',
+            'price'         => 'required',
             'description'   => 'required',
             'date'          => 'required',
             'time'          => 'required',
@@ -143,10 +145,11 @@ class EventController extends Controller
         }
 
         // Jika validasi berhasil, dapatkan data user berdasarkan ID
-        $event =   Event::find($id);
+        $event =   Event::findOrFail($id);
         if (!$event) {
-            return redirect()->route('event.transaction.index')->with('error', 'User not found.');
+            return redirect()->route('event.transaction.index')->with('error', 'Event not found.');
         }
+
         //upload image
         if ($request->hasFile('image')) {
             // Hapus gambar lama sebelum menyimpan yang baru
@@ -156,13 +159,13 @@ class EventController extends Controller
 
             $imageFile = $request->file('image');
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
-            $imageFile->storePubliclyAs('image', $imageName, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile->storePubliclyAs('event', $imageName, 'public'); // Menyimpan file dengan nama spesifik
             $event->image = $imageName;
         }
 
         //create post
-        // $image->filename = $filename;
         $event->title       = $request->input('title');
+        $event->price       = $request->input('price');
         $event->description = strip_tags($request->input('description'));
         $event->date        = $request->input('date');
         $event->time        = $request->input('time');
@@ -175,15 +178,25 @@ class EventController extends Controller
         $event->expiry_date = $request->input('expiry_date');
         $event->save();
 
-        return redirect()->route('event.transaction.index')->with('success', 'User updated successfully.');
+        return redirect()->route('event.index')->with('success', 'User updated successfully.');
     }
 
-    public function destroy($id): RedirectResponse
+    public function destroy($id)
     {
-        //get post by ID
-        Event::findOrFail($id)->delete();
+        //delete data
+        $delete = Event::where('id', $id)->delete();
 
-        //redirect to index
-        return redirect()->route('event.transaction.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        if ($delete == 1) {
+            $success = true;
+            $message = "About deleted successfully.";
+        } else {
+            $success = false;
+            $message = "About deleted failed !";
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message
+        ]);
     }
 }
