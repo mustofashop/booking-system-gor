@@ -2,9 +2,6 @@
 
 @section('content')
 
-{{-- Alert Messages --}}
-@include('layout.dashboard.partials.alert')
-
 <section class="section">
     @foreach ($label as $item)
     @if ($item->code == 'user.edit')
@@ -120,6 +117,40 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
+                            <!-- RESET -->
+                            <div class="col-12 m-3">
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="resetPasswordCheckbox"
+                                           name="reset_password" value="true" onchange="togglePasswordFields()">
+                                    <label class="form-check-label font-weight-bold" for="resetPasswordCheckbox">RESET
+                                        PASSWORD ACCOUNT</label>
+                                </div>
+                            </div>
+                            <!-- PASSWORD -->
+                            <div class="col-6" id="passwordFields" style="display: none;">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">PASSWORD</label>
+                                    <input type="text" class="form-control" name="password"
+                                           value="{{ old('password','123456789') }}" placeholder="Enter password"
+                                           required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the password
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CONFIRM PASSWORD -->
+                            <div class="col-6" id="confirmPasswordField" style="display: none;">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">CONFIRM PASSWORD</label>
+                                    <input type="text" class="form-control" name="password_confirmation"
+                                           value="{{ old('password_confirmation','123456789') }}"
+                                           placeholder="Enter confirm password" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the confirm password
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- BUTTON -->
                         <div class="form-group">
@@ -134,5 +165,19 @@
         </div>
     </div>
 </section>
+<script>
+    function togglePasswordFields() {
+        var checkbox = document.getElementById('resetPasswordCheckbox');
+        var passwordFields = document.getElementById('passwordFields');
+        var confirmPasswordField = document.getElementById('confirmPasswordField');
 
+        if (checkbox.checked) {
+            passwordFields.style.display = 'block';
+            confirmPasswordField.style.display = 'block';
+        } else {
+            passwordFields.style.display = 'none';
+            confirmPasswordField.style.display = 'none';
+        }
+    }
+</script>
 @endsection

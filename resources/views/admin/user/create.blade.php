@@ -80,8 +80,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">PASSWORD</label>
-                                    <input type="password" class="form-control" name="password"
-                                           value="{{ old('password') }}"
+                                    <input type="text" class="form-control" name="password"
+                                           value="{{ old('password','123456789') }}"
                                            placeholder="Enter password" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the password
@@ -92,8 +92,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">CONFIRM PASSWORD</label>
-                                    <input type="password" class="form-control" name="password_confirmation"
-                                           value="{{ old('password_confirmation') }}"
+                                    <input type="text" class="form-control" name="password_confirmation"
+                                           value="{{ old('password_confirmation','123456789') }}"
                                            placeholder="Enter confirm password" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the confirm password
@@ -109,7 +109,7 @@
                                             placeholder="Pilih jabatan" required="">
                                         <option value="">-- Choose --</option>
                                         @foreach($permission as $item)
-                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                        <option value="{{ $item->level }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback alert alert-danger mt-2">
