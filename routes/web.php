@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Event\MemberController;
+use App\Http\Controllers\Event\PointController;
 use App\Http\Controllers\Member\BookingController;
 use App\Http\Controllers\Member\PaymentController;
 use App\Http\Controllers\Member\RiderController;
@@ -143,33 +144,40 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/confirm/{id}/edit', [ConfirmController::class, 'edit'])->name('confirm.edit');
         Route::put('/confirm/{id}', [ConfirmController::class, 'update'])->name('confirm.update');
         Route::delete('/confirm/destroy/{id}', [ConfirmController::class, 'destroy'])->name('confirm.destroy');
-
     });
 
-    // Role Event
-    Route::middleware(['event'])->group(function () {
-        Route::get('/profil', ProfilController::class)->name('profil');
-
-        // User Management
-        Route::get('/event', [EventController::class, 'index'])->name('event.index');
-        Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
-        Route::post('/event', [EventController::class, 'store'])->name('event.store');
-        Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
-        Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
-        Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
-        Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+    // Member Management
+    Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+    Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
+    Route::post('/member', [MemberController::class, 'store'])->name('member.store');
+    Route::get('/member/show/{id}', [MemberController::class, 'show'])->name('member.show');
+    Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
+    Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
+    Route::delete('/member/destroy/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
+});
 
 
-        // Member Management
-        Route::get('/member', [MemberController::class, 'index'])->name('member.index');
-        Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
-        Route::post('/member', [MemberController::class, 'store'])->name('member.store');
-        Route::get('/member/{id}', [MemberController::class, 'show'])->name('member.show');
-        Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
-        Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
-        Route::delete('/member/destroy/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
-    });
+// Role Event
+Route::middleware(['event'])->group(function () {
+    Route::get('/profil', ProfilController::class)->name('profil');
 
+    // User Management
+    Route::get('/event', [EventController::class, 'index'])->name('event.index');
+    Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+    Route::post('/event', [EventController::class, 'store'])->name('event.store');
+    Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
+    Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+    Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
+    Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+
+    // Point Management
+    Route::get('/point', [PointController::class, 'index'])->name('point.index');
+    Route::get('/point/create', [PointController::class, 'create'])->name('point.create');
+    Route::post('/point', [PointController::class, 'store'])->name('point.store');
+    Route::get('/point/show/{id}', [PointController::class, 'show'])->name('point.show');
+    Route::get('/point/{id}/edit', [PointController::class, 'edit'])->name('point.edit');
+    Route::put('/point/{id}', [PointController::class, 'update'])->name('point.update');
+    Route::delete('/point/destroy/{id}', [PointController::class, 'destroy'])->name('point.destroy');
 
     // Role Member
     Route::middleware(['member'])->group(function () {

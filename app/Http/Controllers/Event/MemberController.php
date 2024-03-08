@@ -105,7 +105,7 @@ class MemberController extends Controller
             $member->number_booking        = $request->input('number_booking');
             $member->number_identity       = $request->input('number_identity');
             $member->story                 = $request->input('story');
-            $member->user_id               = $request->input('user_id');
+            $member->member_id             = $request->input('member_id');
             // $member->banner               = $request->input('banner');
             $member->save();
         }
@@ -113,14 +113,15 @@ class MemberController extends Controller
         return redirect()->route('member.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    public function show(string $id): View
+    public function show($id)
     {
         //get post by ID
         $data = Member::findOrFail($id);
-        $label = Label::all();
+        return response()->json($data);
+        // $label = Label::all();
 
-        //render view with data
-        return view('event.rider.show', compact('data', 'label'));
+        // //render view with data
+        // return view('event.rider.show', compact('data', 'label'));
     }
 
     public function edit(string $id): View
@@ -205,7 +206,7 @@ class MemberController extends Controller
         $member->number_booking       = $request->input('number_booking');
         $member->number_identity      = $request->input('number_identity');
         $member->story                = $request->input('story');
-        $member->user_id              = $request->input('user_id');
+        $member->member_id              = $request->input('member_id');
         // $member->banner               = $request->input('banner');
         $member->save();
 

@@ -1,10 +1,10 @@
 
-@extends('layout.dashboard.app', ['title' => 'List Event'])
+@extends('layout.dashboard.app', ['title' => 'List Point'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'event')
+    @if ($item->code == 'point')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -29,7 +29,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('event.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('point.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Tambah"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -38,80 +38,61 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>IMAGE</th>
-                                <th colspan="2">EVENT</th>
-                                {{-- <th>DESCRIPTION</th> --}}
-                                <th colspan="2">INFO</th>
-                                {{-- <th>TIME</th> --}}
-                                {{-- <th>PRICE</th> --}}
-                                {{-- <th>STATUS</th> --}}
+                                <th>MEMBER</th>
+                                <th>EVENT</th>
+                                <th>CATEGORY</th>
+                                <th>POINT RANK</th>
+                                <th>POINT PARTICIPATION</th>
+                                <th>TOTAL POINT</th>
+                                <th>RANK</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
                             </thead>
                             <tbody>
                             @forelse ($data as $item)
                             <tr>
-                                <td class="text-center">
-                                    @if ($item->image && Storage::exists('public/event/' . $item->image))
-                                    <img src="{{ asset('storage/event/' . $item->image) }}" class="img-thumbnail"
-                                         width="100">
-                                    @else
-                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                                         width="100">
-                                    @endif
+                                <td>
+                                    {{ $item->member->code }}
                                 </td>
-                                <td colspan="2">
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <h5>{{ $item->title }}</h5>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <p>  {{ $item->code }} </p>
-                                          </div>
-                                        <div class="col-md-12">
-                                            <p>{{ strlen($item->description) > 50 ? substr($item->description, 0, 50) . '...' : $item->description }}</p>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <p>  {{ "Rp " . number_format($item->price, 2, ',', '.') }} </p>
-                                          </div>
-                                    </div>
+                                <td>
+                                    {{ $item->event->code }}
                                 </td>
-                                <td colspan="2">
-                                    <div class="row justify-content-md-center">
-                                        <div class="col-md-12">
-                                            <p>{{ date('d F Y', strtotime($item->date)) }}</p>
-                                        </div>
-                                        <div class="col-md-12">
-                                          <p>  {{ $item->time }} </p>
-                                        </div>
-                                        <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
-                                            {{ $item->status }}
-                                        </div>
-                                    </div>
+                                <td>
+                                    {{ $item->category->title }}
+                                </td>
+                                <td>
+                                    {{ $item->point_rank }}
+                                </td>
+                                <td>
+                                    {{ $item->point_participation }}
+                                </td>
+                                <td>
+                                    {{ $item->total_point }}
+                                </td>
+                                <td>
+                                    {{ $item->rank }}
                                 </td>
                                 <td>
                                     <div class="row justify-content-md-center">
                                         <div class="col-md-4">
-                                            <a href="{{ route('event.edit', $item->id) }}"
-                                               class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit">
+                                            <a href="{{ route('point.edit', $item->id) }}"
+                                               class="btn btn-warning btn-action" 
+                                               data-toggle="tooltip" title="Edit">
                                                <i class="fas fa-pencil-alt"></i></a>
                                         </div>
                                         <div class="col-md-4">
                                             <a
                                             href="javascript:void(0)"
                                             id="show-user" data-target="#userShowModal"
-                                            data-url="{{ route('event.show', $item->id) }}" class="btn btn-primary btn-action"
-                                            title="Show"><i class="fas fa-eye"></i></a>
+                                            data-url="{{ route('point.show', $item->id) }}" 
+                                            class="btn btn-primary btn-action"
+                                            data-toggle="tooltip" title="Show">
+                                            <i class="fas fa-eye"></i></a>
                                         </div>
-                                        {{-- <div class="col-md-4">
-                                            <a id="productDetailModal" data-toggle="modal" class="btn btn-primary btn-action" href="#dataModal" title="Show">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </div> --}}
                                         <div class="col-md-4">
-                                        <a class="btn btn-danger btn-action" onclick="deleteConfirmation('{{$item->id}}', '{{ $item->code }}')"
-                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
-                                        </a>
+                                        <button class="btn btn-danger btn-action" onclick="deleteConfirmation('{{$item->id}}'"
+                                         data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
+                                        </button>
                                         </div>
                                     </div>
                                 </td>
@@ -135,9 +116,9 @@
     </div>
 
     <script type="text/javascript">
-        function deleteConfirmation(id, code) {
+        function deleteConfirmation(id) {
             swal({
-                title: "Are you sure you want to delete data " + code + " ?",
+                title: "Are you sure you want to delete data  ?",
                 text: "Please confirm and then confirm !",
                 type: "warning",
                 showCancelButton: !0,
@@ -151,7 +132,7 @@
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/event/destroy')}}/" + id,
+                        url: "{{url('/point/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
                             _method: 'DELETE',
@@ -161,7 +142,7 @@
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('event') }}");
+                                window.location.replace("{{ url('point') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }
@@ -174,13 +155,6 @@
                 return false;
             })
         }
-
-    // Code to load image when editing
-    var imageUrl = '{{ isset($data->image) ? asset("storage/event/" . $data->image) : "" }}';
-    if (imageUrl) {
-        $('#preview').attr('src', imageUrl).show();
-        $('#image-label').text('Change File');
-    }
 
     /* When click show user */
     $('body').on('click', '#show-user', function () {
@@ -216,12 +190,6 @@
             <div class="modal-body table-responsive">
                 <table class="table table-bordered no-margin">
                     <tbody>
-                        <tr>
-                            <td><strong>IMAGE</strong></td>
-                            <td>
-                                <img src="{{ asset('storage/event/' . $item->image) }}">
-                            </td>
-                        </tr>
                         <tr>
                             <td><strong>CODE</strong></td>
                             <td id="code"></td>

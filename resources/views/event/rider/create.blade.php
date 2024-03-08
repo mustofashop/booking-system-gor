@@ -55,7 +55,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">MEMBER</label>
-                        <select class="form-control select2" name="user_id" value="{{ old('user_id') }}"
+                        <select class="form-control select2" name="member_id" value="{{ old('member_id') }}"
                                 placeholder="Pilih MEMBER" required="">
                             <option value="">-- Choose --</option>
                             @forelse ($member as $item)

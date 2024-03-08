@@ -101,15 +101,15 @@ class EventController extends Controller
         return redirect()->route('event.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    public function show(string $id)
+    public function show($id)
     {
         //get post by ID
-        $data = Event::findOrFail($id);
-        $label = Label::all();
-        // return response()->json($data);
+        $data = Event::find($id);
+        // $label = Label::all();
+        return response()->json($data);
 
         //render view with post
-        return view('event.transaction.show', compact('data', 'label'));
+        // return view('event.transaction.show', compact('label'));
     }
 
     public function edit(string $id): View
