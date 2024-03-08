@@ -92,7 +92,7 @@
                                         <div class="col-md-4">
                                         <button class="btn btn-danger btn-action" onclick="deleteConfirmation('{{$item->id}}'"
                                          data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
-                                        </button>
+                                        </a>
                                         </div>
                                     </div>
                                 </td>
