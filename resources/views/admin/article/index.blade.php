@@ -1,9 +1,9 @@
-@extends('layout.dashboard.app', ['title' => 'List User'])
+@extends('layout.dashboard.app', ['title' => 'List Article'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'user')
+    @if ($item->code == 'article')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('user.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('article.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Add"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -27,11 +27,9 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>NAME</th>
-                                <th>USERNAME</th>
-                                <th>EMAIL</th>
-                                <th>PHONE</th>
-                                <th>PERMISSION</th>
+                                <th>NEWS</th>
+                                <th>DESCRIPTION</th>
+                                <th>ORDERING</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
@@ -39,39 +37,21 @@
                             <tbody>
                             @forelse ($data as $item)
                             <tr>
-                                <td>
-                                    {{ $item->name }}
+                                <td style="text-align: left;">
+                                    @if ($item->image && Storage::exists('public/news/' . $item->image))
+                                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                                         width="100">
+                                    @else
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                                         width="100">
+                                    @endif
                                 </td>
                                 <td>
-                                    {{ $item->username }}
+                                    {{ $item->title }}
+                                    {!! Str::words(html_entity_decode($item->desc), 50, ' ...') !!}
                                 </td>
                                 <td>
-                                    {{ $item->email }}
-                                </td>
-                                <td>
-                                    {{ $item->phone }}
-                                </td>
-                                <td>
-                                    @php
-                                    $badgeClass = '';
-                                    $iconClass = 'fas fa-key';
-                                    switch ($item->permission) {
-                                    case 'ADMIN':
-                                    $badgeClass = 'badge-info';
-                                    break;
-                                    case 'EVENT':
-                                    $badgeClass = 'badge-primary';
-                                    break;
-                                    case 'MEMBER':
-                                    $badgeClass = 'badge-warning';
-                                    break;
-                                    default:
-                                    $badgeClass = 'badge-dark';
-                                    }
-                                    @endphp
-                                    <div class="badge {{ $badgeClass }}">
-                                        <i class="{{ $iconClass }}"></i> {{ $item->permission }}
-                                    </div>
+                                    {{ $item->ordering }}
                                 </td>
                                 <td>
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
@@ -80,13 +60,11 @@
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('user.edit', $item->id) }}"
-                                           class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
+                                        <a href="{{ route('article.edit', $item->id) }}"
+                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i
                                                 class="fas fa-pencil-alt"></i></a>
-                                        &nbsp;
-                                        &nbsp;
-                                        <button class="btn btn-danger"
-                                                onclick="deleteConfirmation('{{$item->id}}','{{ $item->username }}')"
+                                        <button class="btn btn-danger m-1"
+                                                onclick="deleteConfirmation('{{ $item->id }}', '{{ $item->title }}')"
                                                 data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -111,33 +89,33 @@
     </div>
 
     <script type="text/javascript">
-        function deleteConfirmation(id, username) {
+        function deleteConfirmation(id, title) {
             swal({
-                title: "Are you sure you delete data " + username + " ?",
-                text: "Please confirm and then confirm !",
+                title: "Are you sure you want to delete data " + title + " ?",
+                text: "Please confirm to proceed!",
                 type: "warning",
-                showCancelButton: !0,
+                showCancelButton: true,
                 confirmButtonText: "Delete",
                 cancelButtonText: "Cancel",
                 cancelButtonColor: "#F0E701",
                 confirmButtonColor: "#1AA13E",
-                reverseButtons: !0
+                reverseButtons: true
             }).then(function (e) {
                 if (e.value === true) {
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/user/destroy')}}/" + id,
+                        url: "{{ url('/article/destroy') }}" + '/' + id,
                         data: {
                             _token: CSRF_TOKEN,
                             _method: 'DELETE',
-                            "id": id
+                            id: id
                         },
                         dataType: 'JSON',
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('user') }}");
+                                window.location.replace("{{ url('article') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }
@@ -151,6 +129,7 @@
             })
         }
     </script>
+
 
 </section>
 @endsection

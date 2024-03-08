@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\Label;
 use App\Models\Permission;
+use App\Models\SetupPermission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -56,6 +57,14 @@ class UserController extends Controller
         $user->permission = $request->input('permission');
         $user->status = $request->input('status');
         $user->save();
+
+        // Cek peran pengguna
+        $userPermissions = Permission::where('level', $user->permission)->first();
+        // Buat setup permission untuk user
+        SetupPermission::create([
+            'user_id' => $user->id,
+            'permission_id' => $userPermissions->id,
+        ]);
 
         // Redirect ke halaman lain dengan pesan sukses
         return redirect()->route('user.index')->with('success', 'User created successfully.');
@@ -109,15 +118,47 @@ class UserController extends Controller
         $user->status = $request->input('status');
         $user->save();
 
+        // Cek peran pengguna
+        $userPermissions = Permission::where('level', $user->permission)->first();
+        // Update setup permission untuk user
+        SetupPermission::where('user_id', $user->id)->update([
+            'permission_id' => $userPermissions->id,
+        ]);
+
+        // Cek reset_password
+        if ($request->input('reset_password') === "true") {
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+        }
+
         // Redirect ke halaman lain dengan pesan sukses
         return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
-        // Hapus data dari database
-        User::findOrFail($id)->delete();
+        // Temukan pengguna berdasarkan ID
+        $user = User::findOrFail($id);
 
-        return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+        // Hapus setup permission untuk user
+        SetupPermission::where('user_id', $user->id)->delete();
+
+        // Hapus data pengguna dari database
+        $deleted = $user->delete();
+
+        if ($deleted) {
+            $success = true;
+            $message = "User deleted successfully!";
+        } else {
+            $success = false;
+            $message = "Failed to delete user!";
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message
+        ]);
     }
+
+
 }

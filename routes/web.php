@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administrator\AboutController;
+use App\Http\Controllers\Administrator\ArticleController;
 use App\Http\Controllers\Administrator\ButtonController;
 use App\Http\Controllers\Administrator\ConfirmController;
 use App\Http\Controllers\Administrator\CountController;
@@ -64,6 +65,15 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['administrator'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
 
+        // Article Management
+        Route::get('/article', [ArticleController::class, 'index'])->name('article.index');
+        Route::get('/article/create', [ArticleController::class, 'create'])->name('article.create');
+        Route::post('/article', [ArticleController::class, 'store'])->name('article.store');
+        Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
+        Route::get('/article/{id}/edit', [ArticleController::class, 'edit'])->name('article.edit');
+        Route::put('/article/{id}', [ArticleController::class, 'update'])->name('article.update');
+        Route::delete('/article/destroy/{id}', [ArticleController::class, 'destroy'])->name('article.destroy');
+
         // User Management
         Route::get('/user', [UserController::class, 'index'])->name('user.index');
         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
@@ -71,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
         Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-        Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
         // Label Management
         Route::get('/label', [LabelController::class, 'index'])->name('label.index');
