@@ -44,6 +44,8 @@ Route::get('/news-all', [WebsiteController::class, 'showNewsForm'])->name('news-
 Route::get('/news-show/{id}', [WebsiteController::class, 'showNewsDetail'])->name('news-show');
 Route::get('/calendar', [WebsiteController::class, 'showCalendarForm'])->name('calendar');
 Route::get('/calendar-show/{id}', [WebsiteController::class, 'showCalendarDetail'])->name('calendar-show');
+Route::get('/point-all', [WebsiteController::class, 'showPointForm'])->name('point-all');
+Route::get('/point-show/{id}', [WebsiteController::class, 'showPointDetail'])->name('point-show');
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

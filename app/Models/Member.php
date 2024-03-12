@@ -15,4 +15,10 @@ class Member extends Model
         'id', 'code', 'member_id', 'image', 'name', 'nickname', 'place', 'date', 'gender', 'height', 'weight', 'address', 'phone', 'email', 'socmed', 'status',
         'created_by', 'created_at', 'updated_by', 'updated_at', 'number_booking', 'number_identity', 'story', 'banner'
     ];
+
+    public function point()
+    {
+        return $this->hasMany(TransactionPoint::class, 'member_id', 'id');
+    }
+
 }

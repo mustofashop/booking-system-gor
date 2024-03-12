@@ -9,11 +9,11 @@ use App\Models\Gallery;
 use App\Models\History;
 use App\Models\Image;
 use App\Models\Label;
+use App\Models\Member;
 use App\Models\Navbar;
 use App\Models\NavbarSub;
 use App\Models\News;
 use App\Models\Question;
-use App\Models\Team;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
@@ -45,8 +45,15 @@ class WebsiteController extends Controller
         // Count
         $about = About::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
-        // Team
-        $team = Team::orderBy('created_at')->take(4)->where('status', 'ACTIVE')->get();
+        // Team members with highest points
+        $team = Member::with('point')
+            ->has('point') // Filters out members with no points
+            ->withCount('point as total_point') // Calculate total points
+            ->orderByDesc('total_point') // Order by total points in descending order
+            ->orderBy('created_at') // Then order by creation date
+            ->where('status', 'ACTIVE')
+            ->take(4)
+            ->get();
 
         // Testimonial
         $testimonial = Testimonial::orderBy('ordering')->where('status', 'ACTIVE')->get();
@@ -237,6 +244,140 @@ class WebsiteController extends Controller
             'image' => $image,
             'news' => $news,
             'event' => $event
+        ]);
+    }
+
+    public function showNewsForm()
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // News
+        $news = News::orderBy('created_at', 'desc')->get();
+
+        return view('front.news', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'news' => $news
+        ]);
+    }
+
+    public function showNewsDetail($id)
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // News
+        $news = News::find($id);
+
+        return view('front.news-detail', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'news' => $news
+        ]);
+    }
+
+    public function showPointForm()
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // News
+        $member = Member::with('point')
+            ->has('point') // Filters out members with no points
+            ->withCount('point as total_point') // Calculate total points
+            ->orderByDesc('total_point') // Order by total points in descending order
+            ->orderBy('created_at') // Then order by creation date
+            ->where('status', 'ACTIVE')
+            ->get();
+
+        return view('front.point', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'team' => $member
+        ]);
+    }
+
+    public function showPointDetail($id)
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // Member
+        $member = Member::find($id);
+
+        return view('front.point-detail', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'member' => $member
         ]);
     }
 }
