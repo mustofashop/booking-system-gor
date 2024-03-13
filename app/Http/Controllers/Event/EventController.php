@@ -6,30 +6,66 @@ namespace App\Http\Controllers\Event;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Label;
+use App\Models\Button;
+use App\Models\Image;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-
-
-//return type View
 use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
-
-//return type redirectResponse
 use Illuminate\Http\RedirectResponse;
-
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class EventController extends Controller
 {
     public function index(): View
     {
-        //get posts
+        //get event
         $data = Event::latest()->paginate(5);
         $label = Label::all();
 
         //render view with data
         return view('event.transaction.index', compact('data', 'label'));
+    }
+
+    public function calendar(Request $request)
+    {
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // Event
+        $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
+        $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
+
+        $query = Event::query();
+
+        if ($month) {
+            // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
+            $query->whereMonth('date', $month);
+        }
+
+        if ($search) {
+            // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ambil data event berdasarkan kondisi yang telah ditetapkan
+        $events = $query->orderBy('date', 'desc')->get();
+
+        return view('event.transaction.calendar', [
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'events' => $events
+        ]);
     }
 
     public function create(): View
@@ -38,11 +74,11 @@ class EventController extends Controller
         return view('event.transaction.create', compact('label'));
     }
 
-    public function store(Request $request, $id): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048' . $id,
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'title'         => 'required',
             'price'         => 'required',
             'description'   => 'required',

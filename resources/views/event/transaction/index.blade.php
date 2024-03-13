@@ -31,6 +31,9 @@
                     <div class="card-header-action">
                         <a href="{{ route('event.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Tambah"><i class="fas fa-plus-circle"></i></a>
+                           &nbsp;
+                           <a class="btn btn-warning" href="{{ route('event.calendar') }}"
+                           data-toggle="tooltip" title="Calendar"><i class="fas fa-calendar"></i></a>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -97,11 +100,10 @@
                                                <i class="fas fa-pencil-alt"></i></a>
                                         </div>
                                         <div class="col-md-4">
-                                            <a
-                                            href="javascript:void(0)"
-                                            id="show-user" data-target="#userShowModal"
+                                            <a href="javascript:void(0)" id="show-user" data-target="#userShowModal"
                                             data-url="{{ route('event.show', $item->id) }}" class="btn btn-primary btn-action"
-                                            title="Show"><i class="fas fa-eye"></i></a>
+                                            title="Show"><i class="fas fa-eye"></i>
+                                        </a>
                                         </div>
                                         {{-- <div class="col-md-4">
                                             <a id="productDetailModal" data-toggle="modal" class="btn btn-primary btn-action" href="#dataModal" title="Show">
@@ -110,7 +112,7 @@
                                         </div> --}}
                                         <div class="col-md-4">
                                         <a class="btn btn-danger btn-action" onclick="deleteConfirmation('{{$item->id}}', '{{ $item->code }}')"
-                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
+                                        data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>
                                         </a>
                                         </div>
                                     </div>
