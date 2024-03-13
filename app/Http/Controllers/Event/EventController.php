@@ -34,9 +34,6 @@ class EventController extends Controller
         // Button
         $button = Button::orderBy('created_at')->get();
 
-        // Image
-        $image = Image::orderBy('ordering')->get();
-
         // Event
         $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
         $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
@@ -63,7 +60,6 @@ class EventController extends Controller
         return view('event.transaction.calendar', [
             'label' => $label,
             'button' => $button,
-            'image' => $image,
             'events' => $events
         ]);
     }

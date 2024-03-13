@@ -170,6 +170,7 @@ Route::middleware(['auth'])->group(function () {
 
         // User Management
         Route::get('/event', [EventController::class, 'index'])->name('event.index');
+        Route::get('/event/calendar', [EventController::class, 'calendar'])->name('event.calendar');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
         Route::post('/event', [EventController::class, 'store'])->name('event.store');
         Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');

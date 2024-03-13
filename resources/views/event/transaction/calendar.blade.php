@@ -1,4 +1,4 @@
-@extends('layout.details.default', ['title' => 'Calendar'])
+@extends('layout.dashboard.app', ['title' => 'Calendar'])
 @section('content')
 
 <style>
@@ -59,45 +59,6 @@
 </style>
 
 <main id="main">
-
-    <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-item">
-                            <img src="{{asset('assets/img/logo-white.svg')}}" alt="website logo"
-                                 class="logo-dark mxw-300" width="382" height="157">
-                            @foreach ($label as $item)
-                            @if ($item->code == 'calendar')
-                            <h3>{!!html_entity_decode($item->title)!!}</h3>
-                            <h4>{!!html_entity_decode($item->desc)!!}</h4>
-                            @endif
-                            @endforeach
-
-
-                            @foreach ($label as $item)
-                            @if ($item->code == 'tagline.calendar')
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                {!!html_entity_decode($item->desc)!!}
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                            @endif
-                            @endforeach
-
-                        </div>
-                    </div>
-                    <!-- End testimonial item -->
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-
-        </div>
-    </section>
-    <!-- End Testimonials Section -->
-
     <!-- ======= Calendar Section ======= -->
     <section id="calendar" class="features">
         <div class="container">
@@ -117,7 +78,7 @@
                             <input type="text" class="form-control" placeholder="Search Event" name="search"
                                    value="{{ request()->get('search') }}">
                             <select class="form-control" name="month">
-                                <option value="">Select1 Month</option>
+                                <option value="">Select Month</option>
                                 <option value="01">January</option>
                                 <option value="02">February</option>
                                 <option value="03">March</option>
