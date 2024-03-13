@@ -170,18 +170,13 @@ Route::middleware(['auth'])->group(function () {
 
         // User Management
         Route::get('/event', [EventController::class, 'index'])->name('event.index');
-        Route::get('/event/calendar', [EventController::class, 'calendar'])->name('event.calendar');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+        Route::get('/event/calendar', [EventController::class, 'calendar'])->name('event.calendar');
         Route::post('/event', [EventController::class, 'store'])->name('event.store');
         Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
         Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
         Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
         Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
-    });
-
-    // Role Event
-    Route::middleware(['event'])->group(function () {
-        Route::get('/profil', ProfilController::class)->name('profil');
 
         // Point Management
         Route::get('/point', [PointController::class, 'index'])->name('point.index');

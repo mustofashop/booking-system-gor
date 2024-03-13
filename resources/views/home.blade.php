@@ -481,22 +481,23 @@
                 @foreach($team as $value)
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="pic"><img src="{{ asset('storage/team/'. $value->image) }}" class="img-fluid"
-                                              alt=""></div>
+                        <div class="pic">
+                            @if($value->image && Storage::exists('public/team/' . $value->image))
+                            <img src="{{ asset('storage/team/'. $value->image) }}" class="img-fluid" alt="">
+                            @else
+                            <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid" alt="">
+                            @endif
+                        </div>
                         <div class="member-info">
                             <h4>{{ $value->name }}</h4>
                             <span>{{ $value->place }}, {{ date('d F Y', strtotime($value->date)) }}</span>
-                            <span>
-                                @if($value->gender === 'L')
-                                <i class="bi bi-person-standing"></i>
-                                @elseif($value->gender === 'P')
-                                <i class="bi bi-person-standing-dress"></i>
-                                @endif
-                            </span>
+                            <h2>
+                                <i class="bi bi-award"></i> {{ $value->point[0]->total_point }}
+                            </h2>
                             <div class="social m-3">
                                 @foreach ($button as $item)
                                 @if ( $item->code == 'point')
-                                <a href="{!!html_entity_decode($item->url)!!}"
+                                <a href="{{ route('point-show', $value->id) }}"
                                    class="btn btn-outline-danger btn-block mt-1">{!!html_entity_decode($item->title)!!}</a>
                                 @endif
                                 @endforeach

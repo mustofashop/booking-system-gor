@@ -17,7 +17,7 @@ class BookingController extends Controller
     {
         $label = Label::all();
 
-        $member = Member::where('user_id', Auth::user()->id)->first();
+        $member = Member::where('member_id', Auth::user()->id)->first();
 
         if (!$member) {
             return view('member.booking.info', compact('label'));
