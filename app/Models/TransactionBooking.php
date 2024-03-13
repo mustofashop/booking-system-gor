@@ -12,7 +12,7 @@ class TransactionBooking extends Model
     protected $table = 'transaction_booking';
 
     protected $fillable = [
-        'id', 'code', 'date', 'note', 'category', 'member_id', 'event_id', 'created_at', 'updated_at', 'created_by', 'updated_by'
+        'id', 'code', 'date', 'note', 'category', 'member_id', 'event_id', 'event_category_id', 'created_at', 'updated_at', 'created_by', 'updated_by'
     ];
 
     public function member()
@@ -29,5 +29,5 @@ class TransactionBooking extends Model
     {
         return $this->hasOne(TransactionInvoice::class, 'booking_id', 'id');
     }
-    
+
 }

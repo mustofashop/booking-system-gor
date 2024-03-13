@@ -17,7 +17,7 @@ class RiderController extends Controller
     public function index()
     {
         $label = Label::all();
-        $data = Member::where('user_id', Auth::user()->id)->first();
+        $data = Member::where('member_id', Auth::user()->id)->first();
 
         if (!$data) {
             $user = User::where('id', Auth::user()->id)->first();
