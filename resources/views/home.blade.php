@@ -147,7 +147,7 @@
                 <div class="col-lg-12" data-aos="zoom-out">
                     @foreach ($label as $item)
                     @if ($item->code == 'hero')
-                    <h1 style="color:#F0E701; text-align: center;">{!! html_entity_decode($item->title) !!}</h1>
+                    <h1 style="color:#FFFFFF; text-align: center;">{!! html_entity_decode($item->title) !!}</h1>
                     <h2 style="color:#FFFFFF; text-align: center;">{!! html_entity_decode($item->desc) !!}</h2>
                     @endif
                     @endforeach
