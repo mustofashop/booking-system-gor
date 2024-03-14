@@ -49,7 +49,7 @@ class UserController extends Controller
 
         // Jika validasi berhasil, simpan data user baru
         $user = new User;
-        $user->name = $request->input('name');
+        $user->name = strtoupper($request->input('name'));
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
@@ -67,7 +67,7 @@ class UserController extends Controller
         ]);
 
         // Redirect ke halaman lain dengan pesan sukses
-        return redirect()->route('user.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     public function show($id)
@@ -106,11 +106,11 @@ class UserController extends Controller
         // Jika validasi berhasil, dapatkan data user berdasarkan ID
         $user = User::find($id);
         if (!$user) {
-            return redirect()->route('user.index')->with('error', 'User not found.');
+            return redirect()->route('users.index')->with('error', 'User not found.');
         }
 
         // Update data user
-        $user->name = $request->input('name');
+        $user->name = strtoupper($request->input('name'));
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
@@ -132,7 +132,7 @@ class UserController extends Controller
         }
 
         // Redirect ke halaman lain dengan pesan sukses
-        return redirect()->route('user.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)

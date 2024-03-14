@@ -28,10 +28,17 @@
                         <div class="col-md-6">
                             <address>
                                 <strong>Billed To:</strong><br>
+                                @if ($data->booking->member)
                                 {{ $data->booking->member->name }}<br>
                                 {{ $data->booking->member->address }}<br>
                                 {{ $data->booking->member->phone }}<br>
                                 {{ $data->booking->member->email }}
+                                @else
+                                <div class="text-danger">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    MEMBER NOT FOUND
+                                </div>
+                                @endif
                             </address>
                         </div>
                         <div class="col-md-6 text-md-right">

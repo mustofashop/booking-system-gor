@@ -82,6 +82,7 @@
                                 </td>
                                 <td>
                                     <div class="event-info">
+                                        @if($item->member)
                                         <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
                                         <i class="fas fa-user-tag"></i> {{ strtoupper($item->member->nickname) }} <br>
                                         <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
@@ -92,6 +93,13 @@
                                             class="badge badge-{{ $item->category == 'RESERVATION' ? 'info' : 'warning' }}">
                                             {{ $item->category }}
                                         </div>
+                                        @else
+                                        <img src="{{ asset('assets/img/avatar/avatar-5.png') }}"
+                                             class="img-thumbnail mt-2 mb-2"
+                                             width="100">
+                                        <br>
+                                        <div class="badge badge-danger">MEMBER NOT REGISTERED</div>
+                                        @endif
                                     </div>
                                 </td>
                                 <!--                                <td>-->
