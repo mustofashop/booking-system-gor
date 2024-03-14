@@ -149,7 +149,7 @@ class RiderController extends Controller
             $member->address = $request->input('address');
             $member->phone = $request->input('phone');
             $member->email = $request->input('email');
-            $member->user_id = auth()->id();
+            $member->member_id = auth()->id();
             $member->created_by = strtoupper($request->user()->username);
             $member->save();
         }
