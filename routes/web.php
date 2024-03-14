@@ -220,7 +220,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/point/{id}/edit', [PointController::class, 'edit'])->name('point.edit');
         Route::put('/point/{id}', [PointController::class, 'update'])->name('point.update');
         Route::delete('/point/destroy/{id}', [PointController::class, 'destroy'])->name('point.destroy');
-    });
 
         // Event Management
         Route::get('/bucket', [BucketController::class, 'index'])->name('bucket.index');
