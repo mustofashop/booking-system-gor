@@ -24,9 +24,7 @@
             @foreach ($button as $item)
             @if ($item->code == 'login')
             @if (Auth::check()) <!-- Periksa apakah pengguna sudah login -->
-            <button onclick="location.href='{{ route('dashboard') }}'" type="button" class="btn btn-warning">{{
-                $item->title
-                }}
+            <button onclick="location.href='{{ route('dashboard') }}'" type="button" class="btn btn-warning">Dashboard
             </button>
             @else
             <button onclick="location.href='{{ $item->url }}'" type="button" class="btn btn-warning">{{ $item->title

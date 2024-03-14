@@ -34,7 +34,7 @@ class BookingController extends Controller
         $data = Event::find($id);
 
         if (!$data) {
-            $member = Member::where('user_id', Auth::user()->id)->first();
+            $member = Member::where('member_id', Auth::user()->id)->first();
             $event = Event::where('status', 'ACTIVE')
                 ->whereDoesntHave('booking', function ($query) use ($member) {
                     $query->where('member_id', $member->id);
@@ -104,7 +104,7 @@ class BookingController extends Controller
         $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
 
         // Jika kuota terpenuhi, kembalikan respon error
-        if ($quota >= $event->count_limit) {
+        if ($quota <= $event->count_limit) {
             return response()->json(['error' => 'Quota is full'], 422);
         }
 

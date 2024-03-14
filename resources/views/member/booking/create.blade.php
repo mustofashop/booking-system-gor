@@ -65,7 +65,10 @@
                                     <select id="event_id" name="event_id" class="form-control" required="">
                                         <option value="">Choose</option>
                                         @foreach ($event as $item)
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->code }} | {{ $item->title }} | {{
+                                            date('d F Y', strtotime($item->date)) }} | {{ date('H:i',
+                                            strtotime($item->time)) }} | {{ $item->location }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">
