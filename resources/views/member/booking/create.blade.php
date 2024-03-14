@@ -61,7 +61,8 @@
                             <div class="col-8">
                                 <!-- MEMBER ID -->
                                 <div class="form-group">
-                                    <label for="event_id" class="font-weight-bold">CHOOSE EVENT</label>
+                                    <label for="event_id" class="font-weight-bold">CHOOSE EVENT <span
+                                            class="text-danger">*</span></label>
                                     <select id="event_id" name="event_id" class="form-control" required="">
                                         <option value="">Choose</option>
                                         @foreach ($event as $item)
@@ -142,9 +143,10 @@
                             </div>
                             <hr class="m-3" style="width:100%;text-align:left;margin-left:0; color:black">
                             <!-- DATE -->
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">DATE</label>
+                                    <label class="font-weight-bold">DATE <span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"
                                            placeholder="Enter date" required min="{{ date('Y-m-d') }}"
                                            max="{{ date('Y-m-d') }}">
@@ -154,9 +156,29 @@
                                 </div>
                             </div>
                             <!-- CATEGORY -->
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">CATEGORY</label>
+                                    <label class="font-weight-bold">CATEGORY <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control select2" name="event_category_id"
+                                            value="{{ old('event_category_id') }}"
+                                            placeholder="Choose category" required="">
+                                        <option value="">-- Choose --</option>
+                                        @foreach ($category as $item)
+                                        <option value="{{ $item->id }}">{{ $item->title }} | {{
+                                            $item->description }}
+                                            @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please fill in the category
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- STATUS -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">STATUS <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-control select2" name="category" value="{{ old('category') }}"
                                             placeholder="Choose category" required="">
                                         <option value="">-- Choose --</option>
@@ -172,7 +194,8 @@
                             <!-- NOTE -->
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">NOTE</label>
+                                    <label class="font-weight-bold">NOTE <span
+                                            class="text-danger">*</span></label>
                                     <textarea class="form-control" name="note" value="{{ old('note') }}"
                                               placeholder="Enter note" required=""></textarea>
                                     <div class="invalid-feedback">

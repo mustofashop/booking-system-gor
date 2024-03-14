@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventCategory;
 use App\Models\Label;
 use App\Models\Member;
 use App\Models\TransactionBooking;
@@ -41,7 +42,9 @@ class BookingController extends Controller
                 })
                 ->get();
 
-            return view('member.booking.create', compact('label', 'event', 'member'));
+            $category = EventCategory::where('status', 'ACTIVE')->get();
+
+            return view('member.booking.create', compact('label', 'event', 'member', 'category'));
         } else {
             $member = Member::where('user_id', Auth::user()->id)->first();
             $quota = TransactionBooking::where('event_id', $data->id)->sum('event_id');
@@ -51,12 +54,13 @@ class BookingController extends Controller
                 ->first();
 
             if ($booking) {
+                $category = EventCategory::where('status', 'ACTIVE')->get();
                 $event = Event::where('status', 'ACTIVE')
                     ->whereDoesntHave('booking', function ($query) use ($member) {
                         $query->where('member_id', $member->id);
                     })
                     ->get();
-                return view('member.booking.create', compact('label', 'event', 'member'));
+                return view('member.booking.create', compact('label', 'event', 'member', 'category'));
             } else {
                 // cek event status
                 $event = Event::find($id);
@@ -78,6 +82,7 @@ class BookingController extends Controller
             $booking->note = $request->input('note');
             $booking->category = $request->input('category');
             $booking->event_id = $event->id;
+            $booking->event_category_id = $request->input('event_category_id');
             $booking->member_id = $member->id;
             $booking->created_by = strtoupper(Auth::user()->username);
             $booking->save();
@@ -122,23 +127,21 @@ class BookingController extends Controller
         $member = Member::find($request->member_id);
         $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
 
-        if ($quota < $event->count_limit) {
-            $booking = new TransactionBooking;
-            $booking->code = 'BK' . date('YmdHis');
-            $booking->date = date('Y-m-d');
-            $booking->note = $request->input('note');
-            $booking->category = $request->input('category');
-            $booking->event_id = $event->id;
-            $booking->member_id = $member->id;
-            $booking->created_by = strtoupper(Auth::user()->username);
-            $booking->save();
+        $booking = new TransactionBooking;
+        $booking->code = 'BK' . date('YmdHis');
+        $booking->date = date('Y-m-d');
+        $booking->note = $request->input('note');
+        $booking->category = $request->input('category');
+        $booking->event_id = $event->id;
+        $booking->event_category_id = $request->input('event_category_id');
+        $booking->member_id = $member->id;
+        $booking->created_by = strtoupper(Auth::user()->username);
+        $booking->save();
 
-            $this->generateInvoice($booking->id);
+        $this->generateInvoice($booking->id);
 
-            return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
-        } else {
-            return redirect()->route('booking.index')->with('error', 'Booking failed, quota is full');
-        }
+        return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
+
     }
 
     public function generateInvoice($id)
