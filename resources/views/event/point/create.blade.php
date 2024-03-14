@@ -190,7 +190,7 @@
     }
 
     // Array untuk menyimpan nilai akhir siswa
-    const nilaiAkhirList = [];
+    const nilaiAkhirList = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50];
 
     // Menambahkan event listener keyup ke setiap input untuk memanggil fungsi hitungDanTampilkanHasil saat nilai berubah
     document.querySelectorAll('.nilaiInput').forEach(input => {

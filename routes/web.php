@@ -194,6 +194,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/{id}/show', [AccountController::class, 'show'])->name('user.profile.show');
         Route::put('/user/{id}/update', [AccountController::class, 'updateProfile'])->name('user.profile.update');
 
+        // User Management
+        Route::get('/event', [EventController::class, 'index'])->name('event.index');
+        Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+        Route::get('/event/calendar', [EventController::class, 'calendar'])->name('event.calendar');
+        Route::post('/event', [EventController::class, 'store'])->name('event.store');
+        Route::get('/event/show/{id}', [EventController::class, 'show'])->name('event.show');
+        Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
+        Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
+        Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
 
         // Point Management
         Route::get('/point', [PointController::class, 'index'])->name('point.index');
@@ -203,6 +212,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/point/{id}/edit', [PointController::class, 'edit'])->name('point.edit');
         Route::put('/point/{id}', [PointController::class, 'update'])->name('point.update');
         Route::delete('/point/destroy/{id}', [PointController::class, 'destroy'])->name('point.destroy');
+        // Point Management
+        Route::get('/point', [PointController::class, 'index'])->name('point.index');
+        Route::get('/point/create', [PointController::class, 'create'])->name('point.create');
+        Route::post('/point', [PointController::class, 'store'])->name('point.store');
+        Route::get('/point/show/{id}', [PointController::class, 'show'])->name('point.show');
+        Route::get('/point/{id}/edit', [PointController::class, 'edit'])->name('point.edit');
+        Route::put('/point/{id}', [PointController::class, 'update'])->name('point.update');
+        Route::delete('/point/destroy/{id}', [PointController::class, 'destroy'])->name('point.destroy');
+    });
 
         // Event Management
         Route::get('/bucket', [BucketController::class, 'index'])->name('bucket.index');
