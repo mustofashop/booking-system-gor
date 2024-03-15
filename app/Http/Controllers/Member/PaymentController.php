@@ -100,7 +100,7 @@ class PaymentController extends Controller
 
     public function confirm($id)
     {
-        $member = Member::where('user_id', Auth::user()->id)->first();
+        $member = Member::where('member_id', Auth::user()->id)->first();
         $data = TransactionBooking::where('member_id', $member->id)
             ->where('event_id', $id)
             ->where('category', 'CONFIRMATION')

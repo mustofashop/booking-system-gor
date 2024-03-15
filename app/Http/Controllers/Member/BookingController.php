@@ -109,9 +109,9 @@ class BookingController extends Controller
         $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
 
         // Jika kuota terpenuhi, kembalikan respon error
-        if ($quota <= $event->count_limit) {
-            return response()->json(['error' => 'Quota is full'], 422);
-        }
+//        if ($quota <= $event->count_limit) {
+//            return response()->json(['error' => 'Quota is full'], 422);
+//        }
 
         // Kembalikan data event beserta kuota dalam format JSON
         return response()->json([
