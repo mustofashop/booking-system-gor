@@ -48,7 +48,7 @@
                                 </td>
                                 <td>
                                     <div class="event-info mt-3 mb-3">
-                                        <h6>{{ date('d F Y', strtotime($item->date)) }}</h6>
+                                        <h6>RESERVATION : <b> {{ date('d F Y', strtotime($item->date)) }} </b></h6>
                                         <h3>{{ $item->event->title }}</h3>
                                         <div class="badge badge-dark">{{ $item->code }}</div>
                                         <div

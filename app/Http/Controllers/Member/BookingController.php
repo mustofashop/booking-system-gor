@@ -26,7 +26,6 @@ class BookingController extends Controller
             $data = TransactionBooking::where('member_id', $member->id)->paginate(10);
             return view('member.booking.index', compact('data', 'label'));
         }
-
     }
 
     public function showBookingForm($id)
@@ -109,9 +108,9 @@ class BookingController extends Controller
         $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
 
         // Jika kuota terpenuhi, kembalikan respon error
-        if ($quota <= $event->count_limit) {
-            return response()->json(['error' => 'Quota is full'], 422);
-        }
+        //        if ($quota <= $event->count_limit) {
+        //            return response()->json(['error' => 'Quota is full'], 422);
+        //        }
 
         // Kembalikan data event beserta kuota dalam format JSON
         return response()->json([
@@ -141,7 +140,6 @@ class BookingController extends Controller
         $this->generateInvoice($booking->id);
 
         return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
-
     }
 
     public function generateInvoice($id)
@@ -177,6 +175,4 @@ class BookingController extends Controller
             return view('member.booking.invoice', compact('data', 'label'));
         }
     }
-
-
 }

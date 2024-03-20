@@ -42,7 +42,7 @@
                                              style="max-width: 100%; max-height: 200px; display: none;">
                                     </a>
                                     @else
-                                    <img src="{{ asset('assets/img/default-image.jpg') }}" alt="{{ $event->title }}">
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" alt="{{ $item->title }}">
                                     @endif
 
                                 </div>

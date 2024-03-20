@@ -48,6 +48,10 @@ Route::get('/calendar', [WebsiteController::class, 'showCalendarForm'])->name('c
 Route::get('/calendar-show/{id}', [WebsiteController::class, 'showCalendarDetail'])->name('calendar-show');
 Route::get('/point-all', [WebsiteController::class, 'showPointForm'])->name('point-all');
 Route::get('/point-show/{id}', [WebsiteController::class, 'showPointDetail'])->name('point-show');
+Route::get('/confirms-payment', [WebsiteController::class, 'showConfirms'])->name('confirms-payment');
+Route::post('/confirms-payment', [WebsiteController::class, 'store'])->name('confirms-payment.store');
+Route::get('/getConfirmById/{id}', [WebsiteController::class, 'getConfirmById'])->name('confirms-payment.event');
+Route::get('/booking-list', [WebsiteController::class, 'showBooking'])->name('booking-list');
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -215,7 +219,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getBucketById/{id}', [BucketController::class, 'getBucketById'])->name('bucket.event');
         Route::get('/getMemberById/{id}', [BucketController::class, 'getMemberById'])->name('bucket.member');
         Route::get('/bucket/invoice/{id}', [BucketController::class, 'showInvoice'])->name('bucket.invoice');
-
     });
 
     // Role Member
@@ -250,6 +253,4 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('payment.update');
         Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
     });
-
 });
-
