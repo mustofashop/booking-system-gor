@@ -16,25 +16,26 @@
                         <p>
                             @foreach ($label as $item)
                             @if ( $item->code == 'location')
-                            <p>{!!html_entity_decode($item->desc)!!}</p>
-                            @endif
-                            @endforeach<br><br>
+                        <p>{!!html_entity_decode($item->desc)!!}</p>
+                        @endif
+                        @endforeach<br><br>
 
-                            @foreach ($label as $item)
-                            @if ( $item->code == 'phone')
-                            <p>{!!html_entity_decode($item->desc)!!}</p>
-                            @endif
-                            @endforeach<br>
-                            @foreach ($label as $item)
-                            @if ( $item->code == 'email')
-                            <p>{!!html_entity_decode($item->desc)!!}</p>
-                            @endif
-                            @endforeach<br>
+                        @foreach ($label as $item)
+                        @if ( $item->code == 'phone')
+                        <p>{!!html_entity_decode($item->desc)!!}</p>
+                        @endif
+                        @endforeach<br>
+                        @foreach ($label as $item)
+                        @if ( $item->code == 'email')
+                        <p>{!!html_entity_decode($item->desc)!!}</p>
+                        @endif
+                        @endforeach<br>
                         </p>
                         <div class="social-links mt-3">
                             @foreach ($button as $item)
                             @if ( $item->code == 'instagram')
-                            <a target="_blank" href="{!!html_entity_decode($item->url)!!}" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a target="_blank" href="{!!html_entity_decode($item->url)!!}" class="instagram"><i
+                                    class="bx bxl-instagram"></i></a>
                             @endif
                             @if ( $item->code == 'youtube')
                             <a target="_blank" href="{!!html_entity_decode($item->url)!!}" class="youtube">
@@ -78,6 +79,17 @@
                 </div> -->
 
                 <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <div class="logo">
+                        <h1>
+                            <a href="#">
+                    <span>
+                        <img src="{{asset('assets/img/logo-white.svg')}}" alt="logo" class="img-fluid"
+                             style="width: 150px;">
+                    </span>
+                            </a>
+                        </h1>
+                    </div>
+
                     @foreach ($label as $item)
                     @if ( $item->code == 'subscribe')
                     <h4>{!!html_entity_decode($item->title)!!}</h4>
@@ -88,7 +100,8 @@
                     @foreach ($button as $item)
                     @if ( $item->code == 'send')
                     <form action="{!!html_entity_decode($item->url)!!}" method="post">
-                        <input type="email" name="email"><input type="submit" value="{!!html_entity_decode($item->title)!!}">
+                        <input type="email" name="email"><input type="submit"
+                                                                value="{!!html_entity_decode($item->title)!!}">
                     </form>
                     @endif
                     @endforeach
@@ -108,7 +121,8 @@
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/ -->
-            IT <a href="https://nhtsolution.com/">NHT Solution</a> and Digital Marketing <a href="https://marketing-ind.com/">MarketingInd</a>
+            IT <a href="https://nhtsolution.com/">NHT Solution</a> and Digital Marketing <a
+                href="https://marketing-ind.com/">MarketingInd</a>
         </div>
     </div>
 </footer>
