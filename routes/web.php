@@ -63,7 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/welcome', [DashboardController::class, 'welcome'])->name('dashboard.welcome');
     // Account Auth
-    Route::get('/account', ProfilController::class)->name('account');
+    Route::get('/account', [DashboardController::class, 'show'])->name('account');
+    Route::put('/account/update/{id}', [DashboardController::class, 'update'])->name('account.update');
+    Route::put('/account/reset/{id}', [DashboardController::class, 'reset'])->name('account.reset');
 
     // Role Administrator
     Route::middleware(['administrator'])->group(function () {
