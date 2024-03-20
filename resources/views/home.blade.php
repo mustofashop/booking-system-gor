@@ -482,8 +482,8 @@
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
                         <div class="pic">
-                            @if($value->image && Storage::exists('public/team/' . $value->image))
-                            <img src="{{ asset('storage/team/'. $value->image) }}" class="img-fluid" alt="">
+                            @if($value->image && Storage::exists('public/rider/' . $value->image))
+                            <img src="{{ asset('storage/rider/'. $value->image) }}" class="img-fluid" alt="">
                             @else
                             <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid" alt="">
                             @endif
