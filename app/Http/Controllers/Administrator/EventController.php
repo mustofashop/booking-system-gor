@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Event;
+namespace App\Http\Controllers\Administrator;
 
 //import Model "Post
 use App\Http\Controllers\Controller;
@@ -73,20 +73,21 @@ class EventController extends Controller
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'title' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-            'date' => 'required',
-            'time' => 'required',
-            'location' => 'required',
-            'status' => 'required',
-            'maps' => 'required',
-            'organizer' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'expiry_date' => 'required',
-            'count_limit' => 'required'
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'title'         => 'required',
+            'price'         => 'required',
+            'description'   => 'required',
+            'date'          => 'required',
+            'time'          => 'required',
+            'location'      => 'required',
+            'status'        => 'required',
+            'gate'          => 'required',
+            'maps'          => 'required',
+            'organizer'     => 'required',
+            'start_date'    => 'required',
+            'end_date'      => 'required',
+            'expiry_date'   => 'required',
+            'count_limit'   => 'required'
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -112,23 +113,24 @@ class EventController extends Controller
             $imageFile->storePubliclyAs('event', $imageName, 'public'); // Menyimpan file dengan nama spesifik
 
             //create post
-            $event = new Event;
-            $event->image = $imageName;
-            $event->code = $kodeEvent;
-            $event->title = $request->input('title');
+            $event              = new Event;
+            $event->image       = $imageName;
+            $event->code        = $kodeEvent;
+            $event->title       = $request->input('title');
             $event->count_limit = $request->input('count_limit');
-            $event->price = str_replace(".", "", $request->input('price'));
+            $event->price       = str_replace(".", "", $request->input('price'));
             $event->description = strip_tags($request->input('description'));
-            $event->date = $request->input('date');
-            $event->time = $request->input('time');
-            $event->location = $request->input('location');
-            $event->status = $request->input('status');
-            $event->maps = $request->input('maps');
-            $event->organizer = $request->input('organizer');
-            $event->start_date = $request->input('start_date');
-            $event->end_date = $request->input('end_date');
+            $event->date        = $request->input('date');
+            $event->time        = $request->input('time');
+            $event->location    = $request->input('location');
+            $event->status      = $request->input('status');
+            $event->gate        = $request->input('gate');
+            $event->maps        = $request->input('maps');
+            $event->organizer   = $request->input('organizer');
+            $event->start_date  = $request->input('start_date');
+            $event->end_date    = $request->input('end_date');
             $event->expiry_date = $request->input('expiry_date');
-            $event->user_id = auth()->user()->id;
+            $event->user_id     = auth()->user()->id;
             $event->save();
         }
         //redirect to index
@@ -156,20 +158,21 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
-            'title' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-            'date' => 'required',
-            'time' => 'required',
-            'location' => 'required',
-            'status' => 'required',
-            'maps' => 'required',
-            'organizer' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'expiry_date' => 'required',
-            'count_limit' => 'required'
+            'image'         => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
+            'title'         => 'required',
+            'price'         => 'required',
+            'description'   => 'required',
+            'date'          => 'required',
+            'time'          => 'required',
+            'location'      => 'required',
+            'status'        => 'required',
+            'gate'          => 'required',
+            'maps'          => 'required',
+            'organizer'     => 'required',
+            'start_date'    => 'required',
+            'end_date'      => 'required',
+            'expiry_date'   => 'required',
+            'count_limit'   => 'required'
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -199,18 +202,19 @@ class EventController extends Controller
         }
 
         //create post
-        $event->title = $request->input('title');
+        $event->title       = $request->input('title');
         $event->count_limit = $request->input('count_limit');
-        $event->price = $request->input('price');
+        $event->price       = str_replace(".", "", $request->input('price'));
         $event->description = strip_tags($request->input('description'));
-        $event->date = $request->input('date');
-        $event->time = $request->input('time');
-        $event->location = $request->input('location');
-        $event->status = $request->input('status');
-        $event->maps = $request->input('maps');
-        $event->organizer = $request->input('organizer');
-        $event->start_date = $request->input('start_date');
-        $event->end_date = $request->input('end_date');
+        $event->date        = $request->input('date');
+        $event->time        = $request->input('time');
+        $event->location    = $request->input('location');
+        $event->status      = $request->input('status');
+        $event->gate        = $request->input('gate');
+        $event->maps        = $request->input('maps');
+        $event->organizer   = $request->input('organizer');
+        $event->start_date  = $request->input('start_date');
+        $event->end_date    = $request->input('end_date');
         $event->expiry_date = $request->input('expiry_date');
         $event->save();
 

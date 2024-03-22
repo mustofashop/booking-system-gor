@@ -76,6 +76,16 @@
                                         Please fill in the name
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">GATE<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="gate" id="gate"
+                                        value="{{ old('gate', $data->gate) }}"
+                                           placeholder="Enter gate" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the gate
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- DESCRIPTION -->

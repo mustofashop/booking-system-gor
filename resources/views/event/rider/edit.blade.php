@@ -27,68 +27,73 @@
                       enctype="multipart/form-data" class="needs-validation" novalidate="">
                     @csrf
                     @method('PUT')
-                    <!-- IMAGE -->
-                    <div class="row">
-                        <div class="col-6">
-                            <div id="image-preview" class="image-preview"
-                                 data-image-url="{{ isset($user->image_url) ? asset('storage/rider/' . $user->image_url) : '' }}">
-                                <img id="preview"
-                                     src="{{ isset($data->image) ? asset('storage/rider/' . $data->image) : '' }}"
-                                     alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
-                                <label for="image-upload" id="image-label">Choose File</label>
-                                <input type="file" name="image" id="image-upload">
-                            </div>
-                        </div>
-                        {{--
-                        <div class="col-6">
-                            <div id="image-preview" class="image-preview">
-                                <img id="preview2" src="" alt="Image Preview"
-                                     style="max-width: 100%; max-height: 200px; display: none;">
-                                <label for="image-banner" id="image-label2">Choose File Banner</label>
-                                <input type="file" name="banner" id="image-banner" required="">
-                                <div class="invalid-feedback alert alert-danger mt-2">
-                                    Please fill in the image
-                                </div>
+            <!-- IMAGE -->
+            <div class="row">
+                <div class="col-6">
+                    <div id="image-preview" class="image-preview"
+                            data-image-url="{{ isset($data->image_url) ? asset('storage/rider/' . $data->image_url) : '' }}">
+                        <img id="preview"
+                                src="{{ isset($data->image) ? asset('storage/rider/' . $data->image) : '' }}"
+                                alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                        <label for="image-upload" id="image-label">Choose File</label>
+                        <input type="file" name="image" id="image-upload">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">MEMBER</label>
+                            <select class="form-control select2" name="member_id"
+                                    value="{{ old('member_id', $data->member_id) }}"
+                                    placeholder="Pilih MEMBER" required="">
+                                <option value="">-- Choose --</option>
+                                @forelse ($member as $item)
+                                <option value="{{$item->id}}" {{ $item->id == $data->member_id ? 'selected': ''
+                                    }}>{{$item->name}}
+                                </option>
+                                @empty
+                                @endforelse
+                            </select>
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the member
                             </div>
                         </div>
                     </div>
-                    --}}
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold">MEMBER</label>
-                                <select class="form-control select2" name="user_id"
-                                        value="{{ old('user_id', $data->user_id) }}"
-                                        placeholder="Pilih MEMBER" required="">
-                                    <option value="">-- Choose --</option>
-                                    @forelse ($member as $item)
-                                    <option value="{{$item->id}}" {{ $item->id == $data->user_id ? 'selected': ''
-                                        }}>{{$item->name}}
-                                    </option>
-                                    @empty
-                                    @endforelse
-                                </select>
-                                <div class="invalid-feedback alert alert-danger mt-2">
-                                    Please fill in the gender
-                                </div>
-                            </div>
-                        </div>
-                        <!-- DESCRIPTION -->
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold">NAME</label>
-                                <input type="text" class="form-control" name="name"
-                                       value="{{ old('name', $data->name) }}"
-                                       placeholder="Enter name" required="">
-                                <input type="hidden" id="code" name="code">
-                                <div class="invalid-feedback alert alert-danger mt-2">
-                                    Please fill in the name
-                                </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">NATIONALITY</label>
+                            <select class="form-control select2" name="nationality_id" 
+                            value="{{ old('nationality_id', $data->nationality_id) }}"
+                                    placeholder="Pilih NATIONALITY" required="">
+                                <option value="">-- Choose --</option>
+                                @forelse ($nations as $item)
+                                <option value="{{$item->id}}" 
+                                    {{ $item->id == $data->nationality_id ? 'selected': ''}}>{{$item->name}}
+                                </option>
+                                @empty
+                                @endforelse
+                            </select>
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the gender
                             </div>
                         </div>
                     </div>
+                </div>
+                <!-- NAME -->
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">NAME</label>
+                        <input type="text" class="form-control" name="name"
+                                value="{{ old('name', $data->name) }}"
+                                placeholder="Enter name" required="">
+                        <input type="hidden" id="code" name="code">
+                        <div class="invalid-feedback alert alert-danger mt-2">
+                            Please fill in the name
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- DATE -->
+            <!-- NICKNAME -->
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -101,11 +106,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- DATE -->
+                <!-- BIRTH PLACE -->
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">BIRTH PLACE</label>
-                        <input type="text" class="form-control" name="place" value="{{ old('place', $data->place) }}"
+                        <input type="text" class="form-control" name="place" 
+                        value="{{ old('place', $data->place) }}"
                                placeholder="Enter place" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the place
@@ -118,7 +124,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">DATE</label>
-                        <input type="date" class="form-control" name="date" value="{{ old('date', $data->date) }}"
+                        <input type="date" class="form-control" name="date" 
+                        value="{{ old('date', $data->date) }}"
                                placeholder="Enter date" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the date
@@ -140,12 +147,13 @@
                     </div>
                 </div>
             </div>
-            <!-- DATE -->
+            <!-- HEIGHT -->
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">HEIGHT</label>
-                        <input type="text" class="form-control" name="height" value="{{ old('height', $data->height) }}"
+                        <input type="text" class="form-control" name="height" 
+                        value="{{ old('height', $data->height) }}"
                                placeholder="Enter height" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the height
@@ -155,7 +163,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">WEIGHT</label>
-                        <input type="text" class="form-control" name="weight" value="{{ old('weight', $data->weight) }}"
+                        <input type="text" class="form-control" name="weight" 
+                        value="{{ old('weight', $data->weight) }}"
                                placeholder="Enter weight" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the weight
@@ -178,7 +187,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">PHONE</label>
-                        <input type="number" class="form-control" name="phone" value="{{ old('phone', $data->phone) }}"
+                        <input type="number" class="form-control" name="phone" 
+                        value="{{ old('phone', $data->phone) }}"
                                placeholder="Enter phone" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the phone
@@ -190,7 +200,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">EMAIL</label>
-                        <input type="text" class="form-control" name="email" value="{{ old('email', $data->email) }}"
+                        <input type="text" class="form-control" name="email" 
+                        value="{{ old('email', $data->email) }}"
                                placeholder="Enter email" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the email
@@ -200,7 +211,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">SOCMED</label>
-                        <input type="text" class="form-control" name="socmed" value="{{ old('socmed', $data->socmed) }}"
+                        <input type="text" class="form-control" name="socmed" 
+                        value="{{ old('socmed', $data->socmed) }}"
                                placeholder="Enter socmed" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the socmed
@@ -213,7 +225,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">STATUS</label>
-                        <select class="form-control select2" name="status" value="{{ old('status', $data->status) }}"
+                        <select class="form-control select2" name="status" 
+                        value="{{ old('status', $data->status) }}"
                                 placeholder="Pilih status" required="">
                             <option value="">-- Choose --</option>
                             <option value="ACTIVE" {{ $data->status == 'ACTIVE' ? 'selected' : '' }}>ACTIVE</option>
@@ -253,7 +266,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">STORY</label>
-                        <input type="text" class="form-control" name="story" value="{{ old('story', $data->story) }}"
+                        <input type="text" class="form-control" name="story" 
+                        value="{{ old('story', $data->story) }}"
                                placeholder="Enter story" required="">
                         <div class="invalid-feedback alert alert-danger mt-2">
                             Please fill in the story

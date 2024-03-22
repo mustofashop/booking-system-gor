@@ -10,12 +10,13 @@ use App\Http\Controllers\Administrator\ImageController;
 use App\Http\Controllers\Administrator\LabelController;
 use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
+use App\Http\Controllers\Administrator\NationalityController;
+use App\Http\Controllers\Administrator\EventController;
+use App\Http\Controllers\Administrator\MemberController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\AccountController;
 use App\Http\Controllers\Event\BucketController;
-use App\Http\Controllers\Event\EventController;
-use App\Http\Controllers\Event\MemberController;
 use App\Http\Controllers\Event\PointController;
 use App\Http\Controllers\Member\BookingController;
 use App\Http\Controllers\Member\PaymentController;
@@ -183,6 +184,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
         Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
         Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+
+        // Nationality Management
+        Route::get('/nationality', [NationalityController::class, 'index'])->name('nationality.index');
+        Route::get('/nationality/create', [NationalityController::class, 'create'])->name('nationality.create');
+        Route::post('/nationality', [NationalityController::class, 'store'])->name('nationality.store');
+        Route::get('/nationality/show/{id}', [NationalityController::class, 'show'])->name('nationality.show');
+        Route::get('/nationality/{id}/edit', [NationalityController::class, 'edit'])->name('nationality.edit');
+        Route::put('/nationality/{id}', [NationalityController::class, 'update'])->name('nationality.update');
+        Route::delete('/nationality/destroy/{id}', [NationalityController::class, 'destroy'])->name('nationality.destroy');
     });
 
     // Role Event

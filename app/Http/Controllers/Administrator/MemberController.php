@@ -1,43 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\Event;
+namespace App\Http\Controllers\Administrator;
 
-//import Model "Post
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\User;
 use App\Models\Label;
+use App\Models\Nationality;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-
-
-//return type View
 use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
-
-//return type redirectResponse
 use Illuminate\Http\RedirectResponse;
-
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class MemberController extends Controller
 {
     public function index(): View
     {
         //get posts
-        $data = Member::latest()->paginate(5);
-        $label = Label::all();
+        $data           = Member::latest()->paginate(5);
+        $label          = Label::all();
+        $nations        = Nationality::all();
 
         //render view with data
-        return view('event.rider.index', compact('data', 'label'));
+        return view('event.rider.index', compact('data', 'label', 'nations'));
     }
 
     public function create(): View
     {
-        $label  = Label::all();
-        $member = User::where('permission', 'MEMBER')->get();
-        return view('event.rider.create', compact('label', 'member'));
+        $label      = Label::all();
+        $member     = User::where('permission', 'MEMBER')->get();
+        $nations    = Nationality::all();
+        return view('event.rider.create', compact('label', 'member', 'nations'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -106,6 +100,7 @@ class MemberController extends Controller
             $member->number_identity       = $request->input('number_identity');
             $member->story                 = $request->input('story');
             $member->member_id             = $request->input('member_id');
+            $member->nationality_id        = $request->input('nationality_id');
             // $member->banner               = $request->input('banner');
             $member->save();
         }
@@ -129,13 +124,14 @@ class MemberController extends Controller
         $data = Member::findOrFail($id);
         $label = Label::all();
         $member = User::where('permission', 'MEMBER')->get();
-        return view('event.rider.edit', compact('data', 'label', 'member'));
+        $nations    = Nationality::all();
+        return view('event.rider.edit', compact('data', 'label', 'member', 'nations'));
     }
 
     public function update(Request $request, $id): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
-            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'image'         => 'image|mimes:jpeg,jpg,png|max:2048',
             'name'          => 'required',
             'nickname'      => 'required',
             'place'         => 'required',
@@ -164,7 +160,7 @@ class MemberController extends Controller
         // Jika validasi berhasil, dapatkan data user berdasarkan ID
         $member =   Member::find($id);
         if (!$member) {
-            return redirect()->route('event.rider.index')->with('error', 'User not found.');
+            return redirect()->route('event.rider.index')->with('error', 'Member not found.');
         }
 
         // Kode Otomatis
@@ -185,11 +181,10 @@ class MemberController extends Controller
 
             $imageFile = $request->file('image');
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
-            $imageFile->storePubliclyAs('image', $imageName, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile->storePubliclyAs('rider', $imageName, 'public'); // Menyimpan file dengan nama spesifik
             $member->image = $imageName;
         }
 
-        $member->image                = $imageName;
         $member->code                 = $kodeMember;
         $member->name                 = $request->input('name');
         $member->nickname             = $request->input('nickname');
@@ -207,10 +202,11 @@ class MemberController extends Controller
         $member->number_identity      = $request->input('number_identity');
         $member->story                = $request->input('story');
         $member->member_id              = $request->input('member_id');
+        $member->nationality_id        = $request->input('nationality_id');
         // $member->banner               = $request->input('banner');
         $member->save();
 
-        return redirect()->route('member.index')->with('success', 'User updated successfully.');
+        return redirect()->route('member.index')->with('success', 'Member updated successfully.');
     }
 
     public function destroy($id)

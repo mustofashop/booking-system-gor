@@ -69,6 +69,7 @@
                                     <div class="row justify-content-md-center">
                                         <div class="col-md-12">
                                             <p>{{ $item->location }}</p>
+                                            <p>{{ $item->gate }}</p>
                                         </div>
                                         <div class="col-md-12">
                                             <p>{{ date('d F Y', strtotime($item->date)) }}</p>

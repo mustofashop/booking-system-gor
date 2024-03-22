@@ -50,7 +50,7 @@
                                     <input type="text" class="form-control" name="title" value="{{ old('title') }}"
                                            placeholder="Enter title" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the name
+                                        Please fill in the title
                                     </div>
                                 </div>
 
@@ -61,7 +61,17 @@
                                            value="{{ old('price') }}"
                                            placeholder="Enter price" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the name
+                                        Please fill in the price
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">GATE<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="gate" id="gate"
+                                           value="{{ old('gate') }}"
+                                           placeholder="Enter gate" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the gate
                                     </div>
                                 </div>
                             </div>

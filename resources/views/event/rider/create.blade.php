@@ -70,21 +70,37 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- DESCRIPTION -->
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="font-weight-bold">NAME</label>
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                       placeholder="Enter name" required="">
-                                <input type="hidden" id="code" name="code">
+                                <label class="font-weight-bold">NATIONALITY</label>
+                                <select class="form-control select2" name="nationality_id" value="{{ old('nationality_id') }}"
+                                        placeholder="Pilih NATIONALITY" required="">
+                                    <option value="">-- Choose --</option>
+                                    @forelse ($nations as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
                                 <div class="invalid-feedback alert alert-danger mt-2">
-                                    Please fill in the name
+                                    Please fill in the gender
                                 </div>
                             </div>
                         </div>
                     </div>
-            </div>
-            <!-- DATE -->
+                    <!-- NAME -->
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold">NAME</label>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                                   placeholder="Enter name" required="">
+                            <input type="hidden" id="code" name="code">
+                            <div class="invalid-feedback alert alert-danger mt-2">
+                                Please fill in the name
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- NICKNAME -->
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -96,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- DATE -->
+                <!-- BIRTH PLACE -->
                 <div class="col-6">
                     <div class="form-group">
                         <label class="font-weight-bold">BIRTH PLACE</label>
@@ -136,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <!-- DATE -->
+            <!-- HEIGHT -->
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -261,7 +277,7 @@
                     </div>
                 </div>
             </div>
-            <!-- BUTTON -->
+            <!--  -->
             <div class="form-group">
                 <button type="submit" style="width:100px" class="btn btn-success btn-action"
                         data-toggle="tooltip" title="Save"><i class="fas fa-save"></i></button>

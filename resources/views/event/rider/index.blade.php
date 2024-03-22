@@ -51,12 +51,17 @@
                                     <div class="row justify-content-md-center m-3">
                                         <div class="col-md-12">
                                             <span class="badge badge-dark mb-3"> {{ $item->code }} </span>
-                                            <strong> {{ strtoupper($item->name) }} </strong>
+                                            <strong>{{ strtoupper($item->name) }} </strong>
                                         </div>
                                         <div class="col-md-12">
+                                            <i class="fas fa-map-marker-alt"></i>
                                             {{ $item->place }}, {{ date('d F Y', strtotime($item->date)) }}
                                             <br>
+                                            <i class="fas fa-user"></i>
                                             {{ $item->gender == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                                            <br>
+                                            <i class="fas fa-flag"></i>
+                                            {{ $item->nations->name}}
                                         </div>
                                     </div>
                                 </td>
