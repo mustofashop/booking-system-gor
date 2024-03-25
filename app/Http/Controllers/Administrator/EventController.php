@@ -74,6 +74,8 @@ class EventController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'photo_circuit' => 'required',
+            'info_circuit'  => 'required',
             'title'         => 'required',
             'price'         => 'required',
             'description'   => 'required',
@@ -105,16 +107,20 @@ class EventController extends Controller
             $kodeEvent = "EPB-" . sprintf("%04s", $event->id + 1);
         }
 
-        //upload image
-        if ($request->hasFile('image')) {
+        //upload image 1
+        if ($request->hasFile('image') && $request->hasFile('photo_circuit')) {
             // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
-            $imageFile = $request->file('image');
-            $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
-            $imageFile->storePubliclyAs('event', $imageName, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile1 = $request->file('image');
+            $imageFile2 = $request->file('photo_circuit');
+            $imageName1 = $imageFile1->hashName(); // Mendapatkan nama enkripsi file
+            $imageName2 = $imageFile2->hashName(); // Mendapatkan nama enkripsi file
+            $imageFile1->storePubliclyAs('event', $imageName1, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile2->storePubliclyAs('event', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
 
             //create post
-            $event              = new Event;
-            $event->image       = $imageName;
+            $event                      = new Event;
+            $event->image               = $imageName1;
+            $event->photo_circuit       = $imageName2;
             $event->code        = $kodeEvent;
             $event->title       = $request->input('title');
             $event->count_limit = $request->input('count_limit');
@@ -123,6 +129,7 @@ class EventController extends Controller
             $event->date        = $request->input('date');
             $event->time        = $request->input('time');
             $event->location    = $request->input('location');
+            $event->info_circuit    = $request->input('info_circuit');
             $event->status      = $request->input('status');
             $event->gate        = $request->input('gate');
             $event->maps        = $request->input('maps');
@@ -159,6 +166,8 @@ class EventController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'image'         => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
+            'photo_circuit' => 'photo_circuit|mimes:jpeg,jpg,png|max:2048',
+            'info_circuit'  => 'required',
             'title'         => 'required',
             'price'         => 'required',
             'description'   => 'required',
@@ -189,16 +198,22 @@ class EventController extends Controller
         }
 
         //upload image
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->hasFile('photo_circuit')) {
             // Hapus gambar lama sebelum menyimpan yang baru
             if ($event->image) {
                 Storage::delete('public/event/' . $event->image);
             }
 
-            $imageFile = $request->file('image');
-            $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
-            $imageFile->storePubliclyAs('event', $imageName, 'public'); // Menyimpan file dengan nama spesifik
-            $event->image = $imageName;
+            if ($event->photo_circuit) {
+                Storage::delete('public/event/' . $event->photo_circuit);
+            }
+
+            $imageFile1 = $request->file('image');
+            $imageFile2 = $request->file('photo_circuit');
+            $imageName1 = $imageFile1->hashName(); // Mendapatkan nama enkripsi file
+            $imageName2 = $imageFile2->hashName(); // Mendapatkan nama enkripsi file
+            $imageFile1->storePubliclyAs('event', $imageName1, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile2->storePubliclyAs('event', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
         }
 
         //create post
@@ -211,6 +226,7 @@ class EventController extends Controller
         $event->location    = $request->input('location');
         $event->status      = $request->input('status');
         $event->gate        = $request->input('gate');
+        $event->info_circuit    = $request->input('info_circuit');
         $event->maps        = $request->input('maps');
         $event->organizer   = $request->input('organizer');
         $event->start_date  = $request->input('start_date');

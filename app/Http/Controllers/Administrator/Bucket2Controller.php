@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Event;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -12,14 +12,14 @@ use App\Models\TransactionInvoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BucketController extends Controller
+class Bucket2Controller extends Controller
 {
     public function index()
     {
         $label = Label::all();
 
         $data = TransactionBooking::paginate(10);
-        return view('event.booking.index', compact('data', 'label'));
+        return view('admin.booking.index', compact('data', 'label'));
     }
 
     public function create()
@@ -28,7 +28,7 @@ class BucketController extends Controller
         $event = Event::where('status', 'ACTIVE')->get();
         $member = Member::where('status', 'ACTIVE')->get();
         $category = EventCategory::where('status', 'ACTIVE')->get();
-        return view('event.booking.create', compact('event', 'member', 'label', 'category'));
+        return view('admin.booking.create', compact('event', 'member', 'label', 'category'));
     }
 
     public function store(Request $request)
@@ -51,9 +51,9 @@ class BucketController extends Controller
 
             $this->generateInvoice($booking->id);
 
-            return redirect()->route('bucket.index')->with('success', 'Booking success, invoice has been generated');
+            return redirect()->route('bucket-2.index')->with('success', 'Booking success, invoice has been generated');
         } else {
-            return redirect()->route('bucket.index')->with('error', 'Booking failed, quota is full');
+            return redirect()->route('bucket-2.index')->with('error', 'Booking failed, quota is full');
         }
     }
 
@@ -84,14 +84,14 @@ class BucketController extends Controller
         $label = Label::all();
         $booking = TransactionBooking::find($id);
         if (!$booking) {
-            return redirect()->route('bucket.index')->with('error', 'Booking not found');
+            return redirect()->route('bucket-2.index')->with('error', 'Booking not found');
         } else {
             $data = TransactionInvoice::with('booking')->where('booking_id', $booking->id)->first();
-            return view('event.booking.invoice', compact('data', 'label'));
+            return view('admin.booking.invoice', compact('data', 'label'));
         }
     }
 
-    public function getBucketById($id)
+    public function getBucketById2($id)
     {
         // Cari event berdasarkan ID
         $event = Event::find($id);
@@ -111,7 +111,7 @@ class BucketController extends Controller
         ]);
     }
 
-    public function getMemberById($id)
+    public function getMemberById2($id)
     {
         // Cari member berdasarkan ID
         $member = Member::find($id);

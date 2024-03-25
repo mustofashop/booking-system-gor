@@ -18,7 +18,7 @@
             <div class="card-header">
                 <h4>Change</h4>
                 <div class="card-header-action">
-                    <a href="{{ route('member.index') }}" class="btn btn-warning" data-toggle="tooltip"
+                    <a href="{{ route('dashboard.welcome') }}" class="btn btn-warning" data-toggle="tooltip"
                        title="Back"><i class="fas fa-backward"></i></a>
                 </div>
             </div>

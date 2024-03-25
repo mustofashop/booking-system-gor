@@ -301,7 +301,7 @@
                                 </strong>
                             </div>
                             <div class="event-description">
-                                <p>{!! Str::words(html_entity_decode($event->description), 70, ' ...') !!}</p>
+                                <p>{!! Str::words(html_entity_decode($event->description), 5, ' ...') !!}</p>
                             </div>
                             <div class="event-buttons">
                                 @if($event->status == 'ACTIVE')
@@ -381,7 +381,13 @@
             <div class="row align-items-center news-block no-gutters" data-aos="fade-up">
                 @if ( $value->id % 2 == 1)
                 <div class="col-md-4">
-                    <img src="{{ asset('storage/news/'. $value->image) }}" class="img-fluid" alt="">
+                    @if ($item->image && Storage::exists('public/news/' . $item->image))
+                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                            width="200">
+                    @else
+                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                            width="100">
+                    @endif
                 </div>
                 <div class="col-md-8 pt-2">
                     <h3>{{ $value->title }}</h3>
@@ -409,7 +415,13 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                    <img src="{{ asset('storage/news/'. $value->image) }}" class="img-fluid" alt="">
+                    @if ($item->image && Storage::exists('public/news/' . $item->image))
+                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                            width="200">
+                    @else
+                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                            width="100">
+                    @endif
                 </div>
                 @endif
             </div>
@@ -442,7 +454,11 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
                         <a href="{{ asset('storage/gallery/'. $value->image) }}" class="gallery-lightbox">
-                            <img src="{{ asset('storage/gallery/'. $value->image) }}" alt="" class="img-fluid">
+                            @if ($item->image && Storage::exists('public/gallery/' . $item->image))
+                            <img src="{{ asset('storage/gallery/' . $item->image) }}" class="img-fluid">
+                            @else
+                            <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid">
+                            @endif
                         </a>
                     </div>
                 </div>
@@ -485,7 +501,7 @@
                             @if($value->image && Storage::exists('public/rider/' . $value->image))
                             <img src="{{ asset('storage/rider/'. $value->image) }}" class="img-fluid" alt="">
                             @else
-                            <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid" alt="">
+                            <img src="{{ asset('assets/img/avatar/avatar-5.png') }}" class="img-fluid" alt="">
                             @endif
                         </div>
                         <div class="member-info">

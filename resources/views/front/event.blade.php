@@ -169,7 +169,7 @@
                                 </strong>
                             </div>
                             <div class="event-description">
-                                <p>{!! Str::words(html_entity_decode($event->description), 70, ' ...') !!}</p>
+                                <p>{!! Str::words(html_entity_decode($event->description), 10, ' ...') !!}</p>
                             </div>
                             <div class="event-buttons">
                                 @if($event->status == 'ACTIVE')

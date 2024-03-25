@@ -520,4 +520,42 @@ class WebsiteController extends Controller
 
         return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'booking'));
     }
+
+    public function showRiderForm()
+    {
+        // Menu
+        $navbars = Navbar::with('navbarsub')
+            ->where('status', 'ACTIVE')
+            ->where('category', 'PAGES')
+            ->orderBy('ordering')
+            ->get();
+        $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
+
+        // Label
+        $label = Label::orderBy('ordering')->get();
+
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Image
+        $image = Image::orderBy('ordering')->get();
+
+        // News
+        $member = Member::with('point')
+            ->has('point') // Filters out members with no points
+            ->withCount('point as total_point') // Calculate total points
+            ->orderByDesc('total_point') // Order by total points in descending order
+            ->orderBy('created_at') // Then order by creation date
+            ->where('status', 'ACTIVE')
+            ->get();
+
+        return view('front.rider', [
+            'navbars' => $navbars,
+            'subnavbars' => $subnavbars,
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'team' => $member
+        ]);
+    }
 }

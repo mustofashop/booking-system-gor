@@ -43,7 +43,21 @@
                                     <input type="file" name="image" id="image-upload">
                                 </div>
                             </div>
-                            <div class="col-8">
+                            <div class="col-4 mb-5">
+                                <label class="font-weight-bold">PHOTO CIRCUIT<span
+                                        class="text-danger">*</span></label>
+                                <div id="image-preview" class="image-preview"
+                                     data-image-url="{{ isset($data->photo_circuit) ? asset('storage/event/' . $data->photo_circuit) : asset('assets/img/default-image.jpg') }}">
+                                    <img id="preview2"
+                                         src="{{ isset($data->photo_circuit) ? asset('storage/event/' . $data->photo_circuit) : asset('assets/img/default-image.jpg') }}"
+                                         alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload2" id="image-label2">Choose File</label>
+                                    <input type="file" name="photo_circuit" id="image-upload">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-6">
                                 <!-- CODE -->
                                 <div class="form-group">
                                     <label class="font-weight-bold">CODE</label>
@@ -54,7 +68,9 @@
                                         Please fill in the code
                                     </div>
                                 </div>
+                            </div>
                                 <!-- TITLE -->
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">TITLE <span
                                             class="text-danger">*</span></label>
@@ -65,7 +81,11 @@
                                         Please fill in the title
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                                 <!-- PRICE -->
+                        <div class="row">
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">PRICE <span
                                             class="text-danger">*</span></label>
@@ -76,6 +96,9 @@
                                         Please fill in the name
                                     </div>
                                 </div>
+                            </div>
+                            <!-- GATE -->
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">GATE<span
                                             class="text-danger">*</span></label>
@@ -84,6 +107,21 @@
                                            placeholder="Enter gate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the gate
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- INFO CIRCUIT -->
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">INFO CIRCUIT<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="info_circuit" id="info_circuit"
+                                        value="{{ old('info_circuit', $data->info_circuit) }}"
+                                           placeholder="Enter info_circuit" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the info circuit
                                     </div>
                                 </div>
                             </div>
@@ -276,12 +314,32 @@
             reader.readAsDataURL(file);
         });
     });
+    $(document).ready(function () {
+    $('#image-upload2').change(function () {
+        var file = this.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preview2').attr('src', e.target.result).show();
+            $('#image-label2').text(file.name);
+        };
+
+            reader.readAsDataURL(file);
+        });
+    });
 
     // Code to load image when editing
     var imageUrl = '{{ isset($data->image) ? asset("storage/event/" . $data->image) : asset("assets/img/default-image.jpg") }}';
     if (imageUrl) {
         $('#preview').attr('src', imageUrl).show();
         $('#image-label').text('Change File');
+    }
+
+    // Code to load image when editing
+    var imageUrl = '{{ isset($data->photo_circuit) ? asset("storage/event/" . $data->photo_circuit) : asset("assets/img/default-image.jpg") }}';
+    if (imageUrl) {
+        $('#preview2').attr('src', imageUrl).show();
+        $('#image-label2').text('Change File');
     }
 
     //price

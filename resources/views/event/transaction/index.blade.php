@@ -46,6 +46,15 @@
                                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
                                          width="100">
                                     @endif
+                                    <div class="col-md-12">
+                                    @if ($item->photo_circuit && Storage::exists('public/event/' . $item->photo_circuit))
+                                    <img src="{{ asset('storage/event/' . $item->photo_circuit) }}" class="img-thumbnail"
+                                         width="200">
+                                    @else
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                                         width="100">
+                                    @endif
+                                    </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center m-3">

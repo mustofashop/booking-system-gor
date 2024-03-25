@@ -101,7 +101,7 @@
                              <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">POINT RANK</label>
-                                    <input type="text" class="form-control nilaiInput" name="point_rank" id="point_rank"
+                                    <input type="text" class="form-control" name="point_rank" id="point_rank"
                                     value="{{ old('point_rank') }}"
                                            placeholder="Point rank" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
@@ -113,7 +113,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">POINT PARTICIPATION</label>
-                                    <input type="number" class="form-control nilaiInput" name="point_participation" id="point_participation"
+                                    <input type="number" class="form-control" name="point_participation"
                                            value="{{ old('point_participation') }}"
                                            placeholder="Enter point participation" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
@@ -125,9 +125,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">TOTAL POINT</label>
-                                    <input type="number" class="form-control" name="total_point" id="total_point"
+                                    <input type="number" class="form-control" name="total_point"
                                            value="{{ old('total_point') }}"
-                                           placeholder="Total point" readonly="">
+                                           placeholder="Total point" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the confirm total point
                                     </div>
@@ -137,9 +137,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">RANK</label>
-                                    <input type="text" class="form-control" name="rank" id="peringkat"
+                                    <input type="text" class="form-control" name="rank"
                                            value="{{ old('rank') }}"
-                                           placeholder="Rank" readonly="">
+                                           placeholder="Rank" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the confirm total rank
                                     </div>
@@ -160,7 +160,7 @@
     </div>
 </section>
 
-    <script>
+    {{-- <script>
     // Fungsi untuk menghitung nilai akhir dari nilai-nilai yang diberikan
     function hitungNilaiAkhir(point_rank, point_participation) {
         return (point_rank + point_participation );
@@ -197,5 +197,5 @@
         input.addEventListener('keyup', hitungDanTampilkanHasil);
     });
 
-    </script>
+    </script> --}}
 @endsection

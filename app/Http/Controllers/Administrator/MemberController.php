@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class MemberController extends Controller
 {
@@ -66,11 +67,16 @@ class MemberController extends Controller
         }
 
         $member = \App\Models\Member::latest()->first();
-        $kodeMember = "R-";
-        if ($member == null) {
-            $kodeMember = "R-001";
+        $date = Carbon::now(); // Misalnya, objek Carbon yang sudah ada
+        $year = $date->year;
+
+        if ($member) {
+            $lastCode = $member->code;
+            $lastNumber = (int)substr($lastCode, -4); // Ambil angka terakhir dari kode
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Tambahkan 1 dan lengkapi dengan nol di depan
+            $newCode = 'RDS' . $year . $request->input('gender') . $newNumber;
         } else {
-            $kodeMember = "R-" . sprintf("%03s", $member->id + 1);
+            $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
         //upload image
@@ -83,7 +89,7 @@ class MemberController extends Controller
             //create post
             $member = new Member;
             $member->image                 = $imageName;
-            $member->code                  = $kodeMember;
+            $member->code                  = $newCode;
             $member->name                  = $request->input('name');
             $member->nickname              = $request->input('nickname');
             $member->place                 = $request->input('place');

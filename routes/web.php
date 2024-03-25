@@ -13,6 +13,7 @@ use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\NationalityController;
 use App\Http\Controllers\Administrator\EventController;
 use App\Http\Controllers\Administrator\MemberController;
+use App\Http\Controllers\Administrator\Bucket2Controller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\AccountController;
@@ -53,6 +54,7 @@ Route::get('/confirms-payment', [WebsiteController::class, 'showConfirms'])->nam
 Route::post('/confirms-payment', [WebsiteController::class, 'store'])->name('confirms-payment.store');
 Route::get('/getConfirmById/{id}', [WebsiteController::class, 'getConfirmById'])->name('confirms-payment.event');
 Route::get('/booking-list', [WebsiteController::class, 'showBooking'])->name('booking-list');
+Route::get('/rider-all', [WebsiteController::class, 'showRiderForm'])->name('rider-all');
 
 // Manage Auth
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -193,6 +195,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/nationality/{id}/edit', [NationalityController::class, 'edit'])->name('nationality.edit');
         Route::put('/nationality/{id}', [NationalityController::class, 'update'])->name('nationality.update');
         Route::delete('/nationality/destroy/{id}', [NationalityController::class, 'destroy'])->name('nationality.destroy');
+
+        // Event Management
+        Route::get('/bucket-2', [Bucket2Controller::class, 'index'])->name('bucket-2.index');
+        Route::get('/bucket-2/create', [Bucket2Controller::class, 'create'])->name('bucket-2.create');
+        Route::post('/bucket-2', [Bucket2Controller::class, 'store'])->name('bucket-2.store');
+        Route::get('/bucket-2/{id}', [Bucket2Controller::class, 'show'])->name('bucket-2.show');
+        Route::get('/bucket-2/{id}/edit', [Bucket2Controller::class, 'edit'])->name('bucket-2.edit');
+        Route::put('/bucket-2/{id}', [Bucket2Controller::class, 'update'])->name('bucket-2.update');
+        Route::delete('/bucket-2/destroy/{id}', [Bucket2Controller::class, 'destroy'])->name('bucket-2.destroy');
+        Route::get('/getBucketById2/{id}', [Bucket2Controller::class, 'getBucketById2'])->name('bucket-2.event');
+        Route::get('/getMemberById2/{id}', [Bucket2Controller::class, 'getMemberById2'])->name('bucket-2.member');
+        Route::get('/bucket-2/invoice/{id}', [Bucket2Controller::class, 'showInvoice'])->name('bucket-2.invoice');
     });
 
     // Role Event
