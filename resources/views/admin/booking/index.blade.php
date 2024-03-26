@@ -113,7 +113,7 @@
                                         <!--                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i-->
                                         <!--                                                class="fas fa-pencil-alt"></i></a>-->
                                         <a class="btn btn-primary btn-action m-1"
-                                           href="{{ route('bucket.invoice', $item->id) }}"
+                                           href="{{ route('bucket-2.invoice', $item->id) }}"
                                            data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></a>
                                         <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
                                         <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->

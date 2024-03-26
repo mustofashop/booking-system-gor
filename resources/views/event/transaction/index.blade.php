@@ -62,11 +62,13 @@
                                             <h5>{{ $item->title }}</h5>
                                         </div>
                                         <div class="col-md-12">
-                                            <p> #{{ $item->code }} </p> / <b> {{ $item->organizer }} </b>
+                                            <p> #{{ $item->code }} </p> <b> {{ $item->organizer }} </b>
                                         </div>
                                         <div class="col-md-12">
                                             <p>{{ strlen($item->description) > 80 ? substr($item->description, 0, 80) .
                                                 '...' : $item->description }}</p>
+                                         <p> <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i> 
+                                            {{ "Rp " . number_format($item->cost, 2, ',','.') }}</p>
                                         </div>
                                         <div class="col-md-12">
                                             <h2 style="color: #026b3c"> {{ "Rp " . number_format($item->price, 2, ',',

@@ -71,8 +71,12 @@
 
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <div class="section-title">Order Summary</div>
-                    <p class="section-lead">All items here cannot be deleted.</p>
+                    @foreach ($label as $item)
+                    @if ($item->code == 'order')
+                        <div class="section-title"><h3>{!! html_entity_decode($item->title) !!}</h3></div>
+                        <p class="section-lead">{!! html_entity_decode($item->desc) !!}</p>
+                    @endif
+                @endforeach
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-md">
                             <tbody>
@@ -99,9 +103,12 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-lg-8">
-                            <div class="section-title">Payment Method</div>
-                            <p class="section-lead">The payment method that we provide is to make it easier for you to
-                                pay invoices.</p>
+                            @foreach ($label as $item)
+                                @if ($item->code == 'form.invoice')
+                                    <div class="section-title"><h3>{!! html_entity_decode($item->title) !!}</h3></div>
+                                    <p class="section-lead">{!! html_entity_decode($item->desc) !!}</p>
+                                @endif
+                            @endforeach
                             {{ $data->methode }}
                         </div>
                         <div class="col-lg-4 text-right">
@@ -113,14 +120,14 @@
                                 </div>
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Apps</div>
-                                    <div class="invoice-detail-value">Rp. 0</div>
+                                    <div class="invoice-detail-value">Rp. {{ number_format($data->booking->event->cost, 0,
+                                        ',', '.')
+                                        }}</div>
                                 </div>
                                 <hr class="mt-2 mb-2">
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Total</div>
-                                    <div class="invoice-detail-value invoice-detail-value-lg">Rp. {{
-                                        number_format($data->booking->event->price, 0,
-                                        ',', '.')
+                                    <div class="invoice-detail-value invoice-detail-value-lg">Rp. {{ number_format($data->booking->event->price + $data->booking->event->cost, 0, ',', '.')
                                         }}
                                     </div>
                                 </div>

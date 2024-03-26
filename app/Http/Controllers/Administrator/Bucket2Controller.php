@@ -79,7 +79,7 @@ class Bucket2Controller extends Controller
         ]);
     }
 
-    public function showInvoice($id)
+    public function showInvoice2($id)
     {
         $label = Label::all();
         $booking = TransactionBooking::find($id);

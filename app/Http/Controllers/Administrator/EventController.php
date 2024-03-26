@@ -78,6 +78,7 @@ class EventController extends Controller
             'info_circuit'  => 'required',
             'title'         => 'required',
             'price'         => 'required',
+            'cost'          => 'required',
             'description'   => 'required',
             'date'          => 'required',
             'time'          => 'required',
@@ -125,6 +126,7 @@ class EventController extends Controller
             $event->title       = $request->input('title');
             $event->count_limit = $request->input('count_limit');
             $event->price       = str_replace(".", "", $request->input('price'));
+            $event->cost       =  $request->input('cost');
             $event->description = strip_tags($request->input('description'));
             $event->date        = $request->input('date');
             $event->time        = $request->input('time');
@@ -170,6 +172,7 @@ class EventController extends Controller
             'info_circuit'  => 'required',
             'title'         => 'required',
             'price'         => 'required',
+            'cost'          => 'required',
             'description'   => 'required',
             'date'          => 'required',
             'time'          => 'required',
@@ -220,6 +223,7 @@ class EventController extends Controller
         $event->title       = $request->input('title');
         $event->count_limit = $request->input('count_limit');
         $event->price       = str_replace(".", "", $request->input('price'));
+        $event->cost       =  $request->input('cost');
         $event->description = strip_tags($request->input('description'));
         $event->date        = $request->input('date');
         $event->time        = $request->input('time');

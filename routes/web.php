@@ -14,6 +14,7 @@ use App\Http\Controllers\Administrator\NationalityController;
 use App\Http\Controllers\Administrator\EventController;
 use App\Http\Controllers\Administrator\MemberController;
 use App\Http\Controllers\Administrator\Bucket2Controller;
+use App\Http\Controllers\Administrator\InvoiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\AccountController;
@@ -206,7 +207,16 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/bucket-2/destroy/{id}', [Bucket2Controller::class, 'destroy'])->name('bucket-2.destroy');
         Route::get('/getBucketById2/{id}', [Bucket2Controller::class, 'getBucketById2'])->name('bucket-2.event');
         Route::get('/getMemberById2/{id}', [Bucket2Controller::class, 'getMemberById2'])->name('bucket-2.member');
-        Route::get('/bucket-2/invoice/{id}', [Bucket2Controller::class, 'showInvoice'])->name('bucket-2.invoice');
+        Route::get('/bucket-2/invoice/{id}', [Bucket2Controller::class, 'showInvoice2'])->name('bucket-2.invoice');
+
+        // Invoice Management
+        Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('/invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
+        Route::post('/invoice', [InvoiceController::class, 'store'])->name('invoice.store');
+        Route::get('/invoice/show/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+        Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
+        Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('invoice.update');
+        Route::delete('/invoice/destroy/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
     });
 
     // Role Event
@@ -251,14 +261,15 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['member'])->group(function () {
 
         // Booking Event
-        Route::get('/booking/{id}', [BookingController::class, 'showBookingForm'])->name('booking.show');
-        Route::post('/booking/{id}', [BookingController::class, 'storeBookingForm'])->name('booking.bucket');
         Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
         Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
         Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+        Route::get('/booking/{id}', [BookingController::class, 'show'])->name('booking.show');
         Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.edit');
         Route::put('/booking/{id}', [BookingController::class, 'update'])->name('booking.update');
+        Route::delete('/booking/destroy/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
         Route::get('/getEventById/{id}', [BookingController::class, 'getEventById'])->name('booking.event');
+        Route::get('/getMemberById/{id}', [BookingController::class, 'getMemberById'])->name('booking.member');
         Route::get('/booking/invoice/{id}', [BookingController::class, 'showInvoice'])->name('booking.invoice');
 
         // Rider Management

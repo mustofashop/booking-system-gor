@@ -27,8 +27,61 @@
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         <div class="row">
-                            <!-- MEMBER ID -->
-                            <input type="hidden" name="member_id" value="{{ $member->id }}">
+                            <!-- MEMBER -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span
+                                            class="text-danger">*</span></label>
+                                    <select id="member_id" name="member_id" class="select2 form-control" required="">
+                                        <option value="">Choose</option>
+                                        @foreach ($member as $item)
+                                        <option value="{{ $item->id }}">#{{
+                                            $item->number_booking }} | {{ $item->code }} | {{ $item->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a valid member
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CODE -->
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="code" class="font-weight-bold">CODE</label>
+                                    <input id="code" type="text" class="form-control" name="code"
+                                           value="{{ old('code') }}"
+                                           placeholder="Enter code" required="" readonly>
+                                    <div class="invalid-feedback">
+                                        Please fill in the code
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- NAME -->
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="name" class="font-weight-bold">NAME</label>
+                                    <input id="name" type="text" class="form-control" name="name"
+                                           value="{{ old('name') }}"
+                                           placeholder="Enter name" required="" readonly>
+                                    <div class="invalid-feedback">
+                                        Please fill in the name
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BIRTHDAY -->
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="birthday" class="font-weight-bold">BIRTHDAY</label>
+                                    <input id="birthday" type="text" class="form-control" name="birthday"
+                                           value="{{ old('birthday') }}"
+                                           placeholder="Enter name" required="" readonly>
+                                    <div class="invalid-feedback">
+                                        Please fill in the birthday
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="m-3" style="width:100%;text-align:left;margin-left:0; color:black">
                             <!-- IMAGE -->
                             <div class="col-4">
                                 <div class="form-group">
@@ -63,7 +116,7 @@
                                 <div class="form-group">
                                     <label for="event_id" class="font-weight-bold">CHOOSE EVENT <span
                                             class="text-danger">*</span></label>
-                                    <select id="event_id" name="event_id" class="form-control" required="">
+                                    <select id="event_id" name="event_id" class="select2 form-control" required="">
                                         <option value="">Choose</option>
                                         @foreach ($event as $item)
                                         <option value="{{ $item->id }}">{{ $item->code }} | {{ $item->title }} | {{
@@ -219,98 +272,155 @@
 </section>
 
 <script>
-    document.getElementById('event_id').addEventListener('change', function () {
-        var eventId = this.value;
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#member_id').on('change', function () {
+            var memberId = $(this).val();
 
-        // Kirim permintaan GET menggunakan fetch
-        fetch('/getEventById/' + eventId)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to get event');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Tampilkan data event
-                if (data) {
-                    const event = data.event;
-                    const quota = data.quota;
-
-                    // Tampilkan gambar event
-                    var imagePreview = document.getElementById('image-preview');
-                    var imageHtml = '';
-
-                    // Periksa apakah properti 'image' ada dalam objek 'event'
-                    if (event.image && event.image != '') {
-                        // Jika 'image' ada, tampilkan gambar event
-                        imageHtml = `<img src="{{ asset('storage/event/') }}/${event.image}" class="img-thumbnail">`;
-                    } else {
-                        // Jika 'image' tidak ada, tampilkan gambar default
-                        imageHtml = `<img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail">`;
+            // Kirim permintaan GET menggunakan fetch
+            fetch('/getMemberById/' + memberId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to get member');
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    // Tampilkan data member
+                    if (data) {
+                        const member = data.member;
 
-                    // Tampilkan gambar dalam elemen 'image-preview'
-                    imagePreview.innerHTML = imageHtml;
+                        // Tampilkan nama member
+                        $('#name').val(member.name).trigger('change');
+                        $('#code').val(member.code).trigger('change');
+                        $('#birthday').val(member.place + ', ' + new Date(member.date).toLocaleDateString('id-ID')).trigger('change');
+                    } else {
+                        $('#name').val('').trigger('change');
+                        $('#code').val('').trigger('change');
+                        $('#birthday').val('').trigger('change');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+</script>
 
-                    // Tampilkan detail event
-                    // Potong deskripsi event jika lebih dari 80 karakter
-                    var truncatedDescription = event.description.length > 110 ? event.description.substring(0, 110) + '...' : event.description;
 
-                    // Format tanggal dan waktu
-                    var formattedDate = new Date(event.date).toLocaleDateString('id-ID');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#event_id').on('change', function () {
+            var eventId = $(this).val();
 
-                    // Tampilkan informasi event
-                    var table = document.getElementById('eventTableInfo');
-                    table.innerHTML = `
-                    <tr>
-                         <td><i class="fas fa-calendar-alt"></i> ${formattedDate}</td>
-                        <td><i class="fas fa-clock"></i> ${event.time}</td>
-                        <td><i class="fas fa-map-marker-alt"></i> ${event.location}</td>
-                    </tr>
-                    `;
-                    // Tampilkan detail event
-                    var table = document.getElementById('eventTable');
-                    table.innerHTML = `
-                    <tr>
-                        <td>${event.code}</td>
-                        <td>${event.title}</td>
-                        <td>${truncatedDescription}</td>
-                    </tr>
-                    `;
+            fetch('/getEventById/' + eventId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to get event');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        const event = data.event;
+                        const quota = data.quota;
 
-                    // Tentukan warna badge berdasarkan status event
-                    var badgeColor = event.status == 'ACTIVE' ? 'success' : 'danger';
-                    var badgeText = event.status == 'ACTIVE' ? 'OPEN' : 'CLOSE';
+                        var imagePreview = document.getElementById('image-preview');
+                        var imageHtml = '';
 
-                    // Tampilkan quota event
-                    var table = document.getElementById('eventTableQuota');
-                    table.innerHTML = `
-                    <tr>
-                        <td><badge class="badge badge-${badgeColor}">${badgeText}</badge></td>
-                        <td>QUOTA ${quota}</td>
-                        <td>LIMIT ${event.count_limit}</td>
-                    </tr>
-                    `;
+                        if (event.image && event.image != '') {
+                            imageHtml = `<img src="{{ asset('storage/event/') }}/${event.image}" class="img-thumbnail">`;
+                        } else {
+                            imageHtml = `<img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail">`;
+                        }
+                        imagePreview.innerHTML = imageHtml;
 
-                    // Memformat harga dengan mata uang
-                    const formattedPrice = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR' // Ganti dengan kode mata uang yang sesuai
-                    }).format(event.price);
+                        var formattedDate = new Date(event.date).toLocaleDateString('id-ID');
 
-                    // Tampilkan harga event
-                    var table = document.getElementById('eventTableCost');
-                    table.innerHTML = `
-                    <tr>
-                        <td><i class="fas fa-money-bill-wave"></i> <b>${formattedPrice}</b></td>
-                        <td>${event.organizer}</td>
-                    </tr>
-                    `;
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                        var eventTableInfo = document.getElementById('eventTableInfo');
+                        eventTableInfo.innerHTML = `
+                            <tr>
+                                <td><i class="fas fa-calendar-alt"></i> ${formattedDate}</td>
+                                <td><i class="fas fa-clock"></i> ${event.time}</td>
+                                <td><i class="fas fa-map-marker-alt"></i> ${event.location}</td>
+                            </tr>
+                        `;
+
+                        var eventTable = document.getElementById('eventTable');
+                        eventTable.innerHTML = `
+                            <tr>
+                                <td>${event.code}</td>
+                                <td>${event.title}</td>
+                                <td>${event.description.length > 110 ? event.description.substring(0, 110) + '...' : event.description}</td>
+                            </tr>
+                        `;
+
+                        var badgeColor = event.status == 'ACTIVE' ? 'success' : 'danger';
+                        var badgeText = event.status == 'ACTIVE' ? 'OPEN' : 'CLOSE';
+
+                        var eventTableQuota = document.getElementById('eventTableQuota');
+                        eventTableQuota.innerHTML = `
+                            <tr>
+                                <td><badge class="badge badge-${badgeColor}">${badgeText}</badge></td>
+                                <td>QUOTA ${quota}</td>
+                                <td>LIMIT ${event.count_limit}</td>
+                            </tr>
+                        `;
+
+                        const formattedPrice = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(event.price);
+
+                        const formattedCost = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(event.cost);
+
+                        var eventTableCost = document.getElementById('eventTableCost');
+                        eventTableCost.innerHTML = `
+                            <tr>
+                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedPrice}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedCost}</b></td>
+                                <td>${event.organizer}</td>
+                            </tr>
+                        `;
+                    } else {
+                        var imagePreview = document.getElementById('image-preview');
+                        imagePreview.innerHTML = `<img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail">`;
+
+                        var eventTableInfo = document.getElementById('eventTableInfo');
+                        eventTableInfo.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="text-center">No data available in table</td>
+                            </tr>
+                        `;
+
+                        var eventTable = document.getElementById('eventTable');
+                        eventTable.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="text-center">No data available in table</td>
+                            </tr>
+                        `;
+
+                        var eventTableQuota = document.getElementById('eventTableQuota');
+                        eventTableQuota.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="text-center">No data available in table</td>
+                            </tr>
+                        `;
+
+                        var eventTableCost = document.getElementById('eventTableCost');
+                        eventTableCost.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="text-center">No data available in table</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
     });
 </script>
 

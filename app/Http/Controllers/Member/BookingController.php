@@ -18,57 +18,20 @@ class BookingController extends Controller
     {
         $label = Label::all();
 
-        $member = Member::where('member_id', Auth::user()->id)->first();
-
-        if (!$member) {
-            return view('member.booking.info', compact('label'));
-        } else {
-            $data = TransactionBooking::where('member_id', $member->id)->paginate(10);
-            return view('member.booking.index', compact('data', 'label'));
-        }
+        $data = TransactionBooking::paginate(10);
+        return view('member.booking.index', compact('data', 'label'));
     }
 
-    public function showBookingForm($id)
+    public function create()
     {
         $label = Label::all();
-        $data = Event::find($id);
-
-        if (!$data) {
-            $member = Member::where('member_id', Auth::user()->id)->first();
-            $event = Event::where('status', 'ACTIVE')
-                ->whereDoesntHave('booking', function ($query) use ($member) {
-                    $query->where('member_id', $member->id);
-                })
-                ->get();
-
-            $category = EventCategory::where('status', 'ACTIVE')->get();
-
-            return view('member.booking.create', compact('label', 'event', 'member', 'category'));
-        } else {
-            $member = Member::where('user_id', Auth::user()->id)->first();
-            $quota = TransactionBooking::where('event_id', $data->id)->sum('event_id');
-            // cek booking userid
-            $booking = TransactionBooking::where('event_id', $data->id)
-                ->where('member_id', $member->id)
-                ->first();
-
-            if ($booking) {
-                $category = EventCategory::where('status', 'ACTIVE')->get();
-                $event = Event::where('status', 'ACTIVE')
-                    ->whereDoesntHave('booking', function ($query) use ($member) {
-                        $query->where('member_id', $member->id);
-                    })
-                    ->get();
-                return view('member.booking.create', compact('label', 'event', 'member', 'category'));
-            } else {
-                // cek event status
-                $event = Event::find($id);
-                return view('member.booking.show', compact('data', 'label', 'member', 'quota', 'event'));
-            }
-        }
+        $event = Event::where('status', 'ACTIVE')->get();
+        $member = Member::where('status', 'ACTIVE')->get();
+        $category = EventCategory::where('status', 'ACTIVE')->get();
+        return view('member.booking.create', compact('event', 'member', 'label', 'category'));
     }
 
-    public function storeBookingForm(Request $request)
+    public function store(Request $request)
     {
         $event = Event::find($request->event_id);
         $member = Member::find($request->member_id);
@@ -88,53 +51,10 @@ class BookingController extends Controller
 
             $this->generateInvoice($booking->id);
 
-            return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
+            return redirect()->route('bucket-2.index')->with('success', 'Booking success, invoice has been generated');
         } else {
-            return redirect()->route('booking.index')->with('error', 'Booking failed, quota is full');
+            return redirect()->route('bucket-2.index')->with('error', 'Booking failed, quota is full');
         }
-    }
-
-    public function getEventById($id)
-    {
-        // Cari event berdasarkan ID
-        $event = Event::find($id);
-
-        // Jika event tidak ditemukan, kembalikan respon error
-        if (!$event) {
-            return response()->json(['error' => 'Event not found'], 404);
-        }
-
-        // Hitung kuota berdasarkan jumlah total transaksi
-        $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
-
-        // Kembalikan data event beserta kuota dalam format JSON
-        return response()->json([
-            'event' => $event,
-            'quota' => $quota,
-        ]);
-    }
-
-
-    public function store(Request $request)
-    {
-        $event = Event::find($request->event_id);
-        $member = Member::find($request->member_id);
-        $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
-
-        $booking = new TransactionBooking;
-        $booking->code = 'BK' . date('YmdHis');
-        $booking->date = date('Y-m-d');
-        $booking->note = $request->input('note');
-        $booking->category = $request->input('category');
-        $booking->event_id = $event->id;
-        $booking->event_category_id = $request->input('event_category_id');
-        $booking->member_id = $member->id;
-        $booking->created_by = strtoupper(Auth::user()->username);
-        $booking->save();
-
-        $this->generateInvoice($booking->id);
-
-        return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
     }
 
     public function generateInvoice($id)
@@ -164,10 +84,46 @@ class BookingController extends Controller
         $label = Label::all();
         $booking = TransactionBooking::find($id);
         if (!$booking) {
-            return redirect()->route('booking.index')->with('error', 'Booking not found');
+            return redirect()->route('bucket-2.index')->with('error', 'Booking not found');
         } else {
             $data = TransactionInvoice::with('booking')->where('booking_id', $booking->id)->first();
             return view('member.booking.invoice', compact('data', 'label'));
         }
+    }
+
+    public function getEventById($id)
+    {
+        // Cari event berdasarkan ID
+        $event = Event::find($id);
+
+        // Jika event tidak ditemukan, kembalikan respon error
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        // Hitung kuota berdasarkan jumlah total transaksi
+        $quota = TransactionBooking::where('event_id', $event->id)->sum('event_id');
+
+        // Kembalikan data event beserta kuota dalam format JSON
+        return response()->json([
+            'event' => $event,
+            'quota' => $quota,
+        ]);
+    }
+
+    public function getMemberById($id)
+    {
+        // Cari member berdasarkan ID
+        $member = Member::find($id);
+
+        // Jika member tidak ditemukan, kembalikan respon error
+        if (!$member) {
+            return response()->json(['error' => 'Member not found'], 404);
+        }
+
+        // Kembalikan data member dalam format JSON
+        return response()->json([
+            'member' => $member,
+        ]);
     }
 }

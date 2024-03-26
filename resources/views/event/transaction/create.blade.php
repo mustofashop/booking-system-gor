@@ -56,6 +56,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">COST<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="cost" 
+                                    value="{{ old('cost') }}"
+                                           placeholder="Enter cost" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the cost
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
@@ -324,6 +335,31 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
+
+     /* COST */
+
+    /* Tanpa Rupiah */
+    // var tanpa_rupiah = document.getElementById('cost');
+    // tanpa_rupiah.addEventListener('keyup', function (e) {
+    //     tanpa_rupiah.value = formatRupiah(this.value);
+    // });
+
+    // /* Fungsi */
+    // function formatRupiah(angka, prefix) {
+    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    //         split = number_string.split(','),
+    //         sisa = split[0].length % 3,
+    //         rupiah = split[0].substr(0, sisa),
+    //         ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    //     if (ribuan) {
+    //         separator = sisa ? '.' : '';
+    //         rupiah += separator + ribuan.join('.');
+    //     }
+
+    //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    //     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    // }
 </script>
 
 @endsection
