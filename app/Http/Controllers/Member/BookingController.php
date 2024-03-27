@@ -26,7 +26,7 @@ class BookingController extends Controller
     {
         $label = Label::all();
         $event = Event::where('status', 'ACTIVE')->get();
-        $member = Member::where('status', 'ACTIVE')->get();
+        $member = Member::where('member_id', Auth::user()->id)->first();
         $category = EventCategory::where('status', 'ACTIVE')->get();
         return view('member.booking.create', compact('event', 'member', 'label', 'category'));
     }
@@ -51,9 +51,9 @@ class BookingController extends Controller
 
             $this->generateInvoice($booking->id);
 
-            return redirect()->route('bucket-2.index')->with('success', 'Booking success, invoice has been generated');
+            return redirect()->route('booking.index')->with('success', 'Booking success, invoice has been generated');
         } else {
-            return redirect()->route('bucket-2.index')->with('error', 'Booking failed, quota is full');
+            return redirect()->route('booking.index')->with('error', 'Booking failed, quota is full');
         }
     }
 
@@ -72,6 +72,7 @@ class BookingController extends Controller
             'method' => 'TRANSFER', // Perhatikan penulisan method yang benar
             'description' => 'Invoice Booking Event ' . $data->title, // Mengakses nama event dari relasi
             'amount' => $data->price, // Mengakses harga event dari relasi
+            'fee' => $data->cost, // Mengakses biaya admin dari relasi
             'date' => date('Y-m-d'),
             'category' => 'UNPAID',
             'booking_id' => $booking->id,

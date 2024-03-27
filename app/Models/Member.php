@@ -25,4 +25,9 @@ class Member extends Model
     {
         return $this->belongsTo(Nationality::class, 'nationality_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'member_id', 'id');
+    }
 }

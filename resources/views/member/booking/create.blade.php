@@ -27,57 +27,30 @@
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         <div class="row">
-                            <!-- MEMBER -->
-                            <div class="col-4">
+                            <input type="hidden" name="member_id" id="member_id" value="{{ old('member_id') }}">
+                            <!-- ACCOUNT -->
+                            <div class="col-6">
                                 <div class="form-group">
-                                    <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span
+                                    <label for="member_id" class="font-weight-bold">ACCOUNT <span
                                             class="text-danger">*</span></label>
-                                    <select id="member_id" name="member_id" class="select2 form-control" required="">
-                                        <option value="">Choose</option>
-                                        @foreach ($member as $item)
-                                        <option value="{{ $item->id }}">#{{
-                                            $item->number_booking }} | {{ $item->code }} | {{ $item->name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" value="{{ $member->user->name }} | {{
+                                        $member->user->email }} | {{ $member->user->phone }}" readonly>
                                     <div class="invalid-feedback">
-                                        Please select a valid member
+                                        Please select a valid account
                                     </div>
                                 </div>
                             </div>
-                            <!-- CODE -->
-                            <div class="col-2">
+                            <!-- MEMBER -->
+                            <div class="col-6">
                                 <div class="form-group">
-                                    <label for="code" class="font-weight-bold">CODE</label>
+                                    <label for="code" class="font-weight-bold">MEMBER <span
+                                            class="text-danger">*</span></label>
                                     <input id="code" type="text" class="form-control" name="code"
-                                           value="{{ old('code') }}"
-                                           placeholder="Enter code" required="" readonly>
+                                           value="{{ $member->code }} | {{ $member->name }} | {{ $member->place }},
+                                           {{ date('d F Y', strtotime($member->date)) }}"
+                                           placeholder=" Enter code" required="" readonly>
                                     <div class="invalid-feedback">
                                         Please fill in the code
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- NAME -->
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="name" class="font-weight-bold">NAME</label>
-                                    <input id="name" type="text" class="form-control" name="name"
-                                           value="{{ old('name') }}"
-                                           placeholder="Enter name" required="" readonly>
-                                    <div class="invalid-feedback">
-                                        Please fill in the name
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- BIRTHDAY -->
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="birthday" class="font-weight-bold">BIRTHDAY</label>
-                                    <input id="birthday" type="text" class="form-control" name="birthday"
-                                           value="{{ old('birthday') }}"
-                                           placeholder="Enter name" required="" readonly>
-                                    <div class="invalid-feedback">
-                                        Please fill in the birthday
                                     </div>
                                 </div>
                             </div>
@@ -379,8 +352,8 @@
                         var eventTableCost = document.getElementById('eventTableCost');
                         eventTableCost.innerHTML = `
                             <tr>
-                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedPrice}</b></td>
-                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedCost}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Price <b>${formattedPrice}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Fee <b>${formattedCost}</b></td>
                                 <td>${event.organizer}</td>
                             </tr>
                         `;

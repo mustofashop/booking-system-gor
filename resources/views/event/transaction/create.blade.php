@@ -29,9 +29,9 @@
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         <!-- IMAGE -->
-                        <div class="row">
-                            <div class="col-4">
-                                <label class="font-weight-bold">IMAGE <span
+                        <div class="row mb-5">
+                            <div class="col-6">
+                                <label class="font-weight-bold">IMAGE EVENT <span
                                         class="text-danger">*</span></label>
                                 <div id="image-preview" class="image-preview">
                                     <img id="preview" src="" alt="Image Preview"
@@ -43,8 +43,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <label class="font-weight-bold">PHOTO CIRCUIT<span
+                            <div class="col-6">
+                                <label class="font-weight-bold">PHOTO CIRCUIT <span
                                         class="text-danger">*</span></label>
                                 <div id="image-preview" class="image-preview">
                                     <img id="preview2" src="" alt="Image Preview"
@@ -53,17 +53,6 @@
                                     <input type="file" name="photo_circuit" id="image-upload2" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the photo circuit
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <label class="font-weight-bold">COST<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="cost" 
-                                    value="{{ old('cost') }}"
-                                           placeholder="Enter cost" required="">
-                                    <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the cost
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +73,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold">PRICE <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="price" id="price"
+                                    <input type="number" class="form-control" name="price" id="price"
                                            value="{{ old('price') }}"
                                            placeholder="Enter price" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
@@ -96,11 +85,11 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">GATE<span
+                                    <label class="font-weight-bold">GATE <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="gate" id="gate"
-                                            value="{{ old('gate') }}"
-                                            placeholder="Enter gate" required="">
+                                           value="{{ old('gate') }}"
+                                           placeholder="Enter gate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the gate
                                     </div>
@@ -108,11 +97,23 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">INFO CIRCUIT<span
+                                    <label class="font-weight-bold">SERVICE FEE <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" name="cost" id="cost"
+                                           value="{{ old('cost', $cost->amount) }}"
+                                           placeholder="Enter cost" required="" readonly>
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the cost
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">INFO CIRCUIT <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="info_circuit" id="info_circuit"
-                                            value="{{ old('info_circuit') }}"
-                                            placeholder="Enter info_circuit" required="">
+                                           value="{{ old('info_circuit') }}"
+                                           placeholder="Enter info_circuit" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the info circuit
                                     </div>
@@ -300,17 +301,17 @@
     });
 
     $(document).ready(function () {
-    $('#image-upload2').change(function () {
-        var file = this.files[0];
-        var reader = new FileReader();
+        $('#image-upload2').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#preview2').attr('src', e.target.result).show();
-            $('#image-label2').text(file.name);
-        };
+            reader.onload = function (e) {
+                $('#preview2').attr('src', e.target.result).show();
+                $('#image-label2').text(file.name);
+            };
 
-        reader.readAsDataURL(file);
-    });
+            reader.readAsDataURL(file);
+        });
     });
 
     /* Tanpa Rupiah */
@@ -336,7 +337,7 @@
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
 
-     /* COST */
+    /* COST */
 
     /* Tanpa Rupiah */
     // var tanpa_rupiah = document.getElementById('cost');

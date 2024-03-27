@@ -73,10 +73,10 @@
                 <div class="col-md-12">
                     @foreach ($label as $item)
                     @if ($item->code == 'order')
-                        <div class="section-title"><h3>{!! html_entity_decode($item->title) !!}</h3></div>
-                        <p class="section-lead">{!! html_entity_decode($item->desc) !!}</p>
+                    <div class="section-title"><h3>{!! html_entity_decode($item->title) !!}</h3></div>
+                    <p class="section-lead">{!! html_entity_decode($item->desc) !!}</p>
                     @endif
-                @endforeach
+                    @endforeach
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-md">
                             <tbody>
@@ -104,12 +104,22 @@
                     <div class="row mt-4">
                         <div class="col-lg-8">
                             @foreach ($label as $item)
-                                @if ($item->code == 'form.invoice')
-                                    <div class="section-title"><h3>{!! html_entity_decode($item->title) !!}</h3></div>
-                                    <p class="section-lead">{!! html_entity_decode($item->desc) !!}</p>
-                                @endif
+                            @if ($item->code == 'form.invoice')
+                            <div class="section-title">{!! html_entity_decode($item->title) !!}</div>
+                            <p class="section-lead">
+                                {!! html_entity_decode($item->desc) !!}
+                            </p>
+                            @endif
                             @endforeach
-                            {{ $data->methode }}
+                            <p class="section-lead">{{ $data->methode }}</p>
+                            @foreach ($label as $item)
+                            @if ($item->code == 'bank')
+                            <p class="section-lead"><b>{!! html_entity_decode($item->title) !!}</b></p>
+                            <p class="section-lead">
+                                {!! html_entity_decode($item->desc) !!}
+                            </p>
+                            @endif
+                            @endforeach
                         </div>
                         <div class="col-lg-4 text-right">
                             <div class="invoice-detail-item">
@@ -119,15 +129,24 @@
                                     }}
                                 </div>
                                 <div class="invoice-detail-item">
-                                    <div class="invoice-detail-name">Apps</div>
-                                    <div class="invoice-detail-value">Rp. {{ number_format($data->booking->event->cost, 0,
-                                        ',', '.')
-                                        }}</div>
+                                    @foreach ($label as $item)
+                                    @if ($item->code == 'service.fee')
+                                    <div class="invoice-detail-name" title="{!! html_entity_decode($item->desc) !!}">
+                                        {!! html_entity_decode($item->title) !!}
+                                    </div>
+                                    @endif
+                                    @endforeach
+                                    <div class="invoice-detail-value">Rp. {{ number_format($data->booking->event->cost,
+                                        0, ',', '.')
+                                        }}
+                                    </div>
                                 </div>
                                 <hr class="mt-2 mb-2">
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Total</div>
-                                    <div class="invoice-detail-value invoice-detail-value-lg">Rp. {{ number_format($data->booking->event->price + $data->booking->event->cost, 0, ',', '.')
+                                    <div class="invoice-detail-value invoice-detail-value-lg">Rp. {{
+                                        number_format($data->booking->event->price + $data->booking->event->cost, 0,
+                                        ',', '.')
                                         }}
                                     </div>
                                 </div>
