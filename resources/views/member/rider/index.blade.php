@@ -172,18 +172,81 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- ADDRESS -->
-                            <div class="col-12">
+                            <!-- RIDERS NUMBER PLATE -->
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">ADDRESS</label>
-                                    <textarea class="form-control" name="address" value="{{ old('address') }}"
-                                              placeholder="Enter address" required="">{{ old('address', $data->address) }}</textarea>
+                                    <label class="font-weight-bold">RIDERS NUMBER PLATE</label>
+                                    <input type="text" class="form-control" name="plate"
+                                           value="{{ $data->number_booking }}"
+                                           placeholder="Enter riders number plate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the address
+                                        Please fill in the riders number plate
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BIRTH CERTIFICATE NUMBER -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">BIRTH CERTIFICATE NUMBER</label>
+                                    <input type="text" class="form-control" name="certificate"
+                                           value="{{ $data->number_identity }}"
+                                           placeholder="Enter birth certificate number" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the birth certificate number
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- INSTAGRAM -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">INSTAGRAM</label>
+                                    <input type="text" class="form-control" name="instagram"
+                                           value="{{ $data->socmed }}"
+                                           placeholder="Enter instagram" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the instagram
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BANNER -->
+                            <div class="col-4">
+                                <div id="image-preview" class="image-preview"
+                                    data-image-url="{{ isset($data->banner) ? asset('storage/rider/' . $data->banner) : '' }}">
+                                    <img id="preview"
+                                        src="{{ isset($data->banner) ? asset('storage/rider/' . $data->banner) : '' }}"
+                                        alt="Banner Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload" id="image-label">Choose File</label>
+                                    <input type="file" name="image" id="image-upload">
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <!-- ADDRESS -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">ADDRESS</label>
+                                            <textarea class="form-control" name="address" value="{{ old('address') }}"
+                                                    placeholder="Enter address" required="">{{ old('address', $data->address) }}</textarea>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the address
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- RIDER STORY -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">RIDER STORY</label>
+                                            <textarea class="form-control" name="story" value="{{ old('story') }}"
+                                                        placeholder="Enter rider story" required="">{{ old('story', $data->story) }}</textarea>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the rider story
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br>
 
                         <!-- BUTTON -->
                         <div class="form-group">

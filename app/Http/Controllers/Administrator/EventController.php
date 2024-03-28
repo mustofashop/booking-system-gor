@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Button;
 use App\Models\Event;
 use App\Models\Label;
+use App\Models\Service;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -98,31 +99,32 @@ class EventController extends Controller
     public function create(): View
     {
         $label = Label::all();
-        return view('event.transaction.create', compact('label'));
+        $cost = Service::where('category', 'INVOICE')->first();
+        return view('event.transaction.create', compact('label', 'cost'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image'         => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'photo_circuit' => 'required',
-            'info_circuit'  => 'required',
-            'title'         => 'required',
-            'price'         => 'required',
-            'cost'          => 'required',
-            'description'   => 'required',
-            'date'          => 'required',
-            'time'          => 'required',
-            'location'      => 'required',
-            'status'        => 'required',
-            'gate'          => 'required',
-            'maps'          => 'required',
-            'organizer'     => 'required',
-            'start_date'    => 'required',
-            'end_date'      => 'required',
-            'expiry_date'   => 'required',
-            'count_limit'   => 'required'
+            'info_circuit' => 'required',
+            'title' => 'required',
+            'price' => 'required',
+            'cost' => 'required',
+            'description' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'location' => 'required',
+            'status' => 'required',
+            'gate' => 'required',
+            'maps' => 'required',
+            'organizer' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'expiry_date' => 'required',
+            'count_limit' => 'required'
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -151,27 +153,27 @@ class EventController extends Controller
             $imageFile2->storePubliclyAs('event', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
 
             //create post
-            $event                      = new Event;
-            $event->image               = $imageName1;
-            $event->photo_circuit       = $imageName2;
-            $event->code        = $kodeEvent;
-            $event->title       = $request->input('title');
+            $event = new Event;
+            $event->image = $imageName1;
+            $event->photo_circuit = $imageName2;
+            $event->code = $kodeEvent;
+            $event->title = $request->input('title');
             $event->count_limit = $request->input('count_limit');
-            $event->price       = str_replace(".", "", $request->input('price'));
-            $event->cost       =  $request->input('cost');
+            $event->price = str_replace(".", "", $request->input('price'));
+            $event->cost = $request->input('cost');
             $event->description = strip_tags($request->input('description'));
-            $event->date        = $request->input('date');
-            $event->time        = $request->input('time');
-            $event->location    = $request->input('location');
-            $event->info_circuit    = $request->input('info_circuit');
-            $event->status      = $request->input('status');
-            $event->gate        = $request->input('gate');
-            $event->maps        = $request->input('maps');
-            $event->organizer   = $request->input('organizer');
-            $event->start_date  = $request->input('start_date');
-            $event->end_date    = $request->input('end_date');
+            $event->date = $request->input('date');
+            $event->time = $request->input('time');
+            $event->location = $request->input('location');
+            $event->info_circuit = $request->input('info_circuit');
+            $event->status = $request->input('status');
+            $event->gate = $request->input('gate');
+            $event->maps = $request->input('maps');
+            $event->organizer = $request->input('organizer');
+            $event->start_date = $request->input('start_date');
+            $event->end_date = $request->input('end_date');
             $event->expiry_date = $request->input('expiry_date');
-            $event->user_id     = auth()->user()->id;
+            $event->user_id = auth()->user()->id;
             $event->save();
         }
         //redirect to index
@@ -199,24 +201,24 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'image'         => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
+            'image' => 'image|mimes:jpeg,jpg,png|max:2048' . $id,
             'photo_circuit' => 'photo_circuit|mimes:jpeg,jpg,png|max:2048',
-            'info_circuit'  => 'required',
-            'title'         => 'required',
-            'price'         => 'required',
-            'cost'          => 'required',
-            'description'   => 'required',
-            'date'          => 'required',
-            'time'          => 'required',
-            'location'      => 'required',
-            'status'        => 'required',
-            'gate'          => 'required',
-            'maps'          => 'required',
-            'organizer'     => 'required',
-            'start_date'    => 'required',
-            'end_date'      => 'required',
-            'expiry_date'   => 'required',
-            'count_limit'   => 'required'
+            'info_circuit' => 'required',
+            'title' => 'required',
+            'price' => 'required',
+            'cost' => 'required',
+            'description' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'location' => 'required',
+            'status' => 'required',
+            'gate' => 'required',
+            'maps' => 'required',
+            'organizer' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'expiry_date' => 'required',
+            'count_limit' => 'required'
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -252,21 +254,21 @@ class EventController extends Controller
         }
 
         //create post
-        $event->title       = $request->input('title');
+        $event->title = $request->input('title');
         $event->count_limit = $request->input('count_limit');
-        $event->price       = str_replace(".", "", $request->input('price'));
-        $event->cost       =  $request->input('cost');
+        $event->price = str_replace(".", "", $request->input('price'));
+        $event->cost = $request->input('cost');
         $event->description = strip_tags($request->input('description'));
-        $event->date        = $request->input('date');
-        $event->time        = $request->input('time');
-        $event->location    = $request->input('location');
-        $event->status      = $request->input('status');
-        $event->gate        = $request->input('gate');
-        $event->info_circuit    = $request->input('info_circuit');
-        $event->maps        = $request->input('maps');
-        $event->organizer   = $request->input('organizer');
-        $event->start_date  = $request->input('start_date');
-        $event->end_date    = $request->input('end_date');
+        $event->date = $request->input('date');
+        $event->time = $request->input('time');
+        $event->location = $request->input('location');
+        $event->status = $request->input('status');
+        $event->gate = $request->input('gate');
+        $event->info_circuit = $request->input('info_circuit');
+        $event->maps = $request->input('maps');
+        $event->organizer = $request->input('organizer');
+        $event->start_date = $request->input('start_date');
+        $event->end_date = $request->input('end_date');
         $event->expiry_date = $request->input('expiry_date');
         $event->save();
 
@@ -290,5 +292,12 @@ class EventController extends Controller
             'success' => $success,
             'message' => $message
         ]);
+    }
+
+    public function circuit($id)
+    {
+        //get post by ID
+        $data = Event::find($id);
+        return response()->json($data);
     }
 }

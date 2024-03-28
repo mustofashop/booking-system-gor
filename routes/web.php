@@ -2,19 +2,19 @@
 
 use App\Http\Controllers\Administrator\AboutController;
 use App\Http\Controllers\Administrator\ArticleController;
+use App\Http\Controllers\Administrator\Bucket2Controller;
 use App\Http\Controllers\Administrator\ButtonController;
 use App\Http\Controllers\Administrator\ConfirmController;
 use App\Http\Controllers\Administrator\CountController;
+use App\Http\Controllers\Administrator\EventController;
 use App\Http\Controllers\Administrator\FAQController;
 use App\Http\Controllers\Administrator\ImageController;
+use App\Http\Controllers\Administrator\InvoiceController;
 use App\Http\Controllers\Administrator\LabelController;
+use App\Http\Controllers\Administrator\MemberController;
+use App\Http\Controllers\Administrator\NationalityController;
 use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
-use App\Http\Controllers\Administrator\NationalityController;
-use App\Http\Controllers\Administrator\EventController;
-use App\Http\Controllers\Administrator\MemberController;
-use App\Http\Controllers\Administrator\Bucket2Controller;
-use App\Http\Controllers\Administrator\InvoiceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\AccountController;
@@ -187,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
         Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
         Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
+        Route::get('/event/circuit/{id}', [EventController::class, 'circuit'])->name('event.circuit');
 
         // Nationality Management
         Route::get('/nationality', [NationalityController::class, 'index'])->name('nationality.index');

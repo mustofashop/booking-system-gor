@@ -12,7 +12,7 @@ class TransactionInvoice extends Model
     protected $table = 'transaction_payment';
 
     protected $fillable = [
-        'id', 'code', 'methode', 'description', 'amount', 'date', 'category', 'booking_id',
+        'id', 'code', 'methode', 'description', 'amount', 'fee', 'date', 'category', 'booking_id',
         'created_at', 'updated_at', 'created_by', 'updated_by'
     ];
 

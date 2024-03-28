@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Label;
-use App\Models\Service;
 use App\Models\Member;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,9 +29,10 @@ class InvoiceController extends Controller
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'cost' => 'required|string|max:255',
-            'code' => '',
-            'status' => 'required',
+            'category' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -41,31 +42,33 @@ class InvoiceController extends Controller
                 ->withInput();
         }
 
-        $member = Member::find($request->member_id);
         // Jika validasi berhasil, simpan data user baru
         $invoice = new Service();
-        $invoice->cost      = $request->input('cost');
-        $invoice->code      = 'INV' . date('YmdHis');
-        $invoice->status    = $request->input('status');
-        $invoice->member_id = $member->id;
+        $invoice->code = 'CST' . date('YmdHis');
+        $invoice->category = $request->input('category');
+        $invoice->name = $request->input('name');
+        $invoice->description = $request->input('description');
+        $invoice->amount = $request->input('amount');
+        $invoice->status = $request->input('status');
         $invoice->save();
-        return redirect()->route('invoice.index')->with('success', 'invoice has been created');
+        return redirect()->route('invoice.index')->with('success', 'Cost has been created');
     }
 
     public function edit($id)
     {
         $data = Service::findOrFail($id);
         $label = Label::all();
-        $member = Member::where('status', 'ACTIVE')->get();
-        return view('admin.invoice.edit', compact('data', 'label', 'member'));
+        return view('admin.invoice.edit', compact('data', 'label'));
     }
 
     public function update(Request $request, $id)
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'cost' => '',
-            // 'code' => '' . $id,
+            'category' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
             'status' => 'required',
         ]);
 
@@ -79,17 +82,18 @@ class InvoiceController extends Controller
         // Jika validasi berhasil, dapatkan data user berdasarkan ID
         $invoice = Service::findOrFail($id);
         if (!$invoice) {
-            return redirect()->route('invoice.index')->with('error', 'invoice not found');
+            return redirect()->route('invoice.index')->with('error', 'Cost not found');
         }
 
         $member = Member::find($request->member_id);
         // Update data
-        $invoice->cost      = $request->input('cost');
-        $invoice->code      = $request->input('code');
-        $invoice->status    = $request->input('status');
-        $invoice->member_id = $member->id;
+        $invoice->category = $request->input('category');
+        $invoice->name = $request->input('name');
+        $invoice->description = $request->input('description');
+        $invoice->amount = $request->input('amount');
+        $invoice->status = $request->input('status');
         $invoice->save();
-        return redirect()->route('invoice.index')->with('success', 'invoice has been updated');
+        return redirect()->route('invoice.index')->with('success', 'Cost has been updated');
     }
 
     public function destroy($id)
@@ -99,10 +103,10 @@ class InvoiceController extends Controller
 
         if ($delete == 1) {
             $success = true;
-            $message = " deleted successfully.";
+            $message = " Cost deleted successfully.";
         } else {
             $success = false;
-            $message = " deleted failed !";
+            $message = " Cost deleted failed !";
         }
 
         return response()->json([

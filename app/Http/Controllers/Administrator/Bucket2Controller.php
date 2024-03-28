@@ -72,6 +72,7 @@ class Bucket2Controller extends Controller
             'method' => 'TRANSFER', // Perhatikan penulisan method yang benar
             'description' => 'Invoice Booking Event ' . $data->title, // Mengakses nama event dari relasi
             'amount' => $data->price, // Mengakses harga event dari relasi
+            'fee' => $data->cost, // Mengakses biaya tambahan event dari relasi
             'date' => date('Y-m-d'),
             'category' => 'UNPAID',
             'booking_id' => $booking->id,

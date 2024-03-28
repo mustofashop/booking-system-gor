@@ -4222,4 +4222,17 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     }
 }
 
+.image {
+    position: absolute; /* Memastikan posisi absolut untuk gambar */
+    height: 500px;
+    width: 500px;
+    top: 150px;
+    left: 200px;
+    z-index: 1; /* Mengatur gambar ke belakang */
+    opacity: 0.3;
+}
+
+  
+
+
 /*-- responsive --*/

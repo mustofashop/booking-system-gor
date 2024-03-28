@@ -1,9 +1,9 @@
-@extends('layout.dashboard.app', ['title' => 'List invoice'])
+@extends('layout.dashboard.app', ['title' => 'List Cost'])
 
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-    @if ($item->code == 'invoice')
+    @if ($item->code == 'cost')
     <div class="section-title">
         <h3>{!! html_entity_decode($item->title) !!}</h3>
     </div>
@@ -28,8 +28,8 @@
                             <thead>
                             <tr style="text-align:left">
                                 <th>COST</th>
-                                <th>MEMBER</th>
-                                <th>CODE</th>
+                                <th>DESCRIPTION</th>
+                                <th>AMOUNT</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
@@ -38,19 +38,20 @@
                             @forelse ($data as $item)
                             <tr>
                                 <td style="text-align: left;">
-                                    <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i>
-                                    <br>
-                                    {{ $item->cost }}
-                                </td>
-                                <td>
-                                    <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
-                                    <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
-                                    {{ date('d F Y', strtotime($item->member->date)) }} <br>
-                                    <i class="fas fa-envelope"></i> {{ $item->member->email }} <br>
-                                    <i class="fas fa-phone"></i> {{ $item->member->phone }} <br>
-                                </td>
-                                <td>
                                     <div class="badge badge-dark">{{ $item->code }}</div>
+                                </td>
+                                <td>
+                                    <div class="m-3">
+                                        <h5>{{ $item->name }}</h5>
+                                        <small>{{ $item->description }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="m-3">
+                                        <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i>
+                                        <h3 style="color: #0f5132">Rp. {{ number_format($item->amount, 0, ',', '.')
+                                            }}</h3>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">

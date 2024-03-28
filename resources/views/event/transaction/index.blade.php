@@ -68,21 +68,10 @@
                             <tr>
                                 <td class="text-center">
                                     @if ($item->image && Storage::exists('public/event/' . $item->image))
-                                    <img src="{{ asset('storage/event/' . $item->image) }}" class="img-thumbnail"
-                                         width="200">
+                                    <img src="{{ asset('storage/event/' . $item->image) }}" class="img-thumbnail">
                                     @else
-                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                                         width="100">
+                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail">
                                     @endif
-                                    <div class="col-md-12">
-                                    @if ($item->photo_circuit && Storage::exists('public/event/' . $item->photo_circuit))
-                                    <img src="{{ asset('storage/event/' . $item->photo_circuit) }}" class="img-thumbnail"
-                                         width="200">
-                                    @else
-                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                                         width="100">
-                                    @endif
-                                    </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center m-3">
@@ -95,8 +84,8 @@
                                         <div class="col-md-12">
                                             <p>{{ strlen($item->description) > 80 ? substr($item->description, 0, 80) .
                                                 '...' : $item->description }}</p>
-                                         <p> <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i> 
-                                            {{ "Rp " . number_format($item->cost, 2, ',','.') }}</p>
+                                            <!--                                         <p> <i class="fas fa-money-bill-wave" style="font-size: 24px;"></i> -->
+                                            <!--                                            {{ "Rp " . number_format($item->cost, 2, ',','.') }}</p>-->
                                         </div>
                                         <div class="col-md-12">
                                             <h2 style="color: #026b3c"> {{ "Rp " . number_format($item->price, 2, ',',
@@ -107,14 +96,26 @@
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
                                         <div class="col-md-12">
-                                            <p>{{ $item->location }}</p>
-                                            <p>{{ $item->gate }}</p>
+                                            <p><i class="fas fa-map-marker-alt"></i> {{ $item->location }}</p>
+                                            <p><i class="fas fa-flag"></i> {{ $item->gate }}</p>
                                         </div>
                                         <div class="col-md-12">
-                                            <p>{{ date('d F Y', strtotime($item->date)) }}</p>
+                                            <p>
+                                                <i class="fas fa-calendar-alt"></i> {{ date('d F Y',
+                                                strtotime($item->date)) }}
+                                            </p>
                                         </div>
                                         <div class="col-md-12">
-                                            <p> {{ $item->time }} </p>
+                                            <p>
+                                                <i class="fas fa-clock"></i> {{ date('H:i', strtotime($item->time)) }}
+                                            </p>
+                                        </div>
+                                        <div class="badge badge-info" title="Circuit">
+                                            <a href="javascript:void(0)" id="show-circuit"
+                                               data-target="#circuitShowModal"
+                                               data-url="{{ route('event.circuit', $item->id) }}"
+                                               title="Circuit"><i class="fas fa-road"></i>
+                                            </a>
                                         </div>
                                         <div class="badge badge-dark" title="Quota">
                                             {{ $item->count_limit }}
@@ -236,9 +237,52 @@
             })
         });
 
+        /* When click show circuit */
+        $('body').on('click', '#show-circuit', function () {
+            var userURL = $(this).data('url');
+            $.get(userURL, function (data) {
+                $('#circuitShowModal').modal('show');
+                // Assuming data contains both the image URL and circuit information
+                $('#circuit').html(data.info_circuit); // Display circuit information
+
+                // Generate the URL for the image using Laravel's asset helper
+                var imageUrl = '{{ asset("storage/event/") }}' + '/' + data.photo_circuit;
+
+                // Check if the image exists
+                $.get(imageUrl)
+                    .done(function () {
+                        // Image exists, display it
+                        $('#circuit-image').html('<img src="' + imageUrl + '" alt="Circuit Image" class="img-thumbnail">');
+                    })
+                    .fail(function () {
+                        // Image doesn't exist, display default image
+                        var defaultImageUrl = '{{ asset("assets/img/default-image.jpg") }}'; // Path to default image
+                        $('#circuit-image').html('<img src="' + defaultImageUrl + '" alt="Default Image" class="img-thumbnail">');
+                    });
+            });
+        });
+
     </script>
 </section>
 @endsection
+
+<!-- MODAL CIRCUIT -->
+<div class="modal fade" id="circuitShowModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Show Circuit</h5>
+            </div>
+            <div class="modal-body">
+                <div id="circuit-image"></div> <!-- Container for the circuit image -->
+                <div id="circuit"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal fade" id="userShowModal" tabindex="-1" role="dialog">
