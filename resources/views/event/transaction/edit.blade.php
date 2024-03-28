@@ -31,8 +31,8 @@
                         @method('PUT')
                         <!-- IMAGE -->
                         <div class="row">
-                            <div class="col-4 mb-5">
-                                <label class="font-weight-bold">IMAGE <span
+                            <div class="col-6 mb-5">
+                                <label class="font-weight-bold">IMAGE EVENT <span
                                         class="text-danger">*</span></label>
                                 <div id="image-preview" class="image-preview"
                                      data-image-url="{{ isset($data->image) ? asset('storage/event/' . $data->image) : asset('assets/img/default-image.jpg') }}">
@@ -43,8 +43,8 @@
                                     <input type="file" name="image" id="image-upload">
                                 </div>
                             </div>
-                            <div class="col-4 mb-5">
-                                <label class="font-weight-bold">PHOTO CIRCUIT<span
+                            <div class="col-6 mb-5">
+                                <label class="font-weight-bold">PHOTO CIRCUIT <span
                                         class="text-danger">*</span></label>
                                 <div id="image-preview" class="image-preview"
                                      data-image-url="{{ isset($data->photo_circuit) ? asset('storage/event/' . $data->photo_circuit) : asset('assets/img/default-image.jpg') }}">
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                             <div class="col-6">
                                 <!-- CODE -->
                                 <div class="form-group">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                                <!-- TITLE -->
+                            <!-- TITLE -->
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold">TITLE <span
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                                <!-- PRICE -->
+                        <!-- PRICE -->
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -100,10 +100,10 @@
                             <!-- GATE -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">GATE<span
+                                    <label class="font-weight-bold">GATE <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="gate" id="gate"
-                                        value="{{ old('gate', $data->gate) }}"
+                                           value="{{ old('gate', $data->gate) }}"
                                            placeholder="Enter gate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the gate
@@ -111,14 +111,14 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- INFO CIRCUIT -->
+                        <!-- INFO CIRCUIT -->
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="font-weight-bold">INFO CIRCUIT<span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="info_circuit" id="info_circuit"
-                                        value="{{ old('info_circuit', $data->info_circuit) }}"
+                                           value="{{ old('info_circuit', $data->info_circuit) }}"
                                            placeholder="Enter info_circuit" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the info circuit
@@ -315,14 +315,14 @@
         });
     });
     $(document).ready(function () {
-    $('#image-upload2').change(function () {
-        var file = this.files[0];
-        var reader = new FileReader();
+        $('#image-upload2').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#preview2').attr('src', e.target.result).show();
-            $('#image-label2').text(file.name);
-        };
+            reader.onload = function (e) {
+                $('#preview2').attr('src', e.target.result).show();
+                $('#image-label2').text(file.name);
+            };
 
             reader.readAsDataURL(file);
         });

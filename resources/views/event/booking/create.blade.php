@@ -371,10 +371,16 @@
                             currency: 'IDR'
                         }).format(event.price);
 
+                        const formattedCost = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(event.cost);
+
                         var eventTableCost = document.getElementById('eventTableCost');
                         eventTableCost.innerHTML = `
                             <tr>
-                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedPrice}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Price <b>${formattedPrice}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Fee <b>${formattedCost}</b></td>
                                 <td>${event.organizer}</td>
                             </tr>
                         `;

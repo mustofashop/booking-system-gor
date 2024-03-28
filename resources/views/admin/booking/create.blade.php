@@ -3,14 +3,14 @@
 @section('content')
 <section class="section">
     @foreach ($label as $item)
-        @if ($item->code == 'booking')
-            <div class="section-title">
-                <h3>{!! html_entity_decode($item->title) !!}</h3>
-            </div>
-            <p class="section-lead">
-                {!! html_entity_decode($item->desc) !!}
-            </p>
-        @endif
+    @if ($item->code == 'booking')
+    <div class="section-title">
+        <h3>{!! html_entity_decode($item->title) !!}</h3>
+    </div>
+    <p class="section-lead">
+        {!! html_entity_decode($item->desc) !!}
+    </p>
+    @endif
     @endforeach
     <div class="row">
         <div class="col-md-12">
@@ -379,8 +379,8 @@
                         var eventTableCost = document.getElementById('eventTableCost');
                         eventTableCost.innerHTML = `
                             <tr>
-                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedPrice}</b></td>
-                                <td><i class="fas fa-money-bill-wave"></i> <b>${formattedCost}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Price <b>${formattedPrice}</b></td>
+                                <td><i class="fas fa-money-bill-wave"></i> Fee <b>${formattedCost}</b></td>
                                 <td>${event.organizer}</td>
                             </tr>
                         `;
