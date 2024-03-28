@@ -28,6 +28,34 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
+                            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                                <div class="col-lg-12 mt-4 mt-lg-0">
+                                    <form action="{{ route('event.index') }}" method="GET">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Search Event" name="search"
+                                                   value="{{ request()->get('search') }}">
+                                            <select class="form-control" name="month">
+                                                <option value="">Select Month</option>
+                                                <option value="01">January</option>
+                                                <option value="02">February</option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <thead>
                             <tr style="text-align:left">
                                 <th colspan="3">EVENT</th>

@@ -15,14 +15,46 @@ use Illuminate\View\View;
 
 class EventController extends Controller
 {
-    public function index(): View
+    public function index(Request $request)
     {
         //get event
         $data = Event::latest()->paginate(5);
         $label = Label::all();
 
-        //render view with data
-        return view('event.transaction.index', compact('data', 'label'));
+        // filter
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Event
+        $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
+        $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
+
+        $query = Event::query();
+
+        if ($month) {
+            // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
+            $query->whereMonth('date', $month);
+        }
+
+        if ($search) {
+            // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ambil data event berdasarkan kondisi yang telah ditetapkan
+        $events = $query->orderBy('date', 'desc')->get();
+
+
+        return view('event.transaction.index', [
+            'label' => $label,
+            'button' => $button,
+            'data' => $data,
+            'events' => $events
+        ]);
     }
 
     public function calendar(Request $request)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Label;
+use App\Models\Button;
+use App\Models\Event;
 use App\Models\TransactionBooking;
 use App\Models\TransactionInvoice;
 use App\Models\TransactionPayment;
@@ -11,11 +13,37 @@ use Illuminate\Http\Request;
 
 class ConfirmController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $label = Label::all();
         $data = TransactionInvoice::paginate(10);
-        return view('admin.confirm.index', ['data' => $data, 'label' => $label]);
+        // filter
+        // Button
+        $button = Button::orderBy('created_at')->get();
+
+        // Event
+        $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
+        $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
+
+        $query = Event::query();
+
+        if ($month) {
+            // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
+            $query->whereMonth('date', $month);
+        }
+
+        if ($search) {
+            // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ambil data event berdasarkan kondisi yang telah ditetapkan
+        $events = $query->orderBy('date', 'desc')->get();
+        return view('admin.confirm.index', ['data' => $data, 'label' => $label, 'button' => $button, 'events' => $events]);
     }
 
     public function create()
@@ -78,6 +106,4 @@ class ConfirmController extends Controller
     {
         //
     }
-
-
 }
