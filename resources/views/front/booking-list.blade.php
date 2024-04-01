@@ -138,16 +138,24 @@
                             </td>
                             <td>
                                 <div class="event-info">
-                                    <i class="bx bx-user"></i> {{ strtoupper($item->member->name) }} <br>
-                                    <i class="bx bxs-user-detail"></i> {{ strtoupper($item->member->nickname) }} <br>
-                                    <i class="bx bx-map"></i> {{ strtoupper($item->member->place) }} ,
+                                    @if($item->member)
+                                    <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
+                                    <i class="fas fa-user-tag"></i> {{ strtoupper($item->member->nickname) }} <br>
+                                    <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
                                     {{ date('d F Y', strtotime($item->member->date)) }} <br>
-                                    <i class="bx bxs-envelope"></i> {{ $item->member->email }} <br>
-                                    <i class="bx bxs-phone"></i> {{ $item->member->phone }} <br>
+                                    <i class="fas fa-envelope"></i> {{ $item->member->email }} <br>
+                                    <i class="fas fa-phone"></i> {{ $item->member->phone }} <br>
                                     <div
                                         class="badge badge-{{ $item->category == 'RESERVATION' ? 'info' : 'warning' }}">
                                         {{ $item->category }}
                                     </div>
+                                    @else
+                                    <img src="{{ asset('assets/img/avatar/avatar-5.png') }}"
+                                         class="img-thumbnail mt-2 mb-2"
+                                         width="100">
+                                    <br>
+                                    <div class="badge badge-danger">MEMBER NOT REGISTERED</div>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
