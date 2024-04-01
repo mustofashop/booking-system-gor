@@ -148,6 +148,13 @@
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="hero">
+        <div class="col-lg-12">
+            @foreach ($label as $item)
+            @if ($item->code == 'hastag')
+            <h1 class="m-5" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h1>
+            @endif
+            @endforeach
+        </div>
         <div class="container">
             <div class="row justify-content-center align-items-center" style="height: 60vh;">
                 <div class="col-lg-12" data-aos="zoom-out">
@@ -165,13 +172,6 @@
                         @endif
                         @endforeach
                     </div>
-                    {{-- <div class="text-center">
-                        @foreach ($label as $item)
-                        @if ($item->code == 'hastag')
-                        <p class="teks-kiri-atas" style="color:#FFFFFF;">{!! html_entity_decode($item->desc) !!}</p>
-                        @endif
-                        @endforeach
-                    </div> --}}
                 </div>
                 <div class="col-lg-4 order-lg-first" data-aos="zoom-out" data-aos-delay="300">
                     <!-- Your image here -->
