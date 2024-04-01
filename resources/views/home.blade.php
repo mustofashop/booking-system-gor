@@ -135,6 +135,12 @@
     .news-block a:hover {
         background-color: #3D3D3DFF;
     }
+
+    .teks-kiri-atas {
+            position: absolute;
+            top: -10px;
+            left: 0;
+        }
 </style>
 
 
@@ -156,6 +162,13 @@
                         @if ($item->code == 'register')
                         <a href="{!! html_entity_decode($item->url) !!}" class="btn-get-started scrollto">{!!
                             html_entity_decode($item->title) !!}</a>
+                        @endif
+                        @endforeach
+                    </div>
+                    <div class="text-center">
+                        @foreach ($label as $item)
+                        @if ($item->code == 'hastag')
+                        <p class="teks-kiri-atas" style="color:#FFFFFF;">{!! html_entity_decode($item->desc) !!}</p>
                         @endif
                         @endforeach
                     </div>
@@ -285,6 +298,10 @@
                             <div class="event-info">
                                 <span>{{ $event->location }}</span>
                                 <span>{{ date('H:i', strtotime($event->time)) }}</span>
+                                
+                            </div>
+                            <div class="event-info">
+                                <span> <b> Expiry Date :</b> {{ date('d F Y', strtotime($event->expiry_date)) }}</span>
                             </div>
                             <div class="event-title">
                                 <h3>{{ $event->title }}</h3>

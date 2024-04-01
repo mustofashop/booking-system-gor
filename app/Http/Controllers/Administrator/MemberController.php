@@ -53,6 +53,7 @@ class MemberController extends Controller
             'socmed'        => 'required',
             'status'        => 'required',
             'number_booking' => 'required',
+            'number_plat' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
             // 'banner'        => 'required',
@@ -79,6 +80,22 @@ class MemberController extends Controller
             $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
+        // Mendapatkan input dari form
+        $number_plat = $request->number_plat;
+        $date = $request->date;
+
+        // Mengambil nomor plat yang sudah ada berdasarkan tahun kelahiran peserta
+        $nomor_plat_peserta = Member::whereYear('date', $date)->pluck('number_plat')->toArray();
+
+        // Mengecek apakah nomor plat sudah ada yang dipilih oleh peserta
+        if (in_array($number_plat, $nomor_plat_peserta)) {
+            // Jika ada, tambahkan suffix berdasarkan urutan nomor plat yang sudah ada
+            $suffix = chr(65 + count($nomor_plat_peserta) - 1); // Mengubah angka ke huruf, misalnya: 0 menjadi A, 1 menjadi B, dst.
+            $nomor_plat_baru = $number_plat . '-' . $suffix;
+        } else {
+            // Jika tidak ada, nomor plat tetap sama
+            $nomor_plat_baru = $number_plat;
+        }
         //upload image
         if ($request->hasFile('image')) {
             // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
@@ -90,10 +107,11 @@ class MemberController extends Controller
             $member = new Member;
             $member->image                 = $imageName;
             $member->code                  = $newCode;
+            $member->date                  = $date;
+            $member->number_plat           = $nomor_plat_baru;
             $member->name                  = $request->input('name');
             $member->nickname              = $request->input('nickname');
             $member->place                 = $request->input('place');
-            $member->date                  = $request->input('date');
             $member->gender                = $request->input('gender');
             $member->height                = $request->input('height');
             $member->weight                = $request->input('weight');
@@ -151,6 +169,7 @@ class MemberController extends Controller
             'socmed'        => 'required',
             'status'        => 'required',
             'number_booking' => 'required',
+            'number_plat' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
             // 'banner'        => 'required',
@@ -178,6 +197,23 @@ class MemberController extends Controller
             $kodeMember = "R-" . sprintf("%03s", $member->id + 1);
         }
 
+        // Mendapatkan input dari form
+        $number_plat = $request->number_plat;
+        $date = $request->date;
+
+        // Mengambil nomor plat yang sudah ada berdasarkan tahun kelahiran peserta
+        $nomor_plat_peserta = Member::whereYear('date', $date)->pluck('number_plat')->toArray();
+
+        // Mengecek apakah nomor plat sudah ada yang dipilih oleh peserta
+        if (in_array($number_plat, $nomor_plat_peserta)) {
+            // Jika ada, tambahkan suffix berdasarkan urutan nomor plat yang sudah ada
+            $suffix = chr(65 + count($nomor_plat_peserta) - 1); // Mengubah angka ke huruf, misalnya: 0 menjadi A, 1 menjadi B, dst.
+            $nomor_plat_baru = $number_plat . '-' . $suffix;
+        } else {
+            // Jika tidak ada, nomor plat tetap sama
+            $nomor_plat_baru = $number_plat;
+        }
+
         //upload image
         if ($request->hasFile('image')) {
             // Hapus gambar lama sebelum menyimpan yang baru
@@ -192,10 +228,11 @@ class MemberController extends Controller
         }
 
         $member->code                 = $kodeMember;
+        $member->date                 = $date;
+        $member->number_plat          = $nomor_plat_baru;
         $member->name                 = $request->input('name');
         $member->nickname             = $request->input('nickname');
         $member->place                = $request->input('place');
-        $member->date                 = $request->input('date');
         $member->gender               = $request->input('gender');
         $member->height               = $request->input('height');
         $member->weight               = $request->input('weight');
