@@ -165,13 +165,13 @@
                         @endif
                         @endforeach
                     </div>
-                    <div class="text-center">
+                    {{-- <div class="text-center">
                         @foreach ($label as $item)
                         @if ($item->code == 'hastag')
                         <p class="teks-kiri-atas" style="color:#FFFFFF;">{!! html_entity_decode($item->desc) !!}</p>
                         @endif
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-4 order-lg-first" data-aos="zoom-out" data-aos-delay="300">
                     <!-- Your image here -->

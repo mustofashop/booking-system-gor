@@ -182,19 +182,17 @@ class MemberController extends Controller
                 ->withInput();
         }
 
-        // Jika validasi berhasil, dapatkan data user berdasarkan ID
-        $member =   Member::find($id);
-        if (!$member) {
-            return redirect()->route('event.rider.index')->with('error', 'Member not found.');
-        }
-
-        // Kode Otomatis
         $member = \App\Models\Member::latest()->first();
-        $kodeMember = "R-";
-        if ($member == null) {
-            $kodeMember = "R-001";
+        $date = Carbon::now(); // Misalnya, objek Carbon yang sudah ada
+        $year = $date->year;
+
+        if ($member) {
+            $lastCode = $member->code;
+            $lastNumber = (int)substr($lastCode, -4); // Ambil angka terakhir dari kode
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Tambahkan 1 dan lengkapi dengan nol di depan
+            $newCode = 'RDS' . $year . $request->input('gender') . $newNumber;
         } else {
-            $kodeMember = "R-" . sprintf("%03s", $member->id + 1);
+            $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
         // Mendapatkan input dari form
@@ -227,7 +225,7 @@ class MemberController extends Controller
             $member->image = $imageName;
         }
 
-        $member->code                 = $kodeMember;
+        $member->code                 = $newCode;
         $member->date                 = $date;
         $member->number_plat          = $nomor_plat_baru;
         $member->name                 = $request->input('name');
@@ -244,9 +242,9 @@ class MemberController extends Controller
         $member->number_booking       = $request->input('number_booking');
         $member->number_identity      = $request->input('number_identity');
         $member->story                = $request->input('story');
-        $member->member_id              = $request->input('member_id');
-        $member->nationality_id        = $request->input('nationality_id');
-        // $member->banner               = $request->input('banner');
+        $member->member_id            = $request->input('member_id');
+        $member->nationality_id       = $request->input('nationality_id');
+        // $member->banner            = $request->input('banner');
         $member->save();
 
         return redirect()->route('member.index')->with('success', 'Member updated successfully.');
