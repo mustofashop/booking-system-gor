@@ -25,5 +25,4 @@ class TransactionInvoice extends Model
     {
         return $this->hasMany(TransactionPayment::class, 'invoice_number', 'code');
     }
-
 }
