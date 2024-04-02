@@ -219,6 +219,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
         Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('invoice.update');
         Route::delete('/invoice/destroy/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
+
+        Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
 
     // Role Event
