@@ -19,12 +19,12 @@
                 <div class="card-header">
                     <h4>Edit</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('user.index') }}" class="btn btn-warning" data-toggle="tooltip"
+                        <a href="{{ route('users.index') }}" class="btn btn-warning" data-toggle="tooltip"
                            title="Back"><i class="fas fa-backward"></i></a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="fmuser-edit" action="{{ route('user.update', $data->id) }}" method="POST"
+                    <form id="fmuser-edit" action="{{ route('users.update', $data->id) }}" method="POST"
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         @method('PUT')

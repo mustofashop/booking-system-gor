@@ -137,9 +137,7 @@
     }
 
     .teks-kiri-atas {
-            position: absolute;
-            top: -10px;
-            left: 0;
+            padding-left: 100px;
         }
 </style>
 
@@ -151,7 +149,7 @@
         <div class="col-lg-12">
             @foreach ($label as $item)
             @if ($item->code == 'hastag')
-            <h1 class="m-5" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h1>
+            <h3 class="teks-kiri-atas" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h3>
             @endif
             @endforeach
         </div>

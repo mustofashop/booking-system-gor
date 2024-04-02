@@ -29,7 +29,7 @@
                             <thead>
                             <tr style="text-align:left">
                                 <th colspan="3">RIDER</th>
-                                <th>STATUS</th>
+                                <th colspan="3">STATUS</th>
                                 <th style="text-align:center">ACTION</th>
                             </tr>
                             </thead>
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td colspan="3">
                                     <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">
                                         {{ $item->status }}
                                     </div>
@@ -153,7 +153,7 @@
         }
 
         // Code to load image when editing
-        var imageUrl = '{{ isset($data->image) ? asset("storage/event/" . $data->image) : "" }}';
+        var imageUrl = '{{ isset($data->image) ? asset("storage/rider/" . $data->image) : "" }}';
         if (imageUrl) {
             $('#preview').attr('src', imageUrl).show();
             $('#image-label').text('Change File');
@@ -164,10 +164,12 @@
             var userURL = $(this).data('url');
             $.get(userURL, function (data) {
                 $('#userShowModal').modal('show');
+                $('#image').attr('src', '{{ asset('storage/rider/') }}' + '/' + data.image);
                 $('#code').text(data.code);
                 $('#name').text(data.name);
                 $('#nickname').text(data.nickname);
                 $('#place').text(data.place);
+                $('#number_plat').text(data.number_plat);
                 $('#date').text(data.date);
                 $('#gender').text(data.gender);
                 $('#status').text(data.status);
@@ -192,7 +194,7 @@
                     <tr>
                         <td><strong>IMAGE</strong></td>
                         <td>
-                            <img src="{{ asset('storage/rider/' . $item->image) }}">
+                            <img id="image" src="" alt="image" class="img-thumbnail" style="width: 100px; height: 100px;">
                         </td>
                     </tr>
                     <tr>
@@ -206,6 +208,14 @@
                     <tr>
                         <td><strong>GENDER</strong></td>
                         <td id="gender"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PLACE</strong></td>
+                        <td id="place"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NUMBER PLAT</strong></td>
+                        <td id="number_plat"></td>
                     </tr>
                     <tr>
                         <td><strong>NICKNAME</strong></td>

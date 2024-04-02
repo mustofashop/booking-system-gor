@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h4>List</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('user.create') }}" class="btn btn-success" data-toggle="tooltip"
+                        <a href="{{ route('users.create') }}" class="btn btn-success" data-toggle="tooltip"
                            title="Add"><i class="fas fa-plus-circle"></i></a>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                                 </td>
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <a href="{{ route('user.edit', $item->id) }}"
+                                        <a href="{{ route('users.edit', $item->id) }}"
                                            class="btn btn-warning btn-action" data-toggle="tooltip" title="Edit"><i
                                                 class="fas fa-pencil-alt"></i></a>
                                         &nbsp;
@@ -127,7 +127,7 @@
                     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: 'POST',
-                        url: "{{url('/user/destroy')}}/" + id,
+                        url: "{{url('/users/destroy')}}/" + id,
                         data: {
                             _token: CSRF_TOKEN,
                             _method: 'DELETE',
@@ -137,7 +137,7 @@
                         success: function (results) {
                             if (results.success === true) {
                                 swal("Success", results.message, "success");
-                                window.location.replace("{{ url('user') }}");
+                                window.location.replace("{{ url('users') }}");
                             } else {
                                 swal("Failed", results.message, "error");
                             }

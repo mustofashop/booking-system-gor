@@ -226,8 +226,10 @@
         /* When click show user */
         $('body').on('click', '#show-user', function () {
             var userURL = $(this).data('url');
+            // var imageUrl = $(this).data('image');
             $.get(userURL, function (data) {
                 $('#userShowModal').modal('show');
+                $('#image').attr('src', '{{ asset('storage/event/') }}' + '/' + data.image);
                 $('#code').text(data.code);
                 $('#title').text(data.title);
                 $('#description').text(data.description);
@@ -303,7 +305,7 @@
                     <tr>
                         <td><strong>IMAGE</strong></td>
                         <td>
-                            <img src="{{ asset('storage/event/' . $item->image) }}">
+                            <img src="" id="image" class="img-thumbnail" style="width: 100px; height: 100px;">
                         </td>
                     </tr>
                     <tr>
