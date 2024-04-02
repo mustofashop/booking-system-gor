@@ -62,6 +62,9 @@
                                             <br>
                                             <i class="fas fa-flag"></i>
                                             {{ $item->nations->name}}
+                                            <br>
+                                            <i class="fas fa-bicycle"></i>
+                                            {{ $item->number_plat}}
                                         </div>
                                     </div>
                                 </td>

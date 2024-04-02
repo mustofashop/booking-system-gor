@@ -53,6 +53,7 @@ class MemberController extends Controller
             'socmed'        => 'required',
             'status'        => 'required',
             'number_booking' => 'required',
+            'number_plat' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
             // 'banner'        => 'required',
@@ -79,6 +80,22 @@ class MemberController extends Controller
             $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
+        // Mendapatkan input dari form
+        $number_plat = $request->number_plat;
+        $date = $request->date;
+
+        // Mengambil nomor plat yang sudah ada berdasarkan tahun kelahiran peserta
+        $nomor_plat_peserta = Member::whereYear('date', $date)->pluck('number_plat')->toArray();
+
+        // Mengecek apakah nomor plat sudah ada yang dipilih oleh peserta
+        if (in_array($number_plat, $nomor_plat_peserta)) {
+            // Jika ada, tambahkan suffix berdasarkan urutan nomor plat yang sudah ada
+            $suffix = chr(65 + count($nomor_plat_peserta) - 1); // Mengubah angka ke huruf, misalnya: 0 menjadi A, 1 menjadi B, dst.
+            $nomor_plat_baru = $number_plat . '-' . $suffix;
+        } else {
+            // Jika tidak ada, nomor plat tetap sama
+            $nomor_plat_baru = $number_plat;
+        }
         //upload image
         if ($request->hasFile('image')) {
             // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
@@ -90,10 +107,11 @@ class MemberController extends Controller
             $member = new Member;
             $member->image                 = $imageName;
             $member->code                  = $newCode;
+            $member->date                  = $date;
+            $member->number_plat           = $nomor_plat_baru;
             $member->name                  = $request->input('name');
             $member->nickname              = $request->input('nickname');
             $member->place                 = $request->input('place');
-            $member->date                  = $request->input('date');
             $member->gender                = $request->input('gender');
             $member->height                = $request->input('height');
             $member->weight                = $request->input('weight');
@@ -151,6 +169,7 @@ class MemberController extends Controller
             'socmed'        => 'required',
             'status'        => 'required',
             'number_booking' => 'required',
+            'number_plat' => 'required',
             'number_identity' => 'required',
             'story'         => 'required',
             // 'banner'        => 'required',
@@ -163,19 +182,34 @@ class MemberController extends Controller
                 ->withInput();
         }
 
-        // Jika validasi berhasil, dapatkan data user berdasarkan ID
-        $member =   Member::find($id);
-        if (!$member) {
-            return redirect()->route('event.rider.index')->with('error', 'Member not found.');
+        $member = \App\Models\Member::latest()->first();
+        $date = Carbon::now(); // Misalnya, objek Carbon yang sudah ada
+        $year = $date->year;
+
+        if ($member) {
+            $lastCode = $member->code;
+            $lastNumber = (int)substr($lastCode, -4); // Ambil angka terakhir dari kode
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Tambahkan 1 dan lengkapi dengan nol di depan
+            $newCode = 'RDS' . $year . $request->input('gender') . $newNumber;
+        } else {
+            $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
-        // Kode Otomatis
-        $member = \App\Models\Member::latest()->first();
-        $kodeMember = "R-";
-        if ($member == null) {
-            $kodeMember = "R-001";
+        // Mendapatkan input dari form
+        $number_plat = $request->number_plat;
+        $date = $request->date;
+
+        // Mengambil nomor plat yang sudah ada berdasarkan tahun kelahiran peserta
+        $nomor_plat_peserta = Member::whereYear('date', $date)->pluck('number_plat')->toArray();
+
+        // Mengecek apakah nomor plat sudah ada yang dipilih oleh peserta
+        if (in_array($number_plat, $nomor_plat_peserta)) {
+            // Jika ada, tambahkan suffix berdasarkan urutan nomor plat yang sudah ada
+            $suffix = chr(65 + count($nomor_plat_peserta) - 1); // Mengubah angka ke huruf, misalnya: 0 menjadi A, 1 menjadi B, dst.
+            $nomor_plat_baru = $number_plat . '-' . $suffix;
         } else {
-            $kodeMember = "R-" . sprintf("%03s", $member->id + 1);
+            // Jika tidak ada, nomor plat tetap sama
+            $nomor_plat_baru = $number_plat;
         }
 
         //upload image
@@ -191,11 +225,12 @@ class MemberController extends Controller
             $member->image = $imageName;
         }
 
-        $member->code                 = $kodeMember;
+        $member->code                 = $newCode;
+        $member->date                 = $date;
+        $member->number_plat          = $nomor_plat_baru;
         $member->name                 = $request->input('name');
         $member->nickname             = $request->input('nickname');
         $member->place                = $request->input('place');
-        $member->date                 = $request->input('date');
         $member->gender               = $request->input('gender');
         $member->height               = $request->input('height');
         $member->weight               = $request->input('weight');
@@ -207,9 +242,9 @@ class MemberController extends Controller
         $member->number_booking       = $request->input('number_booking');
         $member->number_identity      = $request->input('number_identity');
         $member->story                = $request->input('story');
-        $member->member_id              = $request->input('member_id');
-        $member->nationality_id        = $request->input('nationality_id');
-        // $member->banner               = $request->input('banner');
+        $member->member_id            = $request->input('member_id');
+        $member->nationality_id       = $request->input('nationality_id');
+        // $member->banner            = $request->input('banner');
         $member->save();
 
         return redirect()->route('member.index')->with('success', 'Member updated successfully.');

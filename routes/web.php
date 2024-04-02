@@ -15,6 +15,7 @@ use App\Http\Controllers\Administrator\MemberController;
 use App\Http\Controllers\Administrator\NationalityController;
 use App\Http\Controllers\Administrator\TestimoniController;
 use App\Http\Controllers\Administrator\UserController;
+use App\Http\Controllers\Administrator\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\AccountController;
@@ -218,10 +219,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
         Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('invoice.update');
         Route::delete('/invoice/destroy/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
-
-        // Dashboard Management
-        Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
-
     });
 
     // Role Event

@@ -135,6 +135,12 @@
     .news-block a:hover {
         background-color: #3D3D3DFF;
     }
+
+    .teks-kiri-atas {
+            position: absolute;
+            top: -10px;
+            left: 0;
+        }
 </style>
 
 
@@ -142,6 +148,13 @@
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="hero">
+        <div class="col-lg-12">
+            @foreach ($label as $item)
+            @if ($item->code == 'hastag')
+            <h1 class="m-5" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h1>
+            @endif
+            @endforeach
+        </div>
         <div class="container">
             <div class="row justify-content-center align-items-center" style="height: 60vh;">
                 <div class="col-lg-12" data-aos="zoom-out">
@@ -285,6 +298,10 @@
                             <div class="event-info">
                                 <span>{{ $event->location }}</span>
                                 <span>{{ date('H:i', strtotime($event->time)) }}</span>
+                                
+                            </div>
+                            <div class="event-info">
+                                <span> <b> Expiry Date :</b> {{ date('d F Y', strtotime($event->expiry_date)) }}</span>
                             </div>
                             <div class="event-title">
                                 <h3>{{ $event->title }}</h3>

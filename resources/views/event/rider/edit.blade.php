@@ -79,20 +79,33 @@
                         </div>
                     </div>
                 </div>
-                <!-- NAME -->
-                <div class="col-6">
-                    <div class="form-group">
-                        <label class="font-weight-bold">NAME</label>
-                        <input type="text" class="form-control" name="name"
-                                value="{{ old('name', $data->name) }}"
-                                placeholder="Enter name" required="">
-                        <input type="hidden" id="code" name="code">
-                        <div class="invalid-feedback alert alert-danger mt-2">
-                            Please fill in the name
-                        </div>
+            </div>
+         <!-- NAME -->
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">NAME</label>
+                    <input type="text" class="form-control" name="name" value="{{ old('name', $data->name) }}"
+                           placeholder="Enter name" required="">
+                    <input type="hidden" id="code" name="code">
+                    <div class="invalid-feedback alert alert-danger mt-2">
+                        Please fill in the name
                     </div>
                 </div>
             </div>
+            <!-- NUMBER PLAT -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">NUMBER PLAT</label>
+                    <input type="text" class="form-control" name="number_plat" 
+                    value="{{ old('number_plat', $data->number_plat) }}"
+                        placeholder="Enter number plat" required="">
+                    <div class="invalid-feedback alert alert-danger mt-2">
+                        Please fill in the number plat
+                    </div>
+                </div>
+            </div>
+        </div>
             <!-- NICKNAME -->
             <div class="row">
                 <div class="col-6">

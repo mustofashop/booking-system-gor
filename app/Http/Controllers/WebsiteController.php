@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\About;
 use App\Models\Button;
 use App\Models\Event;
@@ -69,7 +70,11 @@ class WebsiteController extends Controller
         $news = News::orderBy('created_at')->take(6)->where('status', 'ACTIVE')->get();
 
         // Kegiatan
-        $event = Event::orderBy('created_at')->take(6)->where('status', 'ACTIVE')->get();
+        // $event = Event::orderBy('created_at')->take(6)->where('status', 'ACTIVE')->get();
+
+        // Event tanggal aktif
+        $currentDate = Carbon::now();
+        $event = Event::whereDate('expiry_date', '>=', $currentDate)->take(6)->get();
 
         // FAQ
         $question = Question::orderBy('ordering')->where('status', 'ACTIVE')->get();
@@ -118,7 +123,8 @@ class WebsiteController extends Controller
         $image = Image::orderBy('ordering')->get();
 
         // Event
-        $events = Event::orderBy('date', 'desc')->get();
+        $currentDate = Carbon::now();
+        $events = Event::whereDate('expiry_date', '>=', $currentDate)->get();
 
         return view('front.event', [
             'navbars' => $navbars,

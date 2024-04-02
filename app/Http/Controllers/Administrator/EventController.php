@@ -19,10 +19,8 @@ class EventController extends Controller
     public function index(Request $request)
     {
         //get event
-        $data = Event::latest()->paginate(5);
         $label = Label::all();
 
-        // filter
         // Button
         $button = Button::orderBy('created_at')->get();
 
@@ -44,17 +42,16 @@ class EventController extends Controller
                     ->orWhere('description', 'like', '%' . $search . '%')
                     ->orWhere('location', 'like', '%' . $search . '%');
             });
+        } else {
+            // $data = Event::latest()->paginate(5);
+            $data = $query->orderBy('date', 'desc')->paginate(5);
         }
-
-        // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $events = $query->orderBy('date', 'desc')->get();
 
 
         return view('event.transaction.index', [
             'label' => $label,
             'button' => $button,
-            'data' => $data,
-            'events' => $events
+            'data' => $data
         ]);
     }
 

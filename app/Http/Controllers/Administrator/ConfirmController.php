@@ -16,8 +16,7 @@ class ConfirmController extends Controller
     public function index(Request $request)
     {
         $label = Label::all();
-        $data = TransactionInvoice::paginate(10);
-        // filter
+
         // Button
         $button = Button::orderBy('created_at')->get();
 
@@ -25,7 +24,7 @@ class ConfirmController extends Controller
         $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
         $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
 
-        $query = Event::query();
+        $query = TransactionInvoice::query();
 
         if ($month) {
             // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
@@ -39,11 +38,19 @@ class ConfirmController extends Controller
                     ->orWhere('description', 'like', '%' . $search . '%')
                     ->orWhere('location', 'like', '%' . $search . '%');
             });
+        } else {
+            // $data = Event::latest()->paginate(5);
+            $data = $query->orderBy('date', 'desc')->paginate(10);
         }
 
         // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $events = $query->orderBy('date', 'desc')->get();
-        return view('admin.confirm.index', ['data' => $data, 'label' => $label, 'button' => $button, 'events' => $events]);
+        // $events = $query->orderBy('date', 'desc')->get();
+
+        return view('admin.confirm.index', [
+            'data' => $data,
+            'label' => $label,
+            'button' => $button
+        ]);
     }
 
     public function create()
