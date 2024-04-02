@@ -220,6 +220,15 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('invoice.update');
         Route::delete('/invoice/destroy/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
 
+        // Category Management
+        Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+        Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+        Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+        Route::get('/category/show/{id}', [CategoryController::class, 'show'])->name('category.show');
+        Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+        Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+        Route::delete('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
         Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
 
