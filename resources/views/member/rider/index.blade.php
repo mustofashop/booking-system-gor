@@ -176,8 +176,8 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="font-weight-bold">RIDERS NUMBER PLATE</label>
-                                    <input type="text" class="form-control" name="plate"
-                                           value="{{ $data->number_booking }}"
+                                    <input type="text" class="form-control" name="number_plat"
+                                           value="{{ $data->number_plat }}"
                                            placeholder="Enter riders number plate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the riders number plate
@@ -188,7 +188,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="font-weight-bold">BIRTH CERTIFICATE NUMBER</label>
-                                    <input type="text" class="form-control" name="certificate"
+                                    <input type="text" class="form-control" name="number_identity"
                                            value="{{ $data->number_identity }}"
                                            placeholder="Enter birth certificate number" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
@@ -200,7 +200,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label class="font-weight-bold">INSTAGRAM</label>
-                                    <input type="text" class="form-control" name="instagram"
+                                    <input type="text" class="form-control" name="socmed"
                                            value="{{ $data->socmed }}"
                                            placeholder="Enter instagram" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
@@ -216,11 +216,26 @@
                                         src="{{ isset($data->banner) ? asset('storage/rider/' . $data->banner) : '' }}"
                                         alt="Banner Preview" style="max-width: 100%; max-height: 200px; display: none;">
                                     <label for="image-upload" id="image-label">Choose File</label>
-                                    <input type="file" name="image" id="image-upload">
+                                    <input type="file" name="banner" id="image-upload">
                                 </div>
                             </div>
                             <div class="col-8">
                                 <div class="row">
+                                    <!-- NATIONALITY -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">NATIONALITY</label>
+                                            <select class="form-control select2" name="nationality_id" placeholder="Choose nationality" required="">
+                                                    <option value="">-- Choose --</option>
+                                                    @foreach ($nations as $nation)
+                                                        <option value="{{ $nation->id }}" {{ $nation->id == $data->nationality_id ? 'selected' : ''}}>{{ $nation->name }}</option>
+                                                    @endforeach
+                                                    </select>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the nationality
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- ADDRESS -->
                                     <div class="col-12">
                                         <div class="form-group">

@@ -88,7 +88,7 @@
                               <div class="media-title">{{ $item->member->name }}</div>
                               <div class="mt-1">
                                 <div class="budget-price">
-                                  <div class="budget-price-label">{{ $item->member->code }}</div>
+                                  <div class="budget-price-label">{{ $item->member->number_plat }}</div>
                                 </div>
                                 <div class="budget-price">
                                   <div class="budget-price-label">Points : </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Label;
 use App\Models\Member;
 use App\Models\User;
+use App\Models\Nationality;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +18,14 @@ class RiderController extends Controller
     public function index()
     {
         $label = Label::all();
+        $nations = Nationality::all();
         $data = Member::where('member_id', Auth::user()->id)->first();
 
         if (!$data) {
             $user = User::where('id', Auth::user()->id)->first();
-            return view('member.rider.create', compact('label', 'user'));
+            return view('member.rider.create', compact('label', 'user', 'nations'));
         } else {
-            return view('member.rider.index', compact('data', 'label'));
+            return view('member.rider.index', compact('data', 'label', 'nations'));
         }
     }
 
@@ -43,6 +45,12 @@ class RiderController extends Controller
             'phone' => 'required|numeric',
             'email' => 'required|string|email',
             'address' => 'required|string',
+            'number_plat' => 'required|string',
+            'number_identity' => 'required|string',
+            'socmed' => 'required|string',
+            'banner' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'story' => 'required|string',
+            'nationality_id' => 'required|string|max:1',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -71,6 +79,19 @@ class RiderController extends Controller
             $image->image = $imageName;
         }
 
+        // Update data banner
+        if ($request->hasFile('banner')) {
+            // Hapus gambar lama sebelum menyimpan yang baru
+            if ($image->banner) {
+                Storage::delete('public/rider/' . $image->banner);
+            }
+
+            $bannerFile = $request->file('banner');
+            $bannerName = $bannerFile->hashName(); // Mendapatkan nama enkripsi file
+            $bannerFile->storePubliclyAs('rider', $bannerName, 'public'); // Menyimpan file dengan nama spesifik
+            $image->banner = $bannerName;
+        }
+
         // Melakukan pembaruan (update) pada atribut lainnya
         $image->code = $request->code;
         $image->name = strtoupper($request->name);
@@ -83,6 +104,11 @@ class RiderController extends Controller
         $image->phone = $request->phone;
         $image->email = $request->email;
         $image->address = $request->address;
+        $image->number_plat = $request->number_plat;
+        $image->number_identity = $request->number_identity;
+        $image->socmed = $request->socmed;
+        $image->story = $request->story;
+        $image->nationality_id = $request->nationality_id;
         $image->updated_by = strtoupper($request->user()->username);
         $image->save();
 
