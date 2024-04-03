@@ -75,6 +75,24 @@
                             </div>
                         </div>
                     </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">COMUNITY</label>
+                    <select class="form-control select2" name="event_id" value="{{ old('event_id') }}"
+                            placeholder="Pilih COMUNITY" required="">
+                        <option value="">-- Choose --</option>
+                        @forelse ($event as $item)
+                        <option value="{{$item->id}}">{{$item->organizer}}</option>
+                        @empty
+                        @endforelse
+                    </select>
+                    <div class="invalid-feedback alert alert-danger mt-2">
+                        Please fill in the gender
+                    </div>
+                </div>
+            </div>
+        </div>
             <!-- NAME -->
         <div class="row">
             <div class="col-6">

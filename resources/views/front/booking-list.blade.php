@@ -1,4 +1,4 @@
-@extends('layout.details.default', ['title' => 'Confirm Payment'])
+@extends('layout.details.default', ['title' => 'Standing'])
 @section('content')
 <main id="main">
 
@@ -85,17 +85,22 @@
                     <table class="table table-striped mb-0">
                         <thead>
                         <tr style="text-align:left">
-                            <th colspan="2">BOOKING</th>
-                            <th>INFO</th>
-                            <th>MEMBER</th>
+                            <th>NO RIDERS</th>
+                            <th>PHOTO RIDERS</th>
+                            <th>NAME</th>
+                            <th>NATIONAL</th>
+                            <th>COMUNITY</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse ($booking as $item)
+                        @forelse ($member as $item)
                         <tr>
                             <td>
-                                @if ($item->event->image && Storage::exists('public/event/' . $item->event->image))
-                                <img src="{{ asset('storage/event/' . $item->event->image) }}" class="img-thumbnail"
+                                <div class="badge badge-dark">{{ $item->number_plat }}</div>
+                            </td>
+                            <td>
+                                @if ($item->image && Storage::exists('public/rider/' . $item->image))
+                                <img src="{{ asset('storage/rider/' . $item->image) }}" class="img-thumbnail"
                                         width="100">
                                 @else
                                 <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
@@ -103,60 +108,13 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="event-info mt-3 mb-3">
-                                    <h6> RESERVATION : <b> {{ date('d F Y', strtotime($item->date)) }} </b></h6>
-                                    <h3>{{ $item->event->title }}</h3>
-                                    <div class="badge badge-dark">{{ $item->code }}</div>
-                                    <div
-                                        class="badge badge-{{ $item->event->status == 'ACTIVE' ? 'success' : 'danger' }}">
-                                        @if($item->event->status == 'ACTIVE')
-                                        <span>OPEN</span>
-                                        @elseif($item->event->status == 'INACTIVE')
-                                        <span>CLOSE</span>
-                                        @else
-                                        {{ $item->event->status }}
-                                        @endif
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <i class="bx bx-calendar"></i> {{ date('d F Y',
-                                    strtotime($item->event->date)) }}
-                                    <i class="bx bx-time"></i>{{ date('H:i',
-                                    strtotime($item->event->time)) }}
-                                    <i class="bx bx-map"></i> {{ $item->event->location }}
-                                </div>
+                                <i class="bx bxs-user"></i> {{ $item->user->name }}
                             </td>
                             <td>
-                                <div class="event-info mt-3 mb-3">
-                                    <i class="bx bxs-buildings"></i> {{ $item->event->organizer }}
-                                    <br>
-                                    <p>{!! Str::words(html_entity_decode($item->note), 80, ' ...') !!} </p>
-                                    <h3>Rp. {{ number_format($item->event->price, 0, ',', '.') }}</h3>
-                                    <a href="{{ $item->event->maps }}" target="_blank" class="mb-3">{{
-                                        $item->event->maps }}</a>
-                                </div>
+                                <i class="bx bxs-flag"></i> {{ $item->nations->name }}
                             </td>
                             <td>
-                                <div class="event-info">
-                                    @if($item->member)
-                                    <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
-                                    <i class="fas fa-user-tag"></i> {{ strtoupper($item->member->nickname) }} <br>
-                                    <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
-                                    {{ date('d F Y', strtotime($item->member->date)) }} <br>
-                                    <i class="fas fa-envelope"></i> {{ $item->member->email }} <br>
-                                    <i class="fas fa-phone"></i> {{ $item->member->phone }} <br>
-                                    <div
-                                        class="badge badge-{{ $item->category == 'RESERVATION' ? 'info' : 'warning' }}">
-                                        {{ $item->category }}
-                                    </div>
-                                    @else
-                                    <img src="{{ asset('assets/img/avatar/avatar-5.png') }}"
-                                         class="img-thumbnail mt-2 mb-2"
-                                         width="100">
-                                    <br>
-                                    <div class="badge badge-danger">MEMBER NOT REGISTERED</div>
-                                    @endif
-                                </div>
+                                <i class="bx bxs-buildings"></i> {{ $item->event_id == null ? 'No Event' : $item->event->organizer}}
                             </td>
                         </tr>
                         @empty

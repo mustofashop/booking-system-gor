@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Administrator;
 
-//import Model "Post
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Button;
 use App\Models\Event;
@@ -83,8 +83,9 @@ class EventController extends Controller
             });
         }
 
-        // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $events = $query->orderBy('date', 'desc')->get();
+        // Event
+        $currentDate = Carbon::now();
+        $events = Event::whereDate('expiry_date', '>=', $currentDate)->get();
 
         return view('event.transaction.calendar', [
             'label' => $label,

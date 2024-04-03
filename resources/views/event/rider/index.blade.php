@@ -65,6 +65,9 @@
                                             <br>
                                             <i class="fas fa-bicycle"></i>
                                             {{ $item->number_plat}}
+                                            <br>
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ $item->event_id == null ? 'No Event' : $item->event->organizer}}
                                         </div>
                                     </div>
                                 </td>

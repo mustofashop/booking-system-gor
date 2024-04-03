@@ -26,7 +26,6 @@ class BookingController extends Controller
     {
         $label = Label::all();
         $event = Event::where('status', 'ACTIVE')->get();
-        // $member = Member::where('member_id', Auth::user()->id)->first();
         $member = Member::where('status', 'ACTIVE')->get();
         $category = EventCategory::where('status', 'ACTIVE')->get();
         return view('member.booking.create', compact('event', 'member', 'label', 'category'));

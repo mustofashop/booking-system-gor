@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Nationality;
+use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -22,9 +23,10 @@ class MemberController extends Controller
         $data           = Member::latest()->paginate(5);
         $label          = Label::all();
         $nations        = Nationality::all();
+        $event          = Event::all();
 
         //render view with data
-        return view('event.rider.index', compact('data', 'label', 'nations'));
+        return view('event.rider.index', compact('data', 'label', 'nations', 'event'));
     }
 
     public function create(): View
@@ -32,7 +34,8 @@ class MemberController extends Controller
         $label      = Label::all();
         $member     = User::where('permission', 'MEMBER')->get();
         $nations    = Nationality::all();
-        return view('event.rider.create', compact('label', 'member', 'nations'));
+        $event      = Event::all();
+        return view('event.rider.create', compact('label', 'member', 'nations', 'event'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -125,6 +128,7 @@ class MemberController extends Controller
             $member->story                 = $request->input('story');
             $member->member_id             = $request->input('member_id');
             $member->nationality_id        = $request->input('nationality_id');
+            $member->event_id              = $request->input('event_id');
             // $member->banner               = $request->input('banner');
             $member->save();
         }
@@ -244,6 +248,7 @@ class MemberController extends Controller
         $member->story                = $request->input('story');
         $member->member_id            = $request->input('member_id');
         $member->nationality_id       = $request->input('nationality_id');
+        $member->event_id              = $request->input('event_id');
         // $member->banner            = $request->input('banner');
         $member->save();
 

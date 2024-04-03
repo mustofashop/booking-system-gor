@@ -207,8 +207,12 @@ class WebsiteController extends Controller
             });
         }
 
-        // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $events = $query->orderBy('date', 'desc')->get();
+        // // Ambil data event berdasarkan kondisi yang telah ditetapkan
+        // $events = $query->orderBy('date', 'desc')->get();
+
+        // Event
+        $currentDate = Carbon::now();
+        $events = Event::whereDate('expiry_date', '>=', $currentDate)->get();
 
 
         return view('front.calendar', [
@@ -489,7 +493,7 @@ class WebsiteController extends Controller
         $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
         $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
 
-        $query = TransactionBooking::query();
+        $query = Member::query();
 
         if ($month) {
             // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
@@ -516,15 +520,15 @@ class WebsiteController extends Controller
 
         $button     = Button::all();
         $label      = Label::all();
-        // $member     = Member::where('member_id', Auth::user()->id)->first();
+        $event      = Member::all();
 
         // List data booking
-        $data = TransactionBooking::latest()->paginate(10);
+        $data = Member::latest()->paginate(10);
 
         // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $booking = $query->orderBy('date', 'desc')->get();
+        $member = $query->orderBy('date', 'desc')->get();
 
-        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'booking'));
+        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member', 'event'));
     }
 
     public function showRiderForm()
