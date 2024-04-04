@@ -562,6 +562,7 @@ class WebsiteController extends Controller
             ->select(
                 'master_members.id',
                 'master_members.image',
+                'master_members.code',
                 'master_members.name',
                 'master_members.place',
                 'master_members.date',

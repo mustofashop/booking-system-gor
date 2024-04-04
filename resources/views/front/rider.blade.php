@@ -122,7 +122,7 @@
 
     <!-- ======= Team Section ======= -->
     <section id="team" class="team">
-        <div class="container mt-5">
+        <div class="m-5">
 
             <div class="section-title" data-aos="fade-up">
                 @foreach ($label as $item)
@@ -137,18 +137,8 @@
 
                 @foreach($team as $value)
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-                    <div class="row m-3 text-center">
-                        <div class="col-lg-6 col-md-4">
-                            <i class="bi bi-award-fill"></i> POINT
-                            <h2>{{ $value->total_point ?? 0 }}</h2>
-                        </div>
-                        <div class="col-lg-6 col-md-4">
-                            <i class="bi bi-award"></i> RANK
-                            <h2>{{ $value->rank ?? 0 }}</h2>
-                        </div>
-                    </div>
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="pic">
+                        <div class="pic mt-5">
                             @if($value->image && Storage::exists('public/rider/' . $value->image))
                             <img src="{{ asset('storage/rider/'. $value->image) }}" class="img-fluid" alt="">
                             @else
@@ -156,8 +146,20 @@
                             @endif
                         </div>
                         <div class="member-info">
-                            <h4>{{ $value->name }}</h4>
-                            <span>{{ $value->place }}, {{ date('d F Y', strtotime($value->date)) }}</span>
+                            <h4>{{ strtoupper($value->name) }}</h4>
+                            <p style="color: #1a1e21"><b>{{ $value->code }}</b></p>
+                            <span>{{ strtoupper($value->place) }}, {{ date('d F Y', strtotime($value->date)) }}</span>
+
+                            <div class="row m-3 text-center">
+                                <div class="col-lg-6 col-md-4">
+                                    <i class="bi bi-award-fill"></i> POINT
+                                    <h2>{{ $value->total_point ?? 0 }}</h2>
+                                </div>
+                                <div class="col-lg-6 col-md-4">
+                                    <i class="bi bi-award"></i> RANK
+                                    <h2>{{ $value->rank ?? 0 }}</h2>
+                                </div>
+                            </div>
                             <div class="social m-3">
                                 @foreach ($button as $item)
                                 @if ( $item->code == 'more')
