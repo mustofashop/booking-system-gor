@@ -1,4 +1,4 @@
-@extends('layout.details.default', ['title' => 'Point'])
+@extends('layout.details.default', ['title' => 'Event'])
 @section('content')
 
 <style>
@@ -120,62 +120,60 @@
     </section>
     <!-- End Testimonials Section -->
 
-    <!-- ======= Team Section ======= -->
-    <section id="team" class="team">
-        <div class="container mt-5">
+    <!-- ======= Prosedur Section ======= -->
+    <section id="event" class="features">
+        <div class="container">
 
             <div class="section-title" data-aos="fade-up">
                 @foreach ($label as $item)
-                @if ( $item->code == 'point.all')
+                @if ($item->code == 'news')
                 <h2>{!!html_entity_decode($item->title)!!}</h2>
                 <p>{!!html_entity_decode($item->desc)!!}</p>
                 @endif
                 @endforeach
             </div>
 
-            <div class="row" data-aos="fade-left">
+            <section class="container">
+                <div class="events-container">
+                    @foreach ($news as $item)
+                    <div class="event">
+                        @if ($item->image && Storage::exists('public/news/' . $item->image))
+                        <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                                width="200">
+                        @else
+                        <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
+                                width="100">
+                        @endif
 
-                @foreach($team as $value)
-                <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-                    <div class="row m-3 text-center">
-                        <div class="col-lg-6 col-md-4">
-                            <i class="bi bi-award-fill"></i> POINT
-                            <h2>{{ $value->point[0]->total_point }}</h2>
-                        </div>
-                        <div class="col-lg-6 col-md-4">
-                            <i class="bi bi-award"></i> RANK
-                            <h2>{{ $value->point[0]->rank }}</h2>
-                        </div>
-                    </div>
-                    <div class="member" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="pic">
-                            @if($value->image && Storage::exists('public/rider/' . $value->image))
-                            <img src="{{ asset('storage/rider/'. $value->image) }}" class="img-fluid" alt="">
-                            @else
-                            <img src="{{ asset('assets/img/avatar/avatar-5.png') }}" class="img-fluid" alt="">
-                            @endif
-                        </div>
-                        <div class="member-info">
-                            <h4>{{ $value->name }}</h4>
-                            <span>{{ $value->place }}, {{ date('d F Y', strtotime($value->date)) }}</span>
-                            <div class="social m-3">
+                        <div class="event-details">
+                            <div class="event-info">
+                                <span># <b> {{ $item->title }} </b> </span>
+                                
+                            </div>
+                            <div class="event-info">
+                                <span> <b> {{ date('d F Y', strtotime($item->created_at)) }} </b> </span>
+                            </div>
+                            <div class="event-description">
+                                <p>{!! Str::words(html_entity_decode($item->desc), 50, ' ...') !!}</p>
+                            </div>
+                            {{-- <div class="event-buttons">
                                 @foreach ($button as $item)
                                 @if ( $item->code == 'more')
-                                <a href="{{ route('point-show', $value->id) }}"
-                                   class="btn btn-outline-danger btn-block mt-1">{!!html_entity_decode($item->title)!!}</a>
+                                <a class="btn small btn-outline-dark margin-10px-top md-no-margin-top"
+                                   href="{{ route('news-show', $item->id) }}">
+                                    {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
                                 @endif
                                 @endforeach
-                                <!-- <a href="{{ $value->instagram }}"><i class="bi bi-instagram"></i></a> -->
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
+            </section>
 
-            </div>
         </div>
     </section>
-    <!-- End Team Section -->
+    <!-- End Features Section -->
 
 </main>
 <!-- End #main -->

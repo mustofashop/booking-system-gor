@@ -229,10 +229,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-        // Dashboard Management
         Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
-    
+
     // Role Event
     Route::middleware(['event'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
@@ -273,7 +272,7 @@ Route::middleware(['auth'])->group(function () {
         // Dashboard Management
         Route::get('/event/home', [DashboardController::class, 'home1'])->name('dashboard.home1');
     });
-    
+
     // Role Member
     Route::middleware(['member'])->group(function () {
 

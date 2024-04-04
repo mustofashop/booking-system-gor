@@ -76,6 +76,7 @@ class Bucket2Controller extends Controller
             'date' => date('Y-m-d'),
             'category' => 'UNPAID',
             'booking_id' => $booking->id,
+            'user_id' => $booking->member_id,
             'created_by' => strtoupper(Auth::user()->username),
         ]);
     }

@@ -71,8 +71,8 @@ class MemberController extends Controller
         }
 
         $member = \App\Models\Member::latest()->first();
-        $date = Carbon::now(); // Misalnya, objek Carbon yang sudah ada
-        $year = $date->year;
+        $date = $request->input('date');
+        $year = $date ? Carbon::parse($date)->format('Y') : Carbon::now()->format('Y');
 
         if ($member) {
             $lastCode = $member->code;

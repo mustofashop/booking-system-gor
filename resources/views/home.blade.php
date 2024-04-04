@@ -137,8 +137,46 @@
     }
 
     .teks-kiri-atas {
-            padding-left: 100px;
-        }
+        padding-left: 100px;
+    }
+</style>
+
+<style>
+    .member-card {
+        height: 100%; /* Set height to ensure all cards have the same height */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .member-pic {
+        flex: 1; /* Make the image occupy the available space */
+        overflow: hidden; /* Hide overflow if the image is larger */
+    }
+
+    .member-info {
+        flex: 1; /* Make the member info occupy the available space */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .member-info h4,
+    .member-info span,
+    .member-info h2 {
+        margin: 0; /* Remove default margin */
+    }
+
+    .member-info h4 {
+        font-size: 18px; /* Adjust font size as needed */
+    }
+
+    .member-info h2 {
+        font-size: 24px; /* Adjust font size as needed */
+    }
+
+    .social {
+        margin-top: auto; /* Push social icons to the bottom */
+    }
+
 </style>
 
 
@@ -296,7 +334,7 @@
                             <div class="event-info">
                                 <span>{{ $event->location }}</span>
                                 <span>{{ date('H:i', strtotime($event->time)) }}</span>
-                                
+
                             </div>
                             <div class="event-info">
                                 <span> <b> Expiry Date :</b> {{ date('d F Y', strtotime($event->expiry_date)) }}</span>
@@ -396,12 +434,12 @@
             <div class="row align-items-center news-block no-gutters" data-aos="fade-up">
                 @if ( $value->id % 2 == 1)
                 <div class="col-md-4">
-                    @if ($item->image && Storage::exists('public/news/' . $item->image))
-                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                            width="200">
+                    @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
+                         width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                            width="100">
+                         width="100">
                     @endif
                 </div>
                 <div class="col-md-8 pt-2">
@@ -430,12 +468,12 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                    @if ($item->image && Storage::exists('public/news/' . $item->image))
-                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                            width="200">
+                    @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
+                         width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                            width="100">
+                         width="100">
                     @endif
                 </div>
                 @endif
@@ -469,8 +507,8 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
                         <a href="{{ asset('storage/gallery/'. $value->image) }}" class="gallery-lightbox">
-                            @if ($item->image && Storage::exists('public/gallery/' . $item->image))
-                            <img src="{{ asset('storage/gallery/' . $item->image) }}" class="img-fluid">
+                            @if ($value->image && Storage::exists('public/gallery/' . $item->image))
+                            <img src="{{ asset('storage/gallery/' . $value->image) }}" class="img-fluid">
                             @else
                             <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid">
                             @endif
@@ -497,21 +535,34 @@
                 @endif
                 @endforeach
 
-                @foreach ($label as $item)
-                @if ( $item->code == 'top.four')
-                <span title="{!!html_entity_decode($item->desc)!!}">
-                <i class="bi bi-award-fill"></i>
-                    {!!html_entity_decode($item->title)!!}
+                <div class="d-flex justify-content-between">
+                    <div>
+                        @foreach ($label as $item)
+                        @if ($item->code == 'top.four')
+                        <span title="{!! html_entity_decode($item->desc) !!}">
+                    <i class="bi bi-award-fill"></i>
+                    {!! html_entity_decode($item->title) !!}
                 </span>
-                @endif
-                @endforeach
+                        @endif
+                        @endforeach
+                    </div>
+                    <div>
+                        @foreach ($button as $item)
+                        @if ($item->code == 'more-rider')
+                        <a href="{!! html_entity_decode($item->url) !!}" class="btn btn-outline-dark btn-block mt-3">
+                            {!! html_entity_decode($item->title) !!}
+                        </a>
+                        @endif
+                        @endforeach
+                    </div>
+                </div>
+
             </div>
 
             <div class="row" data-aos="fade-left">
-
                 @foreach($team as $value)
                 <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-                    <div class="member" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="member member-card" data-aos="zoom-in" data-aos-delay="300">
                         <div class="pic">
                             @if($value->image && Storage::exists('public/rider/' . $value->image))
                             <img src="{{ asset('storage/rider/'. $value->image) }}" class="img-fluid" alt="">
@@ -520,11 +571,10 @@
                             @endif
                         </div>
                         <div class="member-info">
-                            <h4>{{ $value->name }}</h4>
-                            <span>{{ $value->place }}, {{ date('d F Y', strtotime($value->date)) }}</span>
-                            <h2>
-                                <i class="bi bi-award"></i> {{ $value->point[0]->total_point }}
-                            </h2>
+                            <h4>{{ strtoupper($value->name) }}</h4>
+                            <p style="color: #1a1e21"><b>{{ $value->code }}</b></p>
+                            <span>{{ strtoupper($value->place) }}, {{ date('d F Y', strtotime($value->date)) }}</span>
+                            <h2><i class="bi bi-award"></i> {{ $value->point[0]->total_point }}</h2>
                             <div class="social m-3">
                                 @foreach ($button as $item)
                                 @if ( $item->code == 'point')
@@ -532,19 +582,12 @@
                                    class="btn btn-outline-danger btn-block mt-1">{!!html_entity_decode($item->title)!!}</a>
                                 @endif
                                 @endforeach
-                                <!-- <a href="{{ $value->instagram }}"><i class="bi bi-instagram"></i></a> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
-
             </div>
-            @foreach ($button as $item)
-            @if ( $item->code == 'more-rider')
-            <a href="{!!html_entity_decode($item->url)!!}" class="btn btn-outline-dark btn-block mt-3">{!!html_entity_decode($item->title)!!}</a>
-            @endif
-            @endforeach
         </div>
     </section>
     <!-- End Team Section -->

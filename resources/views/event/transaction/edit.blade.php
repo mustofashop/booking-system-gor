@@ -85,7 +85,7 @@
                         </div>
                         <!-- PRICE -->
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold">PRICE <span
                                             class="text-danger">*</span></label>
@@ -94,6 +94,19 @@
                                            placeholder="Enter price" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the name
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FEE -->
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">SERVICE FEE <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="cost"
+                                           value="{{ old('cost', $data->cost) }}"
+                                           placeholder="Enter fee" required="" readonly>
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the fee
                                     </div>
                                 </div>
                             </div>
