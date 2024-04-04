@@ -74,7 +74,9 @@ class WebsiteController extends Controller
 
         // Event tanggal aktif
         $currentDate = Carbon::now();
-        $event = Event::whereDate('expiry_date', '>=', $currentDate)->take(6)->get();
+        $event = Event::whereDate('expiry_date', '>=', $currentDate)->take(6)
+            ->orderBy('expiry_date', 'asc')
+            ->get();
 
         // FAQ
         $question = Question::orderBy('ordering')->where('status', 'ACTIVE')->get();
@@ -486,6 +488,7 @@ class WebsiteController extends Controller
 
     public function showBooking(Request $request)
     {
+
         // Button
         $button = Button::orderBy('created_at')->get();
 
@@ -520,7 +523,7 @@ class WebsiteController extends Controller
 
         $button     = Button::all();
         $label      = Label::all();
-        $event      = Member::all();
+        $event      = Event::all();
 
         // List data booking
         $data = Member::latest()->paginate(10);

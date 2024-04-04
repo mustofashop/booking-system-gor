@@ -229,10 +229,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-        // Dashboard Management
         Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
-    
+
     // Role Event
     Route::middleware(['event'])->group(function () {
         Route::get('/profil', ProfilController::class)->name('profil');
@@ -269,11 +268,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/getBucketById/{id}', [BucketController::class, 'getBucketById'])->name('bucket.event');
         Route::get('/getMemberById/{id}', [BucketController::class, 'getMemberById'])->name('bucket.member');
         Route::get('/bucket/invoice/{id}', [BucketController::class, 'showInvoice'])->name('bucket.invoice');
-
-        // Dashboard Management
-        Route::get('/event/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
-    
+
     // Role Member
     Route::middleware(['member'])->group(function () {
 
@@ -306,8 +302,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('payment.edit');
         Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('payment.update');
         Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
-
-        // Dashboard Management
-        Route::get('/member/home', [DashboardController::class, 'home'])->name('dashboard.home');
     });
 });
