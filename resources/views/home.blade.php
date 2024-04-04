@@ -137,8 +137,8 @@
     }
 
     .teks-kiri-atas {
-            padding-left: 100px;
-        }
+        padding-left: 100px;
+    }
 </style>
 
 
@@ -296,7 +296,7 @@
                             <div class="event-info">
                                 <span>{{ $event->location }}</span>
                                 <span>{{ date('H:i', strtotime($event->time)) }}</span>
-                                
+
                             </div>
                             <div class="event-info">
                                 <span> <b> Expiry Date :</b> {{ date('d F Y', strtotime($event->expiry_date)) }}</span>
@@ -398,10 +398,10 @@
                 <div class="col-md-4">
                     @if ($item->image && Storage::exists('public/news/' . $item->image))
                     <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                            width="200">
+                         width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                            width="100">
+                         width="100">
                     @endif
                 </div>
                 <div class="col-md-8 pt-2">
@@ -432,10 +432,10 @@
                 <div class="col-md-4">
                     @if ($item->image && Storage::exists('public/news/' . $item->image))
                     <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                            width="200">
+                         width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                            width="100">
+                         width="100">
                     @endif
                 </div>
                 @endif
@@ -469,8 +469,8 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
                         <a href="{{ asset('storage/gallery/'. $value->image) }}" class="gallery-lightbox">
-                            @if ($item->image && Storage::exists('public/gallery/' . $item->image))
-                            <img src="{{ asset('storage/gallery/' . $item->image) }}" class="img-fluid">
+                            @if ($value->image && Storage::exists('public/gallery/' . $item->image))
+                            <img src="{{ asset('storage/gallery/' . $value->image) }}" class="img-fluid">
                             @else
                             <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid">
                             @endif
