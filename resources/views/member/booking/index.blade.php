@@ -30,7 +30,6 @@
                                 <th colspan="2">BOOKING</th>
                                 <th>INFO</th>
                                 <th>DESCRIPTION</th>
-                                <!--                                <th>STATUS</th>-->
                                 <th style="text-align:center">ACTION</th>
                             </tr>
                             </thead>
@@ -102,29 +101,22 @@
                                         @endif
                                     </div>
                                 </td>
-                                <!--                                <td>-->
-                                <!--                                    <div class="badge badge-{{ $item->status == 'ACTIVE' ? 'success' : 'danger' }}">-->
-                                <!--                                        {{ $item->status }}-->
-                                <!--                                    </div>-->
-                                <!--                                </td>-->
                                 <td colspan="2">
                                     <div class="row justify-content-md-center">
-                                        <!--                                        <a href="{{ route('booking.edit', $item->id) }}"-->
-                                        <!--                                           class="btn btn-warning btn-action m-1" data-toggle="tooltip" title="Edit"><i-->
-                                        <!--                                                class="fas fa-pencil-alt"></i></a>-->
                                         <a class="btn btn-primary btn-action m-1"
                                            href="{{ route('booking.invoice', $item->id) }}"
                                            data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></a>
-                                        <!--                                        <button class="btn btn-danger" onclick="deleteConfirmation('{{$item->id}}')"-->
-                                        <!--                                                data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i>-->
-                                        <!--                                        </button>-->
                                     </div>
                                 </td>
                             </tr>
                             @empty
-                            <div class="alert alert-dark m-5">
-                                Data not found
-                            </div>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="alert alert-dark m-5">
+                                        No list event has been registered
+                                    </div>
+                                </td>
+                            </tr>
                             @endforelse
                             </tbody>
                         </table>

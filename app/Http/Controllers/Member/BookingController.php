@@ -18,8 +18,14 @@ class BookingController extends Controller
     {
         $label = Label::all();
 
-        $data = TransactionBooking::paginate(10);
-        return view('member.booking.index', compact('data', 'label'));
+        $member = Member::where('member_id', Auth::user()->id)->first();
+        if($member == null){
+            $data = TransactionBooking::all();
+            return view('member.booking.index', compact('data', 'label'));
+        } else {
+            $data = TransactionBooking::where('member_id', $member->id)->paginate(10);
+            return view('member.booking.index', compact('data', 'label'));
+        }
     }
 
     public function create()

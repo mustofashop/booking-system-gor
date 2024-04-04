@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class RiderController extends Controller
 {
@@ -93,23 +94,23 @@ class RiderController extends Controller
         }
 
         // Melakukan pembaruan (update) pada atribut lainnya
-        $image->code = $request->code;
-        $image->name = strtoupper($request->name);
-        $image->nickname = $request->nickname;
-        $image->gender = $request->gender;
-        $image->place = strtoupper($request->place);
-        $image->date = $request->date;
-        $image->height = $request->height;
-        $image->weight = $request->weight;
-        $image->phone = $request->phone;
-        $image->email = $request->email;
-        $image->address = $request->address;
-        $image->number_plat = $request->number_plat;
-        $image->number_identity = $request->number_identity;
-        $image->socmed = $request->socmed;
-        $image->story = $request->story;
-        $image->nationality_id = $request->nationality_id;
-        $image->updated_by = strtoupper($request->user()->username);
+        $image->code                = $request->code;
+        $image->name                = strtoupper($request->name);
+        $image->nickname            = $request->nickname;
+        $image->gender              = $request->gender;
+        $image->place               = strtoupper($request->place);
+        $image->date                = $request->date;
+        $image->height              = $request->height;
+        $image->weight              = $request->weight;
+        $image->phone               = $request->phone;
+        $image->email               = $request->email;
+        $image->address             = $request->address;
+        $image->number_plat         = $request->number_plat;
+        $image->number_identity     = $request->number_identity;
+        $image->socmed              = $request->socmed;
+        $image->story               = $request->story;
+        $image->nationality_id      = $request->nationality_id;
+        $image->updated_by          = strtoupper($request->user()->username);
         $image->save();
 
         return redirect()->route('profile.index')->with('success', 'Rider has been updated');
@@ -126,7 +127,7 @@ class RiderController extends Controller
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'image' => 'image|mimes:jpeg,jpg,png|max:2048',
             'name' => 'required',
             'nickname' => 'required|unique:master_members,nickname',
             'place' => 'required',
@@ -137,6 +138,12 @@ class RiderController extends Controller
             'address' => 'required',
             'phone' => 'required',
             'email' => 'required',
+            'number_plat' => 'required|string',
+            'number_identity' => 'required|string',
+            'socmed' => 'required|string',
+            'banner' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'story' => 'required|string',
+            'nationality_id' => 'required|string|max:1',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -146,39 +153,58 @@ class RiderController extends Controller
                 ->withInput();
         }
 
-        $member = Member::latest()->first();
-        $kodeMember = "R-";
-        if ($member == null) {
-            $kodeMember = "R-001";
+        $member = \App\Models\Member::latest()->first();
+        $date = $request->input('date');
+        $year = $date ? Carbon::parse($date)->format('Y') : Carbon::now()->format('Y');
+
+        if ($member) {
+            $lastCode = $member->code;
+            $lastNumber = (int)substr($lastCode, -4); // Ambil angka terakhir dari kode
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Tambahkan 1 dan lengkapi dengan nol di depan
+            $newCode = 'RDS' . $year . $request->input('gender') . $newNumber;
         } else {
-            $kodeMember = "R-" . sprintf("%03s", $member->id + 1);
+            $newCode = 'RDS' . $year . $request->input('gender') . '0001'; // Jika tidak ada kode sebelumnya, mulai dengan 0001
         }
 
         //upload image
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image')){
             // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
             $imageFile = $request->file('image');
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
             $imageFile->storePubliclyAs('rider', $imageName, 'public'); // Menyimpan file dengan nama spesifik
-
-            //create post
-            $member = new Member;
-            $member->image = $imageName;
-            $member->code = $kodeMember;
-            $member->name = strtoupper($request->input('name'));
-            $member->nickname = $request->input('nickname');
-            $member->place = strtoupper($request->input('place'));
-            $member->date = $request->input('date');
-            $member->gender = $request->input('gender');
-            $member->height = $request->input('height');
-            $member->weight = $request->input('weight');
-            $member->address = $request->input('address');
-            $member->phone = $request->input('phone');
-            $member->email = $request->input('email');
-            $member->member_id = auth()->id();
-            $member->created_by = strtoupper($request->user()->username);
-            $member->save();
         }
+
+        if ($request->hasFile('banner')){
+            // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
+            $bannerFile = $request->file('banner');
+            $bannerName = $bannerFile->hashName(); // Mendapatkan nama enkripsi file
+            $bannerFile->storePubliclyAs('rider', $bannerName, 'public'); // Menyimpan file dengan nama spesifik
+        }
+        
+        //create post
+        $member = new Member;
+        $member->image                  = $imageName;
+        $member->banner                 = $bannerName;
+        $member->code                   = $newCode;
+        $member->name                   = strtoupper($request->input('name'));
+        $member->nickname               = $request->input('nickname');
+        $member->place                  = strtoupper($request->input('place'));
+        $member->date                   = $request->input('date');
+        $member->gender                 = $request->input('gender');
+        $member->height                 = $request->input('height');
+        $member->weight                 = $request->input('weight');
+        $member->address                = $request->input('address');
+        $member->phone                  = $request->input('phone');
+        $member->email                  = $request->input('email');
+        $member->number_plat            = $request->input('number_plat');
+        $member->number_identity        = $request->input('number_identity');
+        $member->socmed                 = $request->input('socmed');
+        $member->story                  = $request->input('story');
+        $member->nationality_id         = $request->input('nationality_id');
+        $member->member_id              = auth()->id();
+        $member->created_by             = strtoupper($request->user()->username);
+        $member->save();
+        
         //redirect to index
         return redirect()->route('profile.index')->with(['success' => 'Rider created successfully']);
     }

@@ -158,14 +158,92 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- ADDRESS -->
-                            <div class="col-12">
+                            <!-- NUMBER PLATE -->
+                            <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">ADDRESS</label>
-                                    <textarea class="form-control" name="address" value="{{ old('address') }}"
-                                              placeholder="Enter address" required="">{{ old('address') }}</textarea>
+                                    <label class="font-weight-bold">NUMBER PLATE</label>
+                                    <input type="text" class="form-control" name="number_plat"
+                                           value="{{ old('number_plat') }}"
+                                           placeholder="Enter number plate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the address
+                                        Please fill in the number plate
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- NUMBER IDENTITY -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">NUMBER IDENTITY</label>
+                                    <input type="text" class="form-control" name="number_identity"
+                                           value="{{ old('number_identity') }}"
+                                           placeholder="Enter number identity" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the number identity
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SOCMED -->
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">SOCMED</label>
+                                    <input type="text" class="form-control" name="socmed"
+                                           value="{{ old('socmed') }}"
+                                           placeholder="Enter socmed" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the socmed
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BANNER -->
+                            <div class="col-4">
+                                <div id="image-preview" class="image-preview">
+                                    <img id="preview-banner" src="" alt="Image Preview"
+                                         style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload" id="banner-label">Choose File</label>
+                                    <input type="file" name="banner" id="banner-upload" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the image
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <!-- NATIONALITY -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">NATIONALITY</label>
+                                            <select class="form-control select2" name="nationality_id" placeholder="Choose nationality" required="">
+                                                    <option value="">-- Choose --</option>
+                                                    @foreach ($nations as $nation)
+                                                        <option value="{{ $nation->id }}">{{ $nation->name }}</option>
+                                                    @endforeach
+                                                    </select>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the nationality
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ADDRESS -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">ADDRESS</label>
+                                            <textarea class="form-control" name="address" value="{{ old('address') }}"
+                                                      placeholder="Enter address" required="">{{ old('address') }}</textarea>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the address
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- STORY -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">STORY</label>
+                                            <textarea class="form-control" name="story" value="{{ old('story') }}"
+                                                      placeholder="Enter story" required="">{{ old('story') }}</textarea>
+                                            <div class="invalid-feedback alert alert-danger mt-2">
+                                                Please fill in the story
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +251,7 @@
 
                         <!-- BUTTON -->
                         <div class="form-group">
-                            <button type="submit" style="width:100px" class="btn btn-danger btn-action"
+                            <button type="submit" style="width:100px" class="btn btn-success btn-action"
                                     data-toggle="tooltip" title="Save"><i class="fas fa-save"></i></button>
                             <button type="reset" onclick="myReset()" class="btn btn-dark btn-action"
                                     data-toggle="tooltip" title="Reset"><i class="fas fa-redo-alt"></i></button>
@@ -200,11 +278,32 @@
         });
     });
 
+    $(document).ready(function () {
+        $('#banner-upload').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview-banner').attr('src', e.target.result).show();
+                $('#banner-label').text(file.name);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
     // Code to load image when editing
     var imageUrl = '{{ isset($data->image) ? asset("storage/rider/" . $data->image) : "" }}';
     if (imageUrl) {
         $('#preview').attr('src', imageUrl).show();
         $('#image-label').text('Change File');
+    }
+    
+    // Code to load banner when editing
+    var imageUrl = '{{ isset($data->banner) ? asset("storage/rider/" . $data->banner) : "" }}';
+    if (imageUrl) {
+        $('#preview-banner').attr('src', imageUrl).show();
+        $('#banner-label').text('Change File');
     }
 </script>
 @endsection

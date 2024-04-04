@@ -43,7 +43,7 @@
                             <div class="col-8">
                                 <div class="row">
                                     <!-- CODE -->
-                                    <div class="col-2">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label class="font-weight-bold">CODE</label>
                                             <input type="text" class="form-control" name="code"
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                     <!-- NAME -->
-                                    <div class="col-10">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label class="font-weight-bold">NAME</label>
                                             <input type="text" class="form-control" name="name"
@@ -172,39 +172,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- RIDERS NUMBER PLATE -->
+                            <!-- NUMBER PLATE -->
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">RIDERS NUMBER PLATE</label>
+                                    <label class="font-weight-bold">NUMBER PLATE</label>
                                     <input type="text" class="form-control" name="number_plat"
                                            value="{{ $data->number_plat }}"
-                                           placeholder="Enter riders number plate" required="">
+                                           placeholder="Enter number plate" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the riders number plate
+                                        Please fill in the number plate
                                     </div>
                                 </div>
                             </div>
-                            <!-- BIRTH CERTIFICATE NUMBER -->
+                            <!-- NUMBER IDENTITY -->
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">BIRTH CERTIFICATE NUMBER</label>
+                                    <label class="font-weight-bold">NUMBER IDENTITY</label>
                                     <input type="text" class="form-control" name="number_identity"
                                            value="{{ $data->number_identity }}"
-                                           placeholder="Enter birth certificate number" required="">
+                                           placeholder="Enter number identity" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the birth certificate number
+                                        Please fill in the number identity
                                     </div>
                                 </div>
                             </div>
-                            <!-- INSTAGRAM -->
+                            <!-- SOCMED -->
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">INSTAGRAM</label>
+                                    <label class="font-weight-bold">SOCMED</label>
                                     <input type="text" class="form-control" name="socmed"
                                            value="{{ $data->socmed }}"
-                                           placeholder="Enter instagram" required="">
+                                           placeholder="Enter socmed" required="">
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the instagram
+                                        Please fill in the socmed
                                     </div>
                                 </div>
                             </div>
@@ -247,14 +247,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- RIDER STORY -->
+                                    <!-- STORY -->
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="font-weight-bold">RIDER STORY</label>
+                                            <label class="font-weight-bold">STORY</label>
                                             <textarea class="form-control" name="story" value="{{ old('story') }}"
-                                                        placeholder="Enter rider story" required="">{{ old('story', $data->story) }}</textarea>
+                                                        placeholder="Enter story" required="">{{ old('story', $data->story) }}</textarea>
                                             <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the rider story
+                                                Please fill in the story
                                             </div>
                                         </div>
                                     </div>
@@ -265,7 +265,7 @@
 
                         <!-- BUTTON -->
                         <div class="form-group">
-                            <button type="submit" style="width:100px" class="btn btn-danger btn-action"
+                            <button type="submit" style="width:100px" class="btn btn-success btn-action"
                                     data-toggle="tooltip" title="Save"><i class="fas fa-save"></i></button>
                             <button type="reset" onclick="myReset()" class="btn btn-dark btn-action"
                                     data-toggle="tooltip" title="Reset"><i class="fas fa-redo-alt"></i></button>

@@ -271,7 +271,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bucket/invoice/{id}', [BucketController::class, 'showInvoice'])->name('bucket.invoice');
 
         // Dashboard Management
-        Route::get('/event/home', [DashboardController::class, 'home'])->name('dashboard.home');
+        Route::get('/event/home', [DashboardController::class, 'home1'])->name('dashboard.home1');
     });
     
     // Role Member
@@ -308,6 +308,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
 
         // Dashboard Management
-        Route::get('/member/home', [DashboardController::class, 'home'])->name('dashboard.home');
+        Route::get('/member/home', [DashboardController::class, 'home2'])->name('dashboard.home2');
     });
 });
