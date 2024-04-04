@@ -17,7 +17,7 @@ class PaymentController extends Controller
     public function index()
     {
         $label = Label::all();
-        $data = TransactionInvoice::paginate(10);
+        $data = TransactionInvoice::where('user_id', Auth::user()->id)->paginate(10);
         return view('member.payment.index', compact('label', 'data'));
     }
 
