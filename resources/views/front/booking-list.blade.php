@@ -53,15 +53,6 @@
             @endforeach
         </div>
         <form action="{{ route('booking-list') }}" method="GET">
-            <div class="form-group">
-                <label for="position-option">Posisi</label>
-                <select class="form-control" id="position-option" name="organizer">
-                   @foreach ($event as $position)
-                      <option value="{{ $position->id }}">{{ $position->organizer }}</option>
-                   @endforeach
-                </select>
-             </div>
-            <button type="submit">Filter</button>
         </form>
         
             <div class="card-body p-0">

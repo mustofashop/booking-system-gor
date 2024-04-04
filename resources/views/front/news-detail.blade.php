@@ -119,8 +119,8 @@
 
             <div class="events-container-detail">
                 <div class="event">
-                    @if ($item->image && Storage::exists('public/news/' . $item->image))
-                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                    @if ($news->image && Storage::exists('public/news/' . $news->image))
+                    <img src="{{ asset('storage/news/' . $news->image) }}" class="img-thumbnail"
                             width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"

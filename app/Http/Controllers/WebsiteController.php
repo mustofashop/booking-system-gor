@@ -522,7 +522,6 @@ class WebsiteController extends Controller
 
         $button     = Button::all();
         $label      = Label::all();
-        $event      = Member::all();
 
         // List data booking
         $data = Member::latest()->paginate(10);
@@ -530,7 +529,7 @@ class WebsiteController extends Controller
         // Ambil data event berdasarkan kondisi yang telah ditetapkan
         $member = $query->orderBy('date', 'desc')->get();
 
-        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member', 'event'));
+        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member'));
     }
 
     public function showRiderForm()
