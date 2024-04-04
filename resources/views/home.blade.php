@@ -396,8 +396,8 @@
             <div class="row align-items-center news-block no-gutters" data-aos="fade-up">
                 @if ( $value->id % 2 == 1)
                 <div class="col-md-4">
-                    @if ($item->image && Storage::exists('public/news/' . $item->image))
-                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                    @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
                          width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
@@ -430,8 +430,8 @@
                     @endforeach
                 </div>
                 <div class="col-md-4">
-                    @if ($item->image && Storage::exists('public/news/' . $item->image))
-                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                    @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
                          width="200">
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
