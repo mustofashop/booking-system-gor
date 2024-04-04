@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\About;
 use App\Models\Button;
 use App\Models\Event;
@@ -16,11 +15,11 @@ use App\Models\NavbarSub;
 use App\Models\News;
 use App\Models\Question;
 use App\Models\Testimonial;
-use App\Models\TransactionPayment;
 use App\Models\TransactionBooking;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Models\TransactionPayment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class WebsiteController extends Controller
 {
@@ -386,12 +385,12 @@ class WebsiteController extends Controller
         $member = Member::find($id);
 
         return view('front.point-detail', [
-            'navbars'    => $navbars,
+            'navbars' => $navbars,
             'subnavbars' => $subnavbars,
-            'label'      => $label,
-            'button'     => $button,
-            'image'      => $image,
-            'member'     => $member
+            'label' => $label,
+            'button' => $button,
+            'image' => $image,
+            'member' => $member
         ]);
     }
 
@@ -400,14 +399,14 @@ class WebsiteController extends Controller
 
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image'             => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'invoice_number'    => 'required|string|max:255',
-            'methode'           => 'required|string|max:255',
-            'sender'            => 'required|string|max:255',
-            'from'              => 'required|string|max:255',
-            'amount'            => 'required|numeric',
-            'paid_date'         => 'required|date',
-            'note'              => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'invoice_number' => 'required|string|max:255',
+            'methode' => 'required|string|max:255',
+            'sender' => 'required|string|max:255',
+            'from' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'paid_date' => 'required|date',
+            'note' => 'required|string|max:255',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -424,17 +423,17 @@ class WebsiteController extends Controller
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
             $imageFile->storePubliclyAs('payment', $imageName, 'public'); // Menyimpan file dengan nama spesifik
 
-            $member                 = new TransactionPayment;
-            $member->file           = $imageName;
+            $member = new TransactionPayment;
+            $member->file = $imageName;
             $member->invoice_number = $request->invoice_number;
-            $member->sender         = $request->sender;
-            $member->methode        = $request->methode;
-            $member->from           = $request->from;
-            $member->paid_date      = $request->paid_date;
-            $member->note           = $request->note;
-            $member->amount         = $request->amount;
-            $member->category       = 'SEND';
-            $member->event_id       = $request->event_id;
+            $member->sender = $request->sender;
+            $member->methode = $request->methode;
+            $member->from = $request->from;
+            $member->paid_date = $request->paid_date;
+            $member->note = $request->note;
+            $member->amount = $request->amount;
+            $member->category = 'SEND';
+            $member->event_id = $request->event_id;
             $member->save();
 
             // $this->confirm($request->event_id);
@@ -455,11 +454,11 @@ class WebsiteController extends Controller
         $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
         $button = Button::all();
-        $label   = Label::all();
+        $label = Label::all();
         // Master data event
-        $event    = Event::where('status', 'ACTIVE')->get();
+        $event = Event::where('status', 'ACTIVE')->get();
         // List data booking
-        $booking  = TransactionBooking::where('status', 'ACTIVE')->get();
+        $booking = TransactionBooking::where('status', 'ACTIVE')->get();
         // var_dump($data);
         return view('front.confirm-invoice', compact('label', 'event', 'booking', 'navbars', 'subnavbars', 'button'));
     }
@@ -518,9 +517,9 @@ class WebsiteController extends Controller
 
         $subnavbars = NavbarSub::orderBy('ordering')->where('status', 'ACTIVE')->get();
 
-        $button     = Button::all();
-        $label      = Label::all();
-        $event      = Member::all();
+        $button = Button::all();
+        $label = Label::all();
+        $event = Member::all();
 
         // List data booking
         $data = Member::latest()->paginate(10);
@@ -551,13 +550,31 @@ class WebsiteController extends Controller
         $image = Image::orderBy('ordering')->get();
 
         // News
-        $member = Member::with('point')
-            ->has('point') // Filters out members with no points
-            ->withCount('point as total_point') // Calculate total points
-            ->orderByDesc('total_point') // Order by total points in descending order
-            ->orderBy('created_at') // Then order by creation date
-            ->where('status', 'ACTIVE')
+//        $member = Member::with('point')
+//            ->has('point') // Filters out members with no points
+//            ->withCount('point as total_point') // Calculate total points
+//            ->orderByDesc('total_point') // Order by total points in descending order
+//            ->orderBy('created_at') // Then order by creation date
+//            ->where('status', 'ACTIVE')
+//            ->get();
+
+        $member = Member::leftJoin('transaction_point', 'master_members.id', '=', 'transaction_point.member_id')
+            ->select(
+                'master_members.id',
+                'master_members.image',
+                'master_members.name',
+                'master_members.place',
+                'master_members.date',
+                'transaction_point.category_id',
+                'transaction_point.point_rank',
+                'transaction_point.point_participation',
+                'transaction_point.total_point',
+                'transaction_point.rank'
+            )
+            ->orderBy('master_members.created_at')
+            ->where('master_members.status', 'ACTIVE')
             ->get();
+
 
         return view('front.rider', [
             'navbars' => $navbars,

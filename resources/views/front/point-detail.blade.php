@@ -108,10 +108,10 @@
                 <div class="col-lg-6 col-md-6 mt-5">
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
                         <div class="pic">
-                            @if($member->image && Storage::exists('public/team/' . $member->image))
-                            <img src="{{ asset('storage/team/'. $member->image) }}" class="img-fluid" alt="">
+                            @if($member->image && Storage::exists('public/rider/' . $member->image))
+                            <img src="{{ asset('storage/rider/'. $member->image) }}" class="img-fluid" alt="">
                             @else
-                            <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-fluid" alt="">
+                            <img src="{{ asset('assets/img/avatar/avatar-5.png') }}" class="img-fluid" alt="">
                             @endif
                         </div>
                         <div class="member-info">
@@ -159,27 +159,35 @@
                             @endif
                             @endforeach
                         </div>
-                        <h5>{{ $member->point[0]->event->title }}</h5>
+                        <h5>{{ $member->point[0]->event->title ?? '' }}</h5>
                         <div class="social m-3">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4">
                                     <i class="bi bi-award-fill"></i> POINT
-                                    <h2>{{ $member->point[0]->total_point }}</h2>
+                                    <h2>{{ $member->point[0]->total_point ?? 0 }}
                                 </div>
                                 <div class="col-lg-4 col-md-4">
                                     <i class="bi bi-award"></i> RANK
-                                    <h2>{{ $member->point[0]->rank }}</h2>
+                                    <h2>{{ $member->point[0]->rank ?? 0 }}
                                 </div>
                             </div>
                         </div>
                         <div class="section-title" data-aos="fade-up">
-                            <span>#{{ $member->point[0]->event->code }} , {{ date('d F Y',
-                                strtotime($member->point[0]->event->date)) }}</span>
+                            @if(isset($member->point[0]))
+                            <span>#{{ $member->point[0]->event->code }}, {{ date('d F Y', strtotime($member->point[0]->event->date)) }}</span>
+                            @else
+                            <span>No point information available</span>
+                            @endif
+
                             <div class="event-info">
-                                <span>{{ $member->point[0]->event->location }}</span>
+                                @if(isset($member->point[0]))
+                                <span>{{ $member->point[0]->event->location ?? 0 }}</span>
                                 <span>{{ date('H:i', strtotime($member->point[0]->event->time)) }}</span>
+                                @else
+                                <span>No event information available</span>
+                                @endif
                             </div>
-                            <span>{{ $member->point[0]->event->description }}</span>
+                            <span>{{ $member->point[0]->event->description ?? '' }}</span>
                         </div>
                     </div>
                 </div>

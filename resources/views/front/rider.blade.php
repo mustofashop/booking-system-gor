@@ -140,11 +140,11 @@
                     <div class="row m-3 text-center">
                         <div class="col-lg-6 col-md-4">
                             <i class="bi bi-award-fill"></i> POINT
-                            <h2>{{ $value->point[0]->total_point }}</h2>
+                            <h2>{{ $value->total_point ?? 0 }}</h2>
                         </div>
                         <div class="col-lg-6 col-md-4">
                             <i class="bi bi-award"></i> RANK
-                            <h2>{{ $value->point[0]->rank }}</h2>
+                            <h2>{{ $value->rank ?? 0 }}</h2>
                         </div>
                     </div>
                     <div class="member" data-aos="zoom-in" data-aos-delay="300">
