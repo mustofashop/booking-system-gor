@@ -101,9 +101,9 @@
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="cost" id="cost"
                                            value="{{ old('cost', $cost->amount) }}"
-                                           placeholder="Enter cost" required="" readonly>
+                                           placeholder="Enter fee" required="" readonly>
                                     <div class="invalid-feedback alert alert-danger mt-2">
-                                        Please fill in the cost
+                                        Please fill in the fee
                                     </div>
                                 </div>
                             </div>
