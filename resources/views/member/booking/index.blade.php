@@ -34,7 +34,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @if (isset($data)) // Check if data is available in the controller
+                                @if (isset($data))
                                     @forelse ($data as $item)
                                     <tr>
                                         <td>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="d-felx justify-content-center">
                     <div class="card-footer text-right">
-                        @if (isset($data)) // Check if data is available in the controller
+                        @if (isset($data))
                             {{ $data->links('vendor.pagination.bootstrap-5') }}
                         @endif
                     </div>

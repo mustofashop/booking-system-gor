@@ -32,7 +32,7 @@
                                 <div class="form-group">
                                     <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span class="text-danger">*</span></label>
                                     <select id="member_id" name="member_id" class="select2 form-control" required="">
-                                        @if ($permission != 'MEMBER') // Jika user memiliki akses MEMBER maka tidak bisa mengubah member
+                                        @if ($permission != 'MEMBER') 
                                             <option value="">Choose</option>
                                         @endif
                                             @foreach ($member as $item)
