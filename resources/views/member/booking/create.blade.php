@@ -18,12 +18,12 @@
                 <div class="card-header">
                     <h4>Create</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('bucket.index') }}" class="btn btn-warning" data-toggle="tooltip"
+                        <a href="{{ route('booking.index') }}" class="btn btn-warning" data-toggle="tooltip"
                            title="Back"><i class="fas fa-backward"></i></a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="fmlabel" action="{{ route('bucket.store') }}" method="post"
+                    <form id="fmlabel" action="{{ route('booking.store') }}" method="post"
                           enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         <div class="row">
@@ -32,9 +32,7 @@
                                 <div class="form-group">
                                     <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span class="text-danger">*</span></label>
                                     <select id="member_id" name="member_id" class="select2 form-control" required="">
-                                        @if ($permission != 'MEMBER') 
                                             <option value="">Choose</option>
-                                        @endif
                                             @foreach ($member as $item)
                                                 <option value="{{ $item->id }}">#{{
                                                     $item->number_booking }} | {{ $item->code }} | {{ $item->name }}
@@ -313,7 +311,7 @@
         $('#event_id').on('change', function () {
             var eventId = $(this).val();
 
-            fetch('/getBucketById/' + eventId)
+            fetch('/getEventById/' + eventId)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Failed to get event');

@@ -45,18 +45,28 @@
         <div class="container">
         <div class="section-title" data-aos="fade-up">
             @foreach ($label as $item)
-            @if ($item->code == 'booking-list')
-            <h2>{!!html_entity_decode($item->title)!!}</h2>
-            <p><i class="bx bx-notepad">
-            &nbsp; </i>{!!html_entity_decode($item->desc)!!}</p>
-            @endif
+                @if ($item->code == 'booking-list')
+                    <h2>{!!html_entity_decode($item->title)!!}</h2>
+                    <p><i class="bx bx-notepad">
+                    &nbsp; </i>{!!html_entity_decode($item->desc)!!}</p>
+                @endif
             @endforeach
         </div>
         <form action="{{ route('booking-list') }}" method="GET">
         </form>
-        
             <div class="card-body p-0">
                 <div class="table-responsive">
+                    <div class="input-group mb-3">
+                        {{-- <input type="text" class="form-control" placeholder="Search Event" id="search" name="search"
+                               value="{{ request()->get('search') }}">
+                               <div id="searchResults"></div> --}}
+                        {{-- <select id="product-dropdown">
+                            <option value="">Pilih Produk</option>
+                        </select>                            
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                        </div> --}}
+                    </div>
                     <table class="table table-striped mb-0">
                         <thead>
                         <tr style="text-align:left">
@@ -107,4 +117,30 @@
                 </div>
             </div>
        </section>
+
+       {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script>
+           $(document).ready(function(){
+               $('#product-dropdown').select2({
+                   minimumInputLength: 3,
+                   ajax: {
+                       url: {{ route('booking-list') }},
+                       dataType: 'json',
+                       delay: 250,
+                       processResults: function (data) {
+                           return {
+                               results: $.map(data, function (item) {
+                                   return {
+                                       text: item.title,
+                                       id: item.id
+                                   }
+                               })
+                           };
+                       },
+                       cache: true
+                   }
+               });
+           });
+       </script> --}}
+       
         @endsection

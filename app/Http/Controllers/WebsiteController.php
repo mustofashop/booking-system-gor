@@ -495,6 +495,16 @@ class WebsiteController extends Controller
         $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
         $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
 
+        if ($search) {
+            $data = Event::where('title', 'like', '%' . $search . '%')->get();
+            return response()->json($data);
+        } else {
+            $data = Member::latest()->paginate(10);
+        }
+
+        // // List data booking
+        // $data = Member::latest()->paginate(10);
+
         $query = Member::query();
 
         if ($month) {
@@ -502,14 +512,14 @@ class WebsiteController extends Controller
             $query->whereMonth('date', $month);
         }
 
-        if ($search) {
-            // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%')
-                    ->orWhere('location', 'like', '%' . $search . '%');
-            });
-        }
+        // if ($search) {
+        //     // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
+        //     $query->where(function ($q) use ($search) {
+        //         $q->where('title', 'like', '%' . $search . '%')
+        //             ->orWhere('description', 'like', '%' . $search . '%')
+        //             ->orWhere('location', 'like', '%' . $search . '%');
+        //     });
+        // }
 
         // Menu
         $navbars = Navbar::with('navbarsub')
@@ -522,9 +532,6 @@ class WebsiteController extends Controller
 
         $button     = Button::all();
         $label      = Label::all();
-
-        // List data booking
-        $data = Member::latest()->paginate(10);
 
         // Ambil data event berdasarkan kondisi yang telah ditetapkan
         $member = $query->orderBy('date', 'desc')->get();
