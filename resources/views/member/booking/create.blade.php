@@ -30,15 +30,16 @@
                             <!-- MEMBER -->
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span
-                                            class="text-danger">*</span></label>
+                                    <label for="member_id" class="font-weight-bold">CHOOSE MEMBER <span class="text-danger">*</span></label>
                                     <select id="member_id" name="member_id" class="select2 form-control" required="">
-                                        <option value="">Choose</option>
-                                        @foreach ($member as $item)
-                                        <option value="{{ $item->id }}">#{{
-                                            $item->number_booking }} | {{ $item->code }} | {{ $item->name }}
-                                        </option>
-                                        @endforeach
+                                        @if ($permission != 'MEMBER') // Jika user memiliki akses MEMBER maka tidak bisa mengubah member
+                                            <option value="">Choose</option>
+                                        @endif
+                                            @foreach ($member as $item)
+                                                <option value="{{ $item->id }}">#{{
+                                                    $item->number_booking }} | {{ $item->code }} | {{ $item->name }}
+                                                </option>
+                                            @endforeach
                                     </select>
                                     <div class="invalid-feedback">
                                         Please select a valid member

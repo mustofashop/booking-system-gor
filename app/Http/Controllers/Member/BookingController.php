@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventCategory;
 use App\Models\Label;
+use App\Models\User;
 use App\Models\Member;
 use App\Models\TransactionBooking;
 use App\Models\TransactionInvoice;
@@ -17,24 +18,31 @@ class BookingController extends Controller
     public function index()
     {
         $label = Label::all();
+        $member = Member::where('member_id', Auth::user()->id)->first(); // Cari member berdasarkan ID user
 
-        $member = Member::where('member_id', Auth::user()->id)->first();
-        if($member == null){
-            $data = TransactionBooking::all();
-            return view('member.booking.index', compact('data', 'label'));
-        } else {
+        if (isset($member)){ // Validasi apakah member ada atau tidak
             $data = TransactionBooking::where('member_id', $member->id)->paginate(10);
-            return view('member.booking.index', compact('data', 'label'));
+
+            if (isset($data)){ // Validasi apakah data booking ada atau tidak
+                return view('member.booking.index', compact('data', 'label'));
+            } else {
+                return view('member.booking.index', compact('label'));
+            }
+        } else {
+            return view('member.booking.index', compact('label'));
         }
     }
 
     public function create()
     {
+        $user = User::where('status', 'ACTIVE')->where('id', Auth::user()->id)->first(); // Cari user berdasarkan ID
+        $permission = $user->permission; // Ambil data permission dari user
+
         $label = Label::all();
         $event = Event::where('status', 'ACTIVE')->get();
-        $member = Member::where('status', 'ACTIVE')->get();
         $category = EventCategory::where('status', 'ACTIVE')->get();
-        return view('member.booking.create', compact('event', 'member', 'label', 'category'));
+        $member = Member::where('status', 'ACTIVE')->where('member_id', Auth::user()->id)->get(); // Cari member berdasarkan ID user
+        return view('member.booking.create', compact('event', 'member', 'label', 'category', 'permission'));
     }
 
     public function store(Request $request)

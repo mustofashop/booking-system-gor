@@ -34,97 +34,103 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse ($data as $item)
-                            <tr>
-                                <td>
-                                    @if ($item->event->image && Storage::exists('public/event/' . $item->event->image))
-                                    <img src="{{ asset('storage/event/' . $item->event->image) }}" class="img-thumbnail"
-                                         width="100">
-                                    @else
-                                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                                         width="100">
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="event-info mt-3 mb-3">
-                                        <h6>RESERVATION : <b> {{ date('d F Y', strtotime($item->date)) }} </b></h6>
-                                        <h3>{{ $item->event->title }}</h3>
-                                        <div class="badge badge-dark">{{ $item->code }}</div>
-                                        <div
-                                            class="badge badge-{{ $item->event->status == 'ACTIVE' ? 'success' : 'danger' }}">
-                                            @if($item->event->status == 'ACTIVE')
-                                            <span>OPEN</span>
-                                            @elseif($item->event->status == 'INACTIVE')
-                                            <span>CLOSE</span>
+                                @if (isset($data)) // Check if data is available in the controller
+                                    @forelse ($data as $item)
+                                    <tr>
+                                        <td>
+                                            @if ($item->event->image && Storage::exists('public/event/' . $item->event->image))
+                                                <img src="{{ asset('storage/event/' . $item->event->image) }}" class="img-thumbnail" width="100">
                                             @else
-                                            {{ $item->event->status }}
+                                                <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail" width="100">
                                             @endif
-                                        </div>
-                                        <br>
-                                        <br>
-                                        <i class="fas fa-calendar-alt"></i> {{ date('d F Y',
-                                        strtotime($item->event->date)) }}
-                                        <i class="fas fa-clock"></i> {{ date('H:i',
-                                        strtotime($item->event->time)) }}
-                                        <i class="fas fa-map-marker-alt"></i> {{ $item->event->location }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="event-info mt-3 mb-3">
-                                        <i class="fas fa-building"></i> {{ $item->event->organizer }}
-                                        <br>
-                                        <p>{!! Str::words(html_entity_decode($item->note), 80, ' ...') !!} </p>
-                                        <h3>Rp. {{ number_format($item->event->price, 0, ',', '.') }}</h3>
-                                        <a href="{{ $item->event->maps }}" target="_blank" class="mb-3">{{
-                                            $item->event->maps }}</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="event-info">
-                                        @if($item->member)
-                                        <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
-                                        <i class="fas fa-user-tag"></i> {{ strtoupper($item->member->nickname) }} <br>
-                                        <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
-                                        {{ date('d F Y', strtotime($item->member->date)) }} <br>
-                                        <i class="fas fa-envelope"></i> {{ $item->member->email }} <br>
-                                        <i class="fas fa-phone"></i> {{ $item->member->phone }} <br>
-                                        <div
-                                            class="badge badge-{{ $item->category == 'RESERVATION' ? 'info' : 'warning' }}">
-                                            {{ $item->category }}
-                                        </div>
-                                        @else
-                                        <img src="{{ asset('assets/img/avatar/avatar-5.png') }}"
-                                             class="img-thumbnail mt-2 mb-2"
-                                             width="100">
-                                        <br>
-                                        <div class="badge badge-danger">MEMBER NOT REGISTERED</div>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <div class="row justify-content-md-center">
-                                        <a class="btn btn-primary btn-action m-1"
-                                           href="{{ route('booking.invoice', $item->id) }}"
-                                           data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5">
-                                    <div class="alert alert-dark m-5">
-                                        No list event has been registered
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
+                                        </td>
+                                        <td>
+                                            <div class="event-info mt-3 mb-3">
+                                                <h6>RESERVATION : <b> {{ date('d F Y', strtotime($item->date)) }} </b></h6>
+                                                <h3>{{ $item->event->title }}</h3>
+                                                <div class="badge badge-dark">{{ $item->code }}</div>
+                                                <div
+                                                    class="badge badge-{{ $item->event->status == 'ACTIVE' ? 'success' : 'danger' }}">
+                                                    @if($item->event->status == 'ACTIVE')
+                                                    <span>OPEN</span>
+                                                    @elseif($item->event->status == 'INACTIVE')
+                                                    <span>CLOSE</span>
+                                                    @else
+                                                    {{ $item->event->status }}
+                                                    @endif
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <i class="fas fa-calendar-alt"></i> {{ date('d F Y', strtotime($item->event->date)) }}
+                                                <i class="fas fa-clock"></i> {{ date('H:i', strtotime($item->event->time)) }}
+                                                <i class="fas fa-map-marker-alt"></i> {{ $item->event->location }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="event-info mt-3 mb-3">
+                                                <i class="fas fa-building"></i> {{ $item->event->organizer }}
+                                                <br>
+                                                <p>{!! Str::words(html_entity_decode($item->note), 80, ' ...') !!} </p>
+                                                <h3>Rp. {{ number_format($item->event->price, 0, ',', '.') }}</h3>
+                                                <a href="{{ $item->event->maps }}" target="_blank" class="mb-3">{{
+                                                    $item->event->maps }}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="event-info">
+                                                @if($item->member)
+                                                <i class="fas fa-user"></i> {{ strtoupper($item->member->name) }} <br>
+                                                <i class="fas fa-user-tag"></i> {{ strtoupper($item->member->nickname) }} <br>
+                                                <i class="fas fa-map-marker-alt"></i> {{ strtoupper($item->member->place) }} ,
+                                                {{ date('d F Y', strtotime($item->member->date)) }} <br>
+                                                <i class="fas fa-envelope"></i> {{ $item->member->email }} <br>
+                                                <i class="fas fa-phone"></i> {{ $item->member->phone }} <br>
+                                                <div
+                                                    class="badge badge-{{ $item->category == 'RESERVATION' ? 'info' : 'warning' }}">
+                                                    {{ $item->category }}
+                                                </div>
+                                                @else
+                                                <img src="{{ asset('assets/img/avatar/avatar-5.png') }}" class="img-thumbnail mt-2 mb-2" width="100">
+                                                <br>
+                                                <div class="badge badge-danger">MEMBER NOT REGISTERED</div>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td colspan="2">
+                                            <div class="row justify-content-md-center">
+                                                <a class="btn btn-primary btn-action m-1"
+                                                href="{{ route('booking.invoice', $item->id) }}"
+                                                data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="alert alert-dark m-5">
+                                                No list event has been registered
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforelse
+                                @else
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="alert alert-dark m-5">
+                                                No list event has been registered
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="d-felx justify-content-center">
                     <div class="card-footer text-right">
-                        {{ $data->links('vendor.pagination.bootstrap-5') }}
+                        @if (isset($data)) // Check if data is available in the controller
+                            {{ $data->links('vendor.pagination.bootstrap-5') }}
+                        @endif
                     </div>
                 </div>
             </div>

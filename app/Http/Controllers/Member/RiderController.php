@@ -35,7 +35,7 @@ class RiderController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'code' => 'required|string|max:255|unique:master_members,code,' . $id,
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|unique:master_members,nickname,' . $id,
             'gender' => 'required|string|max:1',
@@ -49,9 +49,14 @@ class RiderController extends Controller
             'number_plat' => 'required|string',
             'number_identity' => 'required|string',
             'socmed' => 'required|string',
-            'banner' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
             'story' => 'required|string',
             'nationality_id' => 'required|string|max:1',
+        ], [
+            'image.max' => 'The image may not be greater than 2MB.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'banner.max' => 'The banner may not be greater than 2MB.',
+            'banner.mimes' => 'The banner must be a file of type: jpeg, png, jpg, gif, svg.',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
@@ -127,7 +132,7 @@ class RiderController extends Controller
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
-            'image' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required',
             'nickname' => 'required|unique:master_members,nickname',
             'place' => 'required',
@@ -141,9 +146,14 @@ class RiderController extends Controller
             'number_plat' => 'required|string',
             'number_identity' => 'required|string',
             'socmed' => 'required|string',
-            'banner' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
             'story' => 'required|string',
             'nationality_id' => 'required|string|max:1',
+        ], [
+            'image.max' => 'The image may not be greater than 2MB.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'banner.max' => 'The banner may not be greater than 2MB.',
+            'banner.mimes' => 'The banner must be a file of type: jpeg, png, jpg, gif, svg.',
         ]);
 
         // Jika validasi gagal, kembali ke halaman sebelumnya dengan pesan error
