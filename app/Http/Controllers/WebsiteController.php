@@ -494,6 +494,16 @@ class WebsiteController extends Controller
         $month = $request->input('month'); // Mengambil nilai bulan dari permintaan
         $search = $request->input('search'); // Mengambil nilai pencarian dari permintaan
 
+        if ($search) {
+            $data = Event::where('title', 'like', '%' . $search . '%')->get();
+            return response()->json($data);
+        } else {
+            $data = Member::latest()->paginate(10);
+        }
+
+        // // List data booking
+        // $data = Member::latest()->paginate(10);
+
         $query = Member::query();
 
         // List data event
@@ -506,10 +516,11 @@ class WebsiteController extends Controller
 
         if ($search) {
             // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
-            $member = $query->where('event_id', $search)->orderBy('created_at', 'desc')->get();
-        } else {
-            // Ambil data event berdasarkan kondisi yang telah ditetapkan
-            $member = $query->orderBy('created_at', 'desc')->get();
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
         }
 
         // Menu 
@@ -523,9 +534,6 @@ class WebsiteController extends Controller
 
         $button     = Button::all();
         $label      = Label::all();
-
-        // List data booking
-        $data = Member::latest()->paginate(10);
 
         return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member', 'event'));
     }

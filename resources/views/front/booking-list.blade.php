@@ -53,21 +53,10 @@
             @endforeach
         </div>
         <form action="{{ route('booking-list') }}" method="GET">
+        </form>
+        
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <div class="input-group input-group-sm mb-3">
-                        <select class="form-select" id="search" name="search">
-                            <option value="">-- Choose --</option>
-                            @forelse ($event as $item)
-                                <option value="{{ $item->id }}">{{ $item->title }}
-                                </option>
-                            @empty
-                            @endforelse
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit">Search</button>
-                        </div>
-                    </div>
                     <table class="table table-striped mb-0">
                         <thead>
                         <tr style="text-align:left">
@@ -118,14 +107,5 @@
                     {{ $data->links('vendor.pagination.bootstrap-5') }}
                 </div>
             </div>
-    </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#search').select2();
-        });
-    </script>
-@endsection
+       </section>
+        @endsection

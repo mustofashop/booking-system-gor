@@ -35,14 +35,11 @@ class BookingController extends Controller
 
     public function create()
     {
-        $user = User::where('status', 'ACTIVE')->where('id', Auth::user()->id)->first(); // Cari user berdasarkan ID
-        $permission = $user->permission; // Ambil data permission dari user
-
         $label = Label::all();
         $event = Event::where('status', 'ACTIVE')->get();
         $category = EventCategory::where('status', 'ACTIVE')->get();
         $member = Member::where('status', 'ACTIVE')->where('member_id', Auth::user()->id)->get(); // Cari member berdasarkan ID user
-        return view('member.booking.create', compact('event', 'member', 'label', 'category', 'permission'));
+        return view('member.booking.create', compact('event', 'member', 'label', 'category'));
     }
 
     public function store(Request $request)
