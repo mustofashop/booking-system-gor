@@ -105,7 +105,7 @@
                                     </div>
                                 </td>
                                 <td colspan="2">
-                                    @if ($item->category == 'UNPAID')
+                                    @if ($item->category == 'CONFIRMED')
                                     <div class="row justify-content-md-center">
                                         <a href="{{ route('confirm.edit', $item->id) }}"
                                            class="btn btn-warning btn-action" data-toggle="tooltip" title="Confirm"><i
