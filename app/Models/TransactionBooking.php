@@ -29,5 +29,4 @@ class TransactionBooking extends Model
     {
         return $this->hasOne(TransactionInvoice::class, 'booking_id', 'id');
     }
-
 }

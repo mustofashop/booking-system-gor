@@ -19,4 +19,9 @@ class Event extends Model
     {
         return $this->hasMany(TransactionBooking::class, 'event_id', 'id');
     }
+
+    public function member()
+    {
+        return $this->hasMany(Member::class, 'event_id', 'id');
+    }
 }

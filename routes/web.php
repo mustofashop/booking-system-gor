@@ -189,6 +189,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/event/{id}', [EventController::class, 'update'])->name('event.update');
         Route::delete('/event/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
         Route::get('/event/circuit/{id}', [EventController::class, 'circuit'])->name('event.circuit');
+        Route::get('/event/detail-member/{id}', [EventController::class, 'getDetailMemberByEvent'])->name('event.detail-member');
+        // Route::get('/event/detail-member/{id}', [EventController::class, 'getDetailMemberByEvent'])->name('event.detail-event');
 
         // Nationality Management
         Route::get('/nationality', [NationalityController::class, 'index'])->name('nationality.index');

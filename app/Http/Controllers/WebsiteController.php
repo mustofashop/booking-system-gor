@@ -487,7 +487,6 @@ class WebsiteController extends Controller
 
     public function showBooking(Request $request)
     {
-
         // Button
         $button = Button::orderBy('created_at')->get();
 
@@ -497,6 +496,9 @@ class WebsiteController extends Controller
 
         $query = Member::query();
 
+        // List data event
+        $event = Event::where('status', 'ACTIVE')->get();
+
         if ($month) {
             // Jika ada bulan yang dipilih, tambahkan kondisi pencarian berdasarkan bulan
             $query->whereMonth('date', $month);
@@ -504,14 +506,13 @@ class WebsiteController extends Controller
 
         if ($search) {
             // Jika ada kata kunci pencarian, tambahkan kondisi pencarian berdasarkan judul atau deskripsi event
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%')
-                    ->orWhere('location', 'like', '%' . $search . '%');
-            });
+            $member = $query->where('event_id', $search)->orderBy('created_at', 'desc')->get();
+        } else {
+            // Ambil data event berdasarkan kondisi yang telah ditetapkan
+            $member = $query->orderBy('created_at', 'desc')->get();
         }
 
-        // Menu
+        // Menu 
         $navbars = Navbar::with('navbarsub')
             ->where('status', 'ACTIVE')
             ->where('category', 'PAGES')
@@ -526,10 +527,7 @@ class WebsiteController extends Controller
         // List data booking
         $data = Member::latest()->paginate(10);
 
-        // Ambil data event berdasarkan kondisi yang telah ditetapkan
-        $member = $query->orderBy('date', 'desc')->get();
-
-        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member'));
+        return view('front.booking-list', compact('label', 'data', 'navbars', 'subnavbars', 'button', 'member', 'event'));
     }
 
     public function showRiderForm()

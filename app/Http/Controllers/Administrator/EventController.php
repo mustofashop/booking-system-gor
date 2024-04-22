@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Button;
 use App\Models\Event;
 use App\Models\Label;
+use App\Models\Member;
 use App\Models\Service;
+use App\Models\TransactionBooking;
+use App\Models\TransactionPayment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -46,7 +49,6 @@ class EventController extends Controller
             // $data = Event::latest()->paginate(5);
             $data = $query->orderBy('date', 'desc')->paginate(5);
         }
-
 
         return view('event.transaction.index', [
             'label' => $label,
@@ -297,5 +299,27 @@ class EventController extends Controller
         //get post by ID
         $data = Event::find($id);
         return response()->json($data);
+    }
+
+    public function getDetailMemberByEvent($id)
+    {
+        //get post by ID
+        // $data = Member::find($id);
+        $label = Label::all();
+        $member = Member::all();
+        $event = Event::all();
+        $items  = TransactionBooking::with('member')->where('event_id', $id)->paginate(5);
+        $payment = TransactionPayment::all();
+        // echo json_encode($data);
+        // die();
+
+        // return response()->json($items);
+        return view('event.transaction.detail-event', [
+            'label' => $label,
+            'items' => $items,
+            'member' => $member,
+            'event' => $event,
+            'payment' => $payment
+        ]);
     }
 }

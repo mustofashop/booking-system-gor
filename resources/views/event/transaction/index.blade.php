@@ -135,6 +135,7 @@
                                                title="Edit">
                                                 <i class="fas fa-pencil-alt m-1"></i></a>
                                         </div>
+                                        &nbsp;
                                         <div class="col-md-4">
                                             <a href="javascript:void(0)" id="show-user" data-target="#userShowModal"
                                                data-url="{{ route('event.show', $item->id) }}"
@@ -142,6 +143,21 @@
                                                title="Show"><i class="fas fa-eye m-1"></i>
                                             </a>
                                         </div>
+                                        &nbsp;
+                                        {{-- <div class="col-md-4">
+                                            <a href="javascript:void(0)" id="showUserDetails" data-target="#userModal"
+                                                data-url="{{ route('event.detail-member', $item->id) }}"
+                                                class="btn btn-success btn-action m-1"
+                                                title="Show"><i class="fas fa-list-alt"></i>
+                                            </a>
+                                        </div> --}}
+                                        <div class="col-md-4">
+                                            <a href="{{ route('event.detail-member', $item->id) }}"
+                                               class="btn btn-success btn-action m-1" data-toggle="tooltip"
+                                               title="Detail Event"><i class="fas fa-list-alt"></i>
+                                            </a>
+                                        </div>
+                                        &nbsp;
                                         <div class="col-md-4">
                                             <a class="btn btn-danger btn-action m-1"
                                                onclick="deleteConfirmation('{{$item->id}}', '{{ $item->code }}')"
@@ -244,6 +260,16 @@
             })
         });
 
+        /* When click show user detail */
+        $('body').on('click', '#showUserDetails', function () {
+            var userURL = $(this).data('url');
+            // var imageUrl = $(this).data('image');
+            $.get(userURL, function (items) {
+                $('#userModal').modal('show');
+                $('#code').text(items.code);
+            })
+        });
+
         /* When click show circuit */
         $('body').on('click', '#show-circuit', function () {
             var userURL = $(this).data('url');
@@ -268,10 +294,41 @@
                     });
             });
         });
-
     </script>
 </section>
 @endsection
+
+<!-- Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLabel">Detail Pengguna</h5>
+            </div>
+                <!-- Tabel di dalam modal untuk menampilkan detail pengguna -->
+                <table id="modalBody">
+                    <thead>
+                        <tr>
+                        <th>CODE</th>
+                        <th>Usia</th>
+                        <th>Alamat</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td id="code"></td>
+                        <td>30</td>
+                        <td>Jl. Contoh No. 123</td>
+                      </tr>
+                      <!-- Anda bisa menambahkan baris-baris data lain di sini -->
+                    </tbody>
+                  </table>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- MODAL CIRCUIT -->
 <div class="modal fade" id="circuitShowModal" tabindex="-1" role="dialog">
