@@ -59,6 +59,11 @@
                                         <p> <i class="fas fa-money-bill-wave"></i> {{ $item->invoice->category}} </p>
                                     </div>
                                 </td>
+                                <td>
+                                    <div class="col-md-12">
+                                        <p> <i class="fas fa-money-bill-wave"></i> {{ $item->category}} </p>
+                                    </div>
+                                </td>
                             </div>
                             </tr>
                             @empty

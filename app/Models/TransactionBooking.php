@@ -29,4 +29,9 @@ class TransactionBooking extends Model
     {
         return $this->hasOne(TransactionInvoice::class, 'booking_id', 'id');
     }
+
+    public function payment()
+    {
+        return $this->belongsTo(TransactionPayment::class, 'invoice_number', 'code');
+    }
 }
