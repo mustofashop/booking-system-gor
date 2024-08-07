@@ -8,7 +8,7 @@
     <title>Back-End | {{ $title }}</title>
 
     <!-- Favicons -->
-    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
+    <link href="{{asset('assets/img/fitlife.png')}}" rel="icon">
     <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
     <!-- General CSS Files -->
@@ -62,10 +62,10 @@
                 <div class="section-header">
                         <span>
                             <h1>Selamat datang {{ ucfirst(Auth()->user()->name) }}</h1>
-                            <h3>E-Event Booking System</h3>
+                            <h3>E-Booking System</h3>
                             <div class="footer-left">
                                 Copyright © {{ date('Y') }}
-                                <div class="bullet"></div> NHT Software Development
+                                <div class="bullet"></div> NC Software Development
                             </div>
                         </span>
                 </div>

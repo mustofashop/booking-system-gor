@@ -8,6 +8,7 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
 
 class ArticleController extends Controller
 {
@@ -26,7 +27,7 @@ class ArticleController extends Controller
         return view('admin.article.create', compact('label', 'ordering'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
@@ -142,5 +143,4 @@ class ArticleController extends Controller
             'message' => $message
         ]);
     }
-
 }

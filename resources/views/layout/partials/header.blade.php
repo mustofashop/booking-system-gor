@@ -7,7 +7,7 @@
             <h1>
                 <a href="#">
                     <span>
-                        <img src="{{asset('assets/img/logo-white.svg')}}" alt="logo" class="img-fluid">
+                        <img src="{{asset('assets/img/fitlife.png')}}" alt="logo" class="img-fluid" width="150" height="100">
                     </span>
                 </a>
             </h1>

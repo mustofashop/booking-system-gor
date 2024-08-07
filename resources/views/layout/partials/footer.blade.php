@@ -83,7 +83,7 @@
                         <h1>
                             <a href="#">
                     <span>
-                        <img src="{{asset('assets/img/logo-white.svg')}}" alt="logo" class="img-fluid"
+                        <img src="{{asset('assets/img/fitlife.png')}}" alt="logo" class="img-fluid" width="150"
                              style="width: 150px;">
                     </span>
                             </a>
@@ -114,15 +114,14 @@
 
     <div class="container">
         <div class="copyright">
-            &copy; Copyright <strong><span>E-Event</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>E-Booking</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/ -->
-            IT <a href="https://nhtsolution.com/">NHT Solution</a> and Digital Marketing <a
-                href="https://marketing-ind.com/">MarketingInd</a>
+            IT <a>NC Corp</a>
         </div>
     </div>
 </footer>
