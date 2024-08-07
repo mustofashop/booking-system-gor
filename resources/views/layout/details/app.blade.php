@@ -238,7 +238,7 @@
 
 <body>
 <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('assets/img/login-bg.jpg');">
+    <div class="bg order-1 order-md-2" style="background-image: url('assets/img/sports-field.jpg'); height: 900px;" >
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-sm-12">
@@ -255,11 +255,11 @@
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-7">
-                    <img src="{{asset('assets/img/logo-dark.svg')}}" alt="website logo" class="logo-dark mxw-300"
+                    <img src="{{asset('assets/img/fitlife.png')}}" alt="website logo" class="logo-dark mxw-300"
                          width="382" height="157">
                     @yield('content')
                     <div class="simple-footer">
-                        <p>NHT Software Development &copy; {{ date('Y') }}</p>
+                        <p>NC Corp Software Development &copy; {{ date('Y') }}</p>
                     </div>
                 </div>
             </div>

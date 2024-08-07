@@ -39,7 +39,7 @@
                             <tr>
                                 <td style="text-align: left;">
                                     @if ($item->image && Storage::exists('public/news/' . $item->image))
-                                    <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
+                                    <img src="{{ url('storage/news/' . $item->image) }}" class="img-thumbnail"
                                          width="100">
                                     @else
                                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"

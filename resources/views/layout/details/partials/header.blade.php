@@ -5,7 +5,7 @@
         <!-- Uncomment below if you prefer to use an image logo -->
         <div class="logo">
             <h1><a href="/"><span>
-                        <img src="{{asset('assets/img/logo-white.svg')}}">
+                        <img src="{{asset('assets/img/fitlife.png')}}">
                     </span></a></h1>
         </div>
 

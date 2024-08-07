@@ -184,13 +184,13 @@
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="hero">
-        <div class="col-lg-12">
+        {{-- <div class="col-lg-12">
             @foreach ($label as $item)
             @if ($item->code == 'hastag')
             <h3 class="teks-kiri-atas" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h3>
             @endif
             @endforeach
-        </div>
+        </div> --}}
         <div class="container">
             <div class="row justify-content-center align-items-center" style="height: 60vh;">
                 <div class="col-lg-12" data-aos="zoom-out">
@@ -445,7 +445,7 @@
                 <div class="col-md-8 pt-2">
                     <h3>{{ $value->title }}</h3>
                     <p>{{ date('d F Y H:i', strtotime($value->created_at)) }} | {{ strtoupper($value->created_by) }}</p>
-                    <span>{{ Str::limit(html_entity_decode($value->desc), 500, '...') }}</span>
+                    <span>{{ Str::limit(strip_tags(html_entity_decode($value->desc)), 500, '...') }}</span>
                     @foreach ($button as $item)
                     @if ( $item->code == 'more')
                     <a class="btn small btn-outline-dark margin-10px-top md-no-margin-top"
@@ -458,7 +458,7 @@
                 <div class="col-md-8 pt-2">
                     <h3>{{ $value->title }}</h3>
                     <p>{{ date('d F Y H:i', strtotime($value->created_at)) }} | {{ strtoupper($value->created_by) }}</p>
-                    <span>{{ Str::limit(html_entity_decode($value->desc), 500, '...') }}</span>
+                    <span>{{ Str::limit(strip_tags(html_entity_decode($value->desc)), 500, '...') }}</span>
                     @foreach ($button as $item)
                     @if ( $item->code == 'more')
                     <a class="btn small btn-outline-dark margin-10px-top md-no-margin-top"

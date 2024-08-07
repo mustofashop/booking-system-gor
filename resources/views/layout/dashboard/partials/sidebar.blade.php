@@ -1,11 +1,11 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <img src="{{asset('assets/img/logo-dark.svg')}}" alt="website logo" class="logo-dark mxw-300" width="200"
-                 height="50">
+            <img src="{{asset('assets/img/fitlife.png')}}" alt="website logo" class="logo-dark mxw-300" width="100"
+                 height="80">
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <img src="{{asset('assets/img/favicon.png')}}" alt="website logo" class="logo-dark mxw-300" width="50"
+            <img src="{{asset('assets/img/fitlife.png')}}" alt="website logo" class="logo-dark mxw-300" width="50"
                  height="50">
         </div>
         @php $masterPermissions = \App\Models\Permission::where('status', 'ACTIVE')->where('level',
