@@ -1,32 +1,33 @@
 <?php
 
-use App\Http\Controllers\Administrator\AboutController;
-use App\Http\Controllers\Administrator\ArticleController;
-use App\Http\Controllers\Administrator\Bucket2Controller;
-use App\Http\Controllers\Administrator\ButtonController;
-use App\Http\Controllers\Administrator\ConfirmController;
-use App\Http\Controllers\Administrator\CountController;
-use App\Http\Controllers\Administrator\EventController;
-use App\Http\Controllers\Administrator\FAQController;
-use App\Http\Controllers\Administrator\ImageController;
-use App\Http\Controllers\Administrator\InvoiceController;
-use App\Http\Controllers\Administrator\LabelController;
-use App\Http\Controllers\Administrator\MemberController;
-use App\Http\Controllers\Administrator\NationalityController;
-use App\Http\Controllers\Administrator\TestimoniController;
-use App\Http\Controllers\Administrator\UserController;
-use App\Http\Controllers\Administrator\CategoryController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Event\AccountController;
-use App\Http\Controllers\Event\BucketController;
-use App\Http\Controllers\Event\PointController;
-use App\Http\Controllers\Member\BookingController;
-use App\Http\Controllers\Member\PaymentController;
-use App\Http\Controllers\Member\RiderController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\WebsiteController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\PointController;
+use App\Http\Controllers\Event\BucketController;
+use App\Http\Controllers\Member\RiderController;
+use App\Http\Controllers\Event\AccountController;
+use App\Http\Controllers\Member\BookingController;
+use App\Http\Controllers\Member\PaymentController;
+use App\Http\Controllers\Administrator\FAQController;
+use App\Http\Controllers\Administrator\UserController;
+use App\Http\Controllers\Administrator\AboutController;
+use App\Http\Controllers\Administrator\CountController;
+use App\Http\Controllers\Administrator\EventController;
+use App\Http\Controllers\Administrator\ImageController;
+use App\Http\Controllers\Administrator\LabelController;
+use App\Http\Controllers\Administrator\ButtonController;
+use App\Http\Controllers\Administrator\MemberController;
+use App\Http\Controllers\Administrator\ArticleController;
+use App\Http\Controllers\Administrator\Bucket2Controller;
+use App\Http\Controllers\Administrator\ConfirmController;
+use App\Http\Controllers\Administrator\InvoiceController;
+use App\Http\Controllers\Administrator\CategoryController;
+use App\Http\Controllers\Administrator\TestimoniController;
+use App\Http\Controllers\Administrator\NationalityController;
+use App\Http\Controllers\Administrator\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -232,6 +233,14 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
         Route::get('/dashboard/home', [DashboardController::class, 'home'])->name('dashboard.home');
+
+        // Gallery Management
+        Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+        Route::get('/gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+        Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+        Route::get('/gallery/{id}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+        Route::put('/gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
+        Route::delete('/gallery/destroy/{id}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
     });
 
     // Role Event
