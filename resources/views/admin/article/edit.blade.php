@@ -42,9 +42,9 @@
                             </div>
                             <div class="col-4">
                                 <div id="image-preview" class="image-preview"
-                                     data-image-url="{{ isset($user->image) ? asset('storage/news/' . $user->image) : '' }}">
+                                     data-image-url="{{ isset($user->image2) ? asset('storage/news/' . $user->image2) : '' }}">
                                     <img id="preview2"
-                                         src="{{ isset($data->image) ? asset('storage/news/' . $data->image) : '' }}"
+                                         src="{{ isset($data->image2) ? asset('storage/news/' . $data->image2) : '' }}"
                                          alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
                                     <label for="image-upload2" id="image-label">Choose File</label>
                                     <input type="file" name="image2" id="image-upload2">
@@ -52,12 +52,12 @@
                             </div>
                             <div class="col-4">
                                 <div id="image-preview" class="image-preview"
-                                     data-image-url="{{ isset($user->image) ? asset('storage/news/' . $user->image) : '' }}">
+                                     data-image-url="{{ isset($user->image3) ? asset('storage/news/' . $user->image3) : '' }}">
                                     <img id="preview3"
-                                         src="{{ isset($data->image) ? asset('storage/news/' . $data->image) : '' }}"
+                                         src="{{ isset($data->image3) ? asset('storage/news/' . $data->image3) : '' }}"
                                          alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
                                     <label for="image-upload3" id="image-label">Choose File</label>
-                                    <input type="file" name="image" id="image-upload3">
+                                    <input type="file" name="image3" id="image-upload3">
                                 </div>
                             </div>
                             <!-- DETAIL -->
@@ -184,6 +184,18 @@
     if (imageUrl) {
         $('#preview').attr('src', imageUrl).show();
         $('#image-label').text('Change File');
+    }
+
+    var imageUrl = '{{ isset($data->image2) ? asset("storage/news/" . $data->image2) : "" }}';
+    if (imageUrl) {
+        $('#preview2').attr('src', imageUrl).show();
+        $('#image-label2').text('Change File');
+    }
+
+    var imageUrl = '{{ isset($data->image3) ? asset("storage/news/" . $data->image3) : "" }}';
+    if (imageUrl) {
+        $('#preview3').attr('src', imageUrl).show();
+        $('#image-label3').text('Change File');
     }
 </script>
 @endsection

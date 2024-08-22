@@ -119,21 +119,33 @@
 
             <div class="events-container-detail">
                 <div class="event" data-aos="zoom-in" data-aos-delay="100">
-                    @if ($news->image && Storage::exists('public/news/' . $news->image) && Storage::exists('public/news/' . $news->image2) && Storage::exists('public/news/' . $news->image3))
-                    <a href="{{ asset('storage/news/'. $news->image) }}" class="gallery-lightbox">
-                    <img src="{{ asset('storage/news/' . $news->image) }}" class="img-thumbnail"
-                         width="200">
+                    {{-- Cek apakah gambar utama ada dan valid --}}
+                    @if ($news->image && Storage::exists('public/news/' . $news->image))
+                        <a href="{{ asset('storage/news/'. $news->image) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $news->image) }}" class="img-thumbnail" width="200">
                         </a>
-                        <a href="{{ asset('storage/news/'. $news->image2) }}" class="gallery-lightbox">
-                            <img src="{{ asset('storage/news/'. $news->image2) }}" alt="Gambar 2">
-                        </a>
-                        <a href="{{ asset('storage/news/'. $news->image3) }}" class="gallery-lightbox">
-                            <img src="{{ asset('storage/news/'. $news->image3) }}" alt="Gambar 2">
-                        </a>
-                    @else
-                    <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                            width="100">
                     @endif
+                
+                    {{-- Cek apakah gambar kedua ada dan valid --}}
+                    @if ($news->image2 && Storage::exists('public/news/' . $news->image2))
+                        <a href="{{ asset('storage/news/'. $news->image2) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $news->image2) }}" alt="Gambar 2">
+                        </a>
+                    @endif
+                
+                    {{-- Cek apakah gambar ketiga ada dan valid --}}
+                    @if ($news->image3 && Storage::exists('public/news/' . $news->image3))
+                        <a href="{{ asset('storage/news/'. $news->image3) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $news->image3) }}" alt="Gambar 3">
+                        </a>
+                    @endif
+                
+                    {{-- Jika tidak ada gambar sama sekali, tampilkan gambar default --}}
+                    @if (!$news->image && !$news->image2 && !$news->image3)
+                        <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail" width="100">
+                    @endif
+                </div>
+                
 
                     <div class="event-details">
                         <div class="event-title">

@@ -247,8 +247,10 @@ class EventController extends Controller
 
             $imageFile1 = $request->file('image');
             $imageFile2 = $request->file('photo_circuit');
+
             $imageName1 = $imageFile1->hashName(); // Mendapatkan nama enkripsi file
             $imageName2 = $imageFile2->hashName(); // Mendapatkan nama enkripsi file
+
             $imageFile1->storePubliclyAs('event', $imageName1, 'public'); // Menyimpan file dengan nama spesifik
             $imageFile2->storePubliclyAs('event', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
         }
