@@ -66,7 +66,7 @@ class WebsiteController extends Controller
         $gallery = Gallery::inRandomOrder()->take(8)->where('status', 'ACTIVE')->get();
 
         // Berita
-        $news = News::orderBy('created_at')->take(6)->where('status', 'ACTIVE')->get();
+        $news = News::orderBy('created_at')->take(4)->where('status', 'ACTIVE')->get();
 
         // Kegiatan
         // $event = Event::orderBy('created_at')->take(6)->where('status', 'ACTIVE')->get();

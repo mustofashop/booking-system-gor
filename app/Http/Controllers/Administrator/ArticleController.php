@@ -32,6 +32,8 @@ class ArticleController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image2' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'image3' => 'image|mimes:jpeg,jpg,png|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required',
             'ordering' => 'required|integer',
@@ -46,14 +48,24 @@ class ArticleController extends Controller
         }
 
         // Validasi jika file gambar ada sebelum menyimpan
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image')  && $request->hasFile('image2') && $request->hasFile('image3')) {
             // Ubah penyimpanan gambar sesuai kebutuhan Anda, di sini saya asumsikan menggunakan penyimpanan lokal
             $imageFile = $request->file('image');
+            $imageFile2 = $request->file('image2');
+            $imageFile3 = $request->file('image3');
+
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
+            $imageName2 = $imageFile2->hashName(); // Mendapatkan nama enkripsi file
+            $imageName3 = $imageFile3->hashName(); // Mendapatkan nama enkripsi file
+
             $imageFile->storePubliclyAs('news', $imageName, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile2->storePubliclyAs('news', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile3->storePubliclyAs('news', $imageName3, 'public'); // Menyimpan file dengan nama spesifik
 
             $image = new News;
             $image->image = $imageName;
+            $image->image2 = $imageName2;
+            $image->image3 = $imageName3;
             $image->title = $request->input('title');
             $image->desc = $request->input('desc');
             $image->ordering = $request->input('ordering');
@@ -81,6 +93,8 @@ class ArticleController extends Controller
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image2' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'image3' => 'image|mimes:jpeg,jpg,png|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required',
             'ordering' => 'required|integer',
@@ -101,16 +115,29 @@ class ArticleController extends Controller
         }
 
         // Update data
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image') && $request->hasFile('image2') && $request->hasFile('image3')) {
             // Hapus gambar lama sebelum menyimpan yang baru
             if ($image->image) {
                 Storage::delete('public/news/' . $image->image);
             }
+            if ($image->image2) {
+                Storage::delete('public/news/' . $image->image2);
+            }
+            if ($image->image3) {
+                Storage::delete('public/news/' . $image->image3);
+            }
 
             $imageFile = $request->file('image');
+            $imageFile2 = $request->file('image2');
+            $imageFile3 = $request->file('image3');
+
             $imageName = $imageFile->hashName(); // Mendapatkan nama enkripsi file
+            $imageName2 = $imageFile2->hashName(); // Mendapatkan nama enkripsi file
+            $imageName3 = $imageFile3->hashName(); // Mendapatkan nama enkripsi file
+
             $imageFile->storePubliclyAs('news', $imageName, 'public'); // Menyimpan file dengan nama spesifik
-            $image->image = $imageName;
+            $imageFile2->storePubliclyAs('news', $imageName2, 'public'); // Menyimpan file dengan nama spesifik
+            $imageFile3->storePubliclyAs('news', $imageName3, 'public'); // Menyimpan file dengan nama spesifik
         }
 
         // Melakukan pembaruan (update) pada atribut lainnya

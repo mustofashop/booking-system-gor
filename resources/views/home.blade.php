@@ -435,8 +435,10 @@
                 @if ( $value->id % 2 == 1)
                 <div class="col-md-4">
                     @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <a href="{{ asset('storage/news/'. $value->image) }}" target="_blank">
                     <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
                          width="200">
+                        </a>
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
                          width="100">
@@ -469,8 +471,10 @@
                 </div>
                 <div class="col-md-4">
                     @if ($value->image && Storage::exists('public/news/' . $value->image))
+                    <a href="{{ asset('storage/news/'. $value->image) }}" target="_blank">
                     <img src="{{ asset('storage/news/' . $value->image) }}" class="img-thumbnail"
                          width="200">
+                        </a>
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
                          width="100">

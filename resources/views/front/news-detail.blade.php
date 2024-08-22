@@ -108,7 +108,7 @@
                 @foreach ($label as $item)
                 @if ( $item->code == 'news')
                 <h2>{{ $item->title }}</h2>
-                <p>#{{ $item->desc }} , {{ date('d F Y', strtotime($item->created_at)) }}</p>
+                <p>#{{ $item->desc }} , {{ $news->title }}</p>
                 @endif
                 @endforeach
                 {{-- <div class="event-info">
@@ -118,10 +118,18 @@
             </div>
 
             <div class="events-container-detail">
-                <div class="event">
-                    @if ($news->image && Storage::exists('public/news/' . $news->image))
+                <div class="event" data-aos="zoom-in" data-aos-delay="100">
+                    @if ($news->image && Storage::exists('public/news/' . $news->image) && Storage::exists('public/news/' . $news->image2) && Storage::exists('public/news/' . $news->image3))
+                    <a href="{{ asset('storage/news/'. $news->image) }}" class="gallery-lightbox">
                     <img src="{{ asset('storage/news/' . $news->image) }}" class="img-thumbnail"
-                            width="200">
+                         width="200">
+                        </a>
+                        <a href="{{ asset('storage/news/'. $news->image2) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/'. $news->image2) }}" alt="Gambar 2">
+                        </a>
+                        <a href="{{ asset('storage/news/'. $news->image3) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/'. $news->image3) }}" alt="Gambar 2">
+                        </a>
                     @else
                     <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
                             width="100">
@@ -143,7 +151,9 @@
                             </table>
                         </div>
                         <div class="event-description">
-                            <p>{{ $news->desc }}</p>
+                            <p>{{ (strip_tags(html_entity_decode($news->desc))) }}
+                                
+                            </p>
                         </div>
                     </div>
                 </div>

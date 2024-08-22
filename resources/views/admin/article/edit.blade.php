@@ -40,6 +40,26 @@
                                     <input type="file" name="image" id="image-upload">
                                 </div>
                             </div>
+                            <div class="col-4">
+                                <div id="image-preview" class="image-preview"
+                                     data-image-url="{{ isset($user->image) ? asset('storage/news/' . $user->image) : '' }}">
+                                    <img id="preview2"
+                                         src="{{ isset($data->image) ? asset('storage/news/' . $data->image) : '' }}"
+                                         alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload2" id="image-label">Choose File</label>
+                                    <input type="file" name="image2" id="image-upload2">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div id="image-preview" class="image-preview"
+                                     data-image-url="{{ isset($user->image) ? asset('storage/news/' . $user->image) : '' }}">
+                                    <img id="preview3"
+                                         src="{{ isset($data->image) ? asset('storage/news/' . $data->image) : '' }}"
+                                         alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                                    <label for="image-upload3" id="image-label">Choose File</label>
+                                    <input type="file" name="image" id="image-upload3">
+                                </div>
+                            </div>
                             <!-- DETAIL -->
                             <div class="col-8">
                                 <div class="row">
@@ -125,6 +145,34 @@
             reader.onload = function (e) {
                 $('#preview').attr('src', e.target.result).show();
                 $('#image-label').text(file.name);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    $(document).ready(function () {
+        $('#image-upload2').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview2').attr('src', e.target.result).show();
+                $('#image-label2').text(file.name);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    $(document).ready(function () {
+        $('#image-upload3').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview3').attr('src', e.target.result).show();
+                $('#image-label3').text(file.name);
             };
 
             reader.readAsDataURL(file);

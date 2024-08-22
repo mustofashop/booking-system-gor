@@ -138,8 +138,10 @@
                     @foreach ($news as $item)
                     <div class="event">
                         @if ($item->image && Storage::exists('public/news/' . $item->image))
+                        <a href="{{ asset('storage/news/'. $item->image) }}" target="_blank">
                         <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                                width="200">
+                             width="200">
+                            </a>
                         @else
                         <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
                                 width="100">
