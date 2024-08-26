@@ -36,6 +36,9 @@ class ArticleController extends Controller
             'image3' => 'image|mimes:jpeg,jpg,png|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'location' => 'required',
             'ordering' => 'required|integer',
             'status' => 'required',
         ]);
@@ -70,6 +73,9 @@ class ArticleController extends Controller
             $image->desc = $request->input('desc');
             $image->ordering = $request->input('ordering');
             $image->status = $request->input('status');
+            $image->email = $request->input('email');
+            $image->phone = $request->input('phone');
+            $image->location = $request->input('location');
             $image->save();
         }
 
@@ -97,6 +103,9 @@ class ArticleController extends Controller
             'image3' => 'image|mimes:jpeg,jpg,png|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'location' => 'required',
             'ordering' => 'required|integer',
             'status' => 'required',
         ]);
@@ -151,6 +160,9 @@ class ArticleController extends Controller
         $image->desc = $request->input('desc');
         $image->ordering = $request->input('ordering');
         $image->status = $request->input('status');
+        $image->email = $request->input('email');
+        $image->phone = $request->input('phone');
+        $image->location = $request->input('location');
         $image->updated_by = strtoupper($request->user()->username);
         $image->save();
 

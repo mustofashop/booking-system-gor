@@ -60,56 +60,96 @@
                                     <input type="file" name="image3" id="image-upload3">
                                 </div>
                             </div>
-                            <!-- DETAIL -->
-                            <div class="col-8">
-                                <div class="row">
-                                    <!-- TITLE -->
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">TITLE</label>
-                                            <input type="text" class="form-control" name="title"
-                                                   value="{{ old('title', $data->title) }}"
-                                                   placeholder="Enter title" required="">
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the title
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- ORDERING -->
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">ORDERING</label>
-                                            <input type="number" class="form-control" name="ordering"
-                                                   value="{{ old('ordering',$data->ordering) }}"
-                                                   placeholder="Enter ordering"
-                                                   required="">
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the ordering
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- STATUS -->
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">STATUS</label>
-                                            <select class="form-control select2" name="status"
-                                                    value="{{ old('status') }}"
-                                                    placeholder="Pilih status" required="">
-                                                <option value="">-- Choose --</option>
-                                                <option value="ACTIVE" {{ old(
-                                                'status', $data->status) == 'ACTIVE' ? 'selected' : ''
-                                                }}>ACTIVE</option>
-                                                <option value="INACTIVE" {{ old(
-                                                'status', $data->status) == 'INACTIVE' ? 'selected' : ''
-                                                }}>INACTIVE</option>
-                                            </select>
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the status
-                                            </div>
-                                        </div>
+                        </div>
+                        <!-- DETAIL -->
+                        <div class="row">
+                            <!-- TITLE -->
+                            <div class="col-6 mt-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">TITLE</label>
+                                    <input type="text" class="form-control" name="title"
+                                            value="{{ old('title', $data->title) }}"
+                                            placeholder="Enter title" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the title
                                     </div>
                                 </div>
                             </div>
+                            <!-- ORDERING -->
+                            <div class="col-6 mt-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">ORDERING</label>
+                                    <input type="number" class="form-control" name="ordering"
+                                            value="{{ old('ordering',$data->ordering) }}"
+                                            placeholder="Enter ordering"
+                                            required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the ordering
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- STATUS -->
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">STATUS</label>
+                                    <select class="form-control select2" name="status"
+                                            value="{{ old('status') }}"
+                                            placeholder="Pilih status" required="">
+                                        <option value="">-- Choose --</option>
+                                        <option value="ACTIVE" {{ old(
+                                        'status', $data->status) == 'ACTIVE' ? 'selected' : ''
+                                        }}>ACTIVE</option>
+                                        <option value="INACTIVE" {{ old(
+                                        'status', $data->status) == 'INACTIVE' ? 'selected' : ''
+                                        }}>INACTIVE</option>
+                                    </select>
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the status
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">EMAIL</label>
+                                    <input type="text" class="form-control" name="email"
+                                            value="{{ old('email', $data->email) }}"
+                                            placeholder="Enter email" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the email
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- ORDERING -->
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">LOCATION</label>
+                                    <input type="text" class="form-control" name="location"
+                                            value="{{ old('location', $data->location) }}"
+                                            placeholder="Enter location" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the location
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">PHONE</label>
+                                    <input type="text" class="form-control" name="phone"
+                                            value="{{ old('phone', $data->phone) }}"
+                                            placeholder="Enter phone" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the phone
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
                             <!-- DESCRIPTION -->
                             <div class="col-12 mt-3">
                                 <div class="form-group">
@@ -122,7 +162,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>  <!-- BUTTON -->
+                        </div>
+                        <!-- BUTTON -->
                         <div class="form-group">
                             <button type="submit" style="width:100px" class="btn btn-success btn-action"
                                     data-toggle="tooltip" title="Save"><i class="fas fa-save"></i></button>

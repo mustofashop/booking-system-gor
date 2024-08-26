@@ -62,64 +62,107 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- DETAIL -->
-                            <div class="col-8">
-                                <div class="row">
-                                    <!-- TITLE -->
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">TITLE</label>
-                                            <input type="text" class="form-control" name="title"
-                                                   value="{{ old('title') }}"
-                                                   placeholder="Enter title" required="">
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the title
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- ORDERING -->
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">ORDERING</label>
-                                            <input type="number" class="form-control" name="ordering"
-                                                   value="{{ old('ordering',$ordering) }}" placeholder="Enter ordering"
-                                                   required="">
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the ordering
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- STATUS -->
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">STATUS</label>
-                                            <select class="form-control select2" name="status"
-                                                    value="{{ old('status') }}"
-                                                    placeholder="Pilih status" required="">
-                                                <option value="">-- Choose --</option>
-                                                <option value="ACTIVE">ACTIVE</option>
-                                                <option value="INACTIVE">INACTIVE</option>
-                                            </select>
-                                            <div class="invalid-feedback alert alert-danger mt-2">
-                                                Please fill in the status
-                                            </div>
-                                        </div>
+                        </div>
+                        
+                        <!-- DETAIL -->
+                        <div class="row">
+                            <!-- TITLE -->
+                            <div class="col-6 mt-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">TITLE</label>
+                                    <input type="text" class="form-control" name="title"
+                                            value="{{ old('title') }}"
+                                            placeholder="Enter title" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the title
                                     </div>
                                 </div>
                             </div>
+                            <!-- STATUS -->
+                            <div class="col-6 mt-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">ORDERING</label>
+                                    <input type="number" class="form-control" name="ordering"
+                                            value="{{ old('ordering',$ordering) }}" placeholder="Enter ordering"
+                                            required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the ordering
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- ORDERING -->
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">STATUS</label>
+                                    <select class="form-control select2" name="status"
+                                            value="{{ old('status') }}"
+                                            placeholder="Pilih status" required="">
+                                        <option value="">-- Choose --</option>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="INACTIVE">INACTIVE</option>
+                                    </select>
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the status
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">EMAIL</label>
+                                    <input type="text" class="form-control" name="email"
+                                            value="{{ old('email') }}"
+                                            placeholder="Enter email" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the email
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- ORDERING -->
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">LOCATION</label>
+                                    <input type="text" class="form-control" name="location"
+                                            value="{{ old('location') }}"
+                                            placeholder="Enter location" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the location
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">PHONE</label>
+                                    <input type="text" class="form-control" name="phone"
+                                            value="{{ old('phone') }}"
+                                            placeholder="Enter phone" required="">
+                                    <div class="invalid-feedback alert alert-danger mt-2">
+                                        Please fill in the phone
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <!-- DESCRIPTION -->
-                            <div class="col-12 mt-3">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="font-weight-bold">DESCRIPTION</label>
                                     <textarea id="summernote" class="summernote-simple form-control" form="fmabt"
-                                              name="desc"
-                                              rows="5" required="">{{ old('desc') }}</textarea>
+                                    name="desc"
+                                    rows="5" required="">{{ old('desc') }}</textarea>
                                     <div class="invalid-feedback alert alert-danger mt-2">
                                         Please fill in the description
                                     </div>
                                 </div>
                             </div>
                         </div>
+                            
                         <!-- BUTTON -->
                         <div class="form-group">
                             <button type="submit" style="width:100px" class="btn btn-danger btn-action"
