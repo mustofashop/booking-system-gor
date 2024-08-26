@@ -282,7 +282,12 @@ class WebsiteController extends Controller
         $image = Image::orderBy('ordering')->get();
 
         // News
-        $news = News::orderBy('created_at', 'desc')->get();
+        $news = News::orderBy('created_at', 'desc')->where('status', 'ACTIVE')->get();
+
+        // Event
+        $currentDate = Carbon::now();
+        $events = Event::whereDate('expiry_date', '>=', $currentDate)->get();
+
 
         return view('front.news', [
             'navbars' => $navbars,
@@ -290,7 +295,8 @@ class WebsiteController extends Controller
             'label' => $label,
             'button' => $button,
             'image' => $image,
-            'news' => $news
+            'news' => $news,
+            'events' => $events
         ]);
     }
 

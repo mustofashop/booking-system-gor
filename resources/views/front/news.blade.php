@@ -137,37 +137,71 @@
                 <div class="events-container">
                     @foreach ($news as $item)
                     <div class="event">
-                        @if ($item->image && Storage::exists('public/news/' . $item->image))
-                        <a href="{{ asset('storage/news/'. $item->image) }}" target="_blank">
-                        <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail"
-                             width="200">
-                            </a>
-                        @else
-                        <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail"
-                                width="100">
-                        @endif
+                         {{-- Cek apakah gambar utama ada dan valid --}}
+                    @if ($item->image && Storage::exists('public/news/' . $item->image))
+                        <a href="{{ asset('storage/news/'. $item->image) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $item->image) }}" class="img-thumbnail" width="200">
+                        </a>
+                    @endif
+                
+                    {{-- Cek apakah gambar kedua ada dan valid --}}
+                    @if ($item->image2 && Storage::exists('public/news/' . $item->image2))
+                        <a href="{{ asset('storage/news/'. $item->image2) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $item->image2) }}" alt="Gambar 2">
+                        </a>
+                    @endif
+                
+                    {{-- Cek apakah gambar ketiga ada dan valid --}}
+                    @if ($item->image3 && Storage::exists('public/news/' . $item->image3))
+                        <a href="{{ asset('storage/news/'. $item->image3) }}" class="gallery-lightbox">
+                            <img src="{{ asset('storage/news/' . $item->image3) }}" alt="Gambar 3">
+                        </a>
+                    @endif
+                
+                    {{-- Jika tidak ada gambar sama sekali, tampilkan gambar default --}}
+                    @if (!$item->image && !$item->image2 && !$item->image3)
+                        <img src="{{ asset('assets/img/default-image.jpg') }}" class="img-thumbnail" width="100">
+                    @endif
 
-                        <div class="event-details">
-                            <div class="event-info">
-                                <span># <b> {{ $item->title }} </b> </span>
-                                
-                            </div>
-                            <div class="event-info">
-                                <span> <b> {{ date('d F Y', strtotime($item->created_at)) }} </b> </span>
-                            </div>
-                            <div class="event-description">
-                                <p>{!! Str::words(html_entity_decode($item->desc), 50, ' ...') !!}</p>
-                            </div>
-                            {{-- <div class="event-buttons">
-                                @foreach ($button as $item)
-                                @if ( $item->code == 'more')
-                                <a class="btn small btn-outline-dark margin-10px-top md-no-margin-top"
-                                   href="{{ route('news-show', $item->id) }}">
-                                    {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
-                                @endif
-                                @endforeach
-                            </div> --}}
+                    <div class="event-details">
+                        <div class="event-info">
+                            <h3># <b> {{ $item->title }} </b> </h3>
+                            
                         </div>
+                        {{-- <div class="event-info">
+                            <span> <b> {{ date('d F Y', strtotime($item->created_at)) }} </b> </span>
+                        </div> --}}
+                        <div class="event-description">
+                            <span><i class="bi bi-journal-text"></i> {!! Str::words(html_entity_decode($item->desc), 50, ' ...') !!}</span>
+                            <br>
+                            <span><i class="bi bi-envelope"></i> {{ $item->email }}</span>
+                            <br>
+                            <span><i class="bi bi-telephone"></i> {{ $item->phone }}</span>
+                            <br>
+                            <span><i class="bi bi-geo-alt"></i> {{ $item->location }}</span>
+                            <br>
+                        </div>
+                        {{-- <div class="event-buttons">
+                            @foreach ($button as $item)
+                            @if ( $item->code == 'more')
+                            <a class="btn small btn-outline-dark margin-10px-top md-no-margin-top"
+                                href="{{ route('news-show', $item->id) }}">
+                                {!!html_entity_decode($item->title)!!} <i class="ri-arrow-right-s-line"></i></a>
+                            @endif
+                            @endforeach
+                        </div> --}}
+                        @foreach ($button as $item)
+                        {{-- @if ($item->code == 'news') --}}
+                        @if ( $item->code == 'order')
+                        @if (Auth::check())
+                        <a href="{{ route('booking.show', $item->id) }}"
+                           class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                        @else
+                        <a href="/register" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                        @endif
+                        @endif
+                        @endforeach
+                    </div>
                     </div>
                     @endforeach
                 </div>

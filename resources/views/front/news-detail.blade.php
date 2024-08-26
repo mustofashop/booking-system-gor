@@ -148,24 +148,31 @@
                 
 
                     <div class="event-details">
-                        <div class="event-title">
-                            <h3>{{ $news->title }}</h3>
-                        </div>
-                        <div class="event-body">
-                            <table class="table table-borderless">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="badge badge-primary">{{ $news->organizer }}</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="event-title" >
+                            <h2><i class="bi bi-building" aria-hidden="true"></i>
+                            </i> {{ $news->title }}</h2>
                         </div>
                         <div class="event-description">
-                            <p>{{ (strip_tags(html_entity_decode($news->desc))) }}
-                                
-                            </p>
+                            <div class="event-title" >
+                            <span><i class="bi bi-journal-text"></i> {{ (strip_tags(html_entity_decode($news->desc))) }}</span>
+                            <br>
+                            <span><i class="bi bi-envelope"></i> {{ $news->email }}</span>
+                            <br>
+                            <span><i class="bi bi-telephone"></i> {{ $news->phone }}</span>
+                            <br>
+                            <span><i class="bi bi-geo-alt"></i> {{ $news->location }}</span>
+                            <br>
+                            @foreach ($button as $item)
+                        {{-- @if ($item->code == 'news') --}}
+                        @if ( $item->code == 'order')
+                        @if (Auth::check())
+                        <a href="{{ route('booking.show', $item->id) }}"
+                           class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                        @else
+                        <a href="/register" class="btn btn-outline-success btn-block">{!!html_entity_decode($item->title)!!}</a>
+                        @endif
+                        @endif
+                        @endforeach
                         </div>
                     </div>
                 </div>
