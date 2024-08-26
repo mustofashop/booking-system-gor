@@ -69,7 +69,9 @@
                             <!-- TITLE -->
                             <div class="col-6 mt-3">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">TITLE</label>
+                                    <label class="font-weight-bold">TITLE
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" name="title"
                                             value="{{ old('title') }}"
                                             placeholder="Enter title" required="">
@@ -81,7 +83,9 @@
                             <!-- STATUS -->
                             <div class="col-6 mt-3">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">ORDERING</label>
+                                    <label class="font-weight-bold">ORDERING
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control" name="ordering"
                                             value="{{ old('ordering',$ordering) }}" placeholder="Enter ordering"
                                             required="">
@@ -96,7 +100,9 @@
                             <!-- ORDERING -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">STATUS</label>
+                                    <label class="font-weight-bold">STATUS
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select class="form-control select2" name="status"
                                             value="{{ old('status') }}"
                                             placeholder="Pilih status" required="">
@@ -111,7 +117,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">EMAIL</label>
+                                    <label class="font-weight-bold">EMAIL
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" name="email"
                                             value="{{ old('email') }}"
                                             placeholder="Enter email" required="">
@@ -126,7 +134,9 @@
                             <!-- ORDERING -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">LOCATION</label>
+                                    <label class="font-weight-bold">LOCATION
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" name="location"
                                             value="{{ old('location') }}"
                                             placeholder="Enter location" required="">
@@ -137,7 +147,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">PHONE</label>
+                                    <label class="font-weight-bold">PHONE
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" name="phone"
                                             value="{{ old('phone') }}"
                                             placeholder="Enter phone" required="">
@@ -152,7 +164,9 @@
                             <!-- DESCRIPTION -->
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="font-weight-bold">DESCRIPTION</label>
+                                    <label class="font-weight-bold">DESCRIPTION
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <textarea id="summernote" class="summernote-simple form-control" form="fmabt"
                                     name="desc"
                                     rows="5" required="">{{ old('desc') }}</textarea>

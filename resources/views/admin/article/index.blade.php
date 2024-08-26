@@ -27,8 +27,9 @@
                         <table class="table table-striped mb-0">
                             <thead>
                             <tr style="text-align:left">
-                                <th>NEWS</th>
+                                <th>IMAGE</th>
                                 <th>DESCRIPTION</th>
+                                <th>INFO</th>
                                 <th>ORDERING</th>
                                 <th>STATUS</th>
                                 <th style="text-align:center">ACTION</th>
@@ -49,6 +50,16 @@
                                 <td>
                                     {{ $item->title }}
                                     {!! Str::words(html_entity_decode($item->desc), 50, ' ...') !!}
+                                </td>
+                                <td>
+                                    @if (!$item->location && !$item->email && !$item->phone)
+                                    @else
+                                    <i class="fas fa-map-marker-alt"></i> {{ $item->location }}
+                                    <br>
+                                    <i class="fa fa-envelope"></i> {{ $item->email }}
+                                    <br>
+                                    <i class="fas fa-phone"></i> {{ $item->phone }}
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $item->ordering }}
