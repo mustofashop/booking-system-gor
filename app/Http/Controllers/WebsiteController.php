@@ -20,6 +20,7 @@ use App\Models\TransactionPayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class WebsiteController extends Controller
 {
@@ -300,7 +301,7 @@ class WebsiteController extends Controller
         ]);
     }
 
-    public function showNewsDetail($id)
+    public function showNewsDetail($id, Request $request)
     {
         // Menu
         $navbars = Navbar::with('navbarsub')
@@ -319,8 +320,17 @@ class WebsiteController extends Controller
         // Image
         $image = Image::orderBy('ordering')->get();
 
+
         // News
         $news = News::find($id);
+
+        // Ambil tanggal yang dipilih dari request
+        $selectedDate = $request->input('date', null);
+
+        // Ambil data booking dari database berdasarkan tanggal yang dipilih
+        $bookings = DB::table('setup_news')
+            ->whereDate('booking_date', $selectedDate)
+            ->get(['start_time', 'end_time', 'status_booking']);
 
         return view('front.news-detail', [
             'navbars' => $navbars,
@@ -328,7 +338,8 @@ class WebsiteController extends Controller
             'label' => $label,
             'button' => $button,
             'image' => $image,
-            'news' => $news
+            'news' => $news,
+            'bookings' => $bookings
         ]);
     }
 

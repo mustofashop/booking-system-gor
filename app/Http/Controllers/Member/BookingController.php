@@ -20,10 +20,10 @@ class BookingController extends Controller
         $label = Label::all();
         $member = Member::where('member_id', Auth::user()->id)->first(); // Cari member berdasarkan ID user
 
-        if (isset($member)){ // Validasi apakah member ada atau tidak
+        if (isset($member)) { // Validasi apakah member ada atau tidak
             $data = TransactionBooking::where('member_id', $member->id)->paginate(10);
 
-            if (isset($data)){ // Validasi apakah data booking ada atau tidak
+            if (isset($data)) { // Validasi apakah data booking ada atau tidak
                 return view('member.booking.index', compact('data', 'label'));
             } else {
                 return view('member.booking.index', compact('label'));
@@ -80,7 +80,7 @@ class BookingController extends Controller
 
         TransactionInvoice::create([
             'code' => 'INV' . date('YmdHis'),
-            'method' => 'TRANSFER', // Perhatikan penulisan method yang benar
+            'method' => $data->methode, // Perhatikan penulisan method yang benar
             'description' => 'Invoice Booking Event ' . $data->title, // Mengakses nama event dari relasi
             'amount' => $data->price, // Mengakses harga event dari relasi
             'fee' => $data->cost, // Mengakses biaya admin dari relasi

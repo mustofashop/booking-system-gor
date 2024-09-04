@@ -11,6 +11,9 @@ use App\Models\TransactionPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Color\Color;
 
 class PaymentController extends Controller
 {
@@ -85,12 +88,26 @@ class PaymentController extends Controller
     {
         $label = Label::all();
         $data = TransactionInvoice::find($id);
-        return view('member.payment.edit', compact('label', 'data'));
+
+        // Generate QR code untuk QRIS
+        $qrisData = 'https://link-to-your-qris-provider.com/transaction?amount=' . $data->amount; // Sesuaikan URL dengan provider QRIS Anda
+
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->data($qrisData)
+            ->size(150) // Ukuran QR code
+            ->margin(10)
+            ->foregroundColor(new Color(0, 0, 0))
+            ->build();
+
+        // Dapatkan QR code dalam bentuk base64 string untuk ditampilkan di view
+        $qrisImage = $result->getDataUri();
+
+        return view('member.payment.edit', compact('label', 'data', 'qrisImage'));
     }
 
-    public function update(Request $request, $id)
-    {
-    }
+
+    public function update(Request $request, $id) {}
 
     public function destroy($id)
     {
