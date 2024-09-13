@@ -1,6 +1,5 @@
 @extends('layout.default')
 @section('content')
-
     <style>
         .events-container {
             display: flex;
@@ -186,18 +185,72 @@
         }
     </style>
 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .promo-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .promo-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .promo-section h1 span {
+            color: #ff4500;
+            /* Highlight color */
+        }
+
+        .promo-section p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .download-buttons {
+            margin-top: 30px;
+        }
+
+        .download-buttons img {
+            width: 150px;
+            margin: 0 10px;
+        }
+
+        .app-image {
+            max-width: 450px;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .whatsapp-float i {
+            font-size: 35px;
+            line-height: 60px;
+        }
+    </style>
+
 
     <main id="main">
 
         <!-- ======= Hero Section ======= -->
         <section id="hero" class="hero">
-            {{-- <div class="col-lg-12">
-            @foreach ($label as $item)
-            @if ($item->code == 'hastag')
-            <h3 class="teks-kiri-atas" style="color:#FFFFFF;"><b>{!! html_entity_decode($item->desc) !!} </b></h3>
-            @endif
-            @endforeach
-        </div> --}}
             <div class="container">
                 <div class="row justify-content-center align-items-center" style="height: 60vh;">
                     <div class="col-lg-12" data-aos="zoom-out">
@@ -241,8 +294,32 @@
         </section>
         <!-- End Hero -->
 
-        <!-- ======= About Section ======= -->
+        <section class="promo-section">
+            <div class="container">
+                <h1>Kini <span>Fi-Li</span> Telah hadir <br> di <span>Aplikasi Mobile</span>.</h1>
+                <p>Sekarang giliranmu untuk merasakan <strong>#MainMakinMudah</strong> — Bawa pengalaman seru ke dalam
+                    genggamanmu. <br> Download sekarang!</p>
 
+                <!-- Download buttons -->
+                <div class="download-buttons">
+                    <a href="#">
+                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                            alt="Download on the App Store">
+                    </a>
+                    <a href="#">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                            alt="Get it on Google Play">
+                    </a>
+                </div>
+
+                <!-- Mobile App Images -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-6">
+                        <img src="{{ asset('assets/img/mobs-2.jpg') }}" alt="App Preview" class="img-fluid app-image">
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- ======= About Section ======= -->
         <section id="history" class="about">
             <div class="container-fluid">
@@ -310,7 +387,7 @@
         <!-- End Counts Section -->
 
         <!-- ======= Prosedur Section ======= -->
-        <section id="event" class="features">
+        {{-- <section id="event" class="features">
             <div class="container mt-5">
 
                 <div class="section-title" data-aos="fade-up">
@@ -422,7 +499,7 @@
                     @endif
                 @endforeach
             </div>
-        </section>
+        </section> --}}
         <!-- End Features Section -->
 
         <!-- ======= Details Section ======= -->
@@ -538,7 +615,7 @@
         <!-- End Gallery Section -->
 
         <!-- ======= Team Section ======= -->
-        <section id="team" class="team">
+        {{-- <section id="team" class="team">
             <div class="container mt-5">
 
                 <div class="section-title" data-aos="fade-up">
@@ -606,7 +683,7 @@
                     @endforeach
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- End Team Section -->
 
         <!-- ======= F.A.Q Section ======= -->

@@ -60,7 +60,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- DETAIL -->
+                            <!-- CATEGORY -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">CATEGORY</label>
+                                        <select class="form-control select2" name="category_id"
+                                            value="{{ old('category_id', $data->category_id) }}"
+                                            placeholder="Pilih CATEGORY" required="">
+                                            <option value="">-- Choose --</option>
+                                            @forelse ($category as $item)
+                                                <option value="{{ $item->id }}"
+                                                    {{ $item->id == $data->category_id ? 'selected' : '' }}>
+                                                    {{ $item->title }}
+                                                </option>
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                        <div class="invalid-feedback alert alert-danger mt-2">
+                                            Please fill in the member
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <!-- TITLE -->
                                 <div class="col-6 mt-3">

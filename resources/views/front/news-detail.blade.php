@@ -97,6 +97,7 @@
         .time-slot .status {
             font-size: 14px;
             color: #198754;
+            font-weight: bold;
         }
 
         .day-tuesday {
@@ -325,6 +326,8 @@
     </main>
     <!-- End #main -->
     <script>
+        const bookedSlots = @json($bookedSlots);
+
         document.getElementById('booking-date').addEventListener('change', function() {
             const selectedDate = new Date(this.value);
             const bookingSlots = document.getElementById('booking-slots');
@@ -358,12 +361,30 @@
                 for (let hour = 6; hour < 22; hour += 1) {
                     const timeSlot = document.createElement('div');
                     timeSlot.className = 'time-slot available';
+
+                    // Format jam
+                    const startHour = hour.toString().padStart(2, '0');
+                    const endHour = (hour + 1).toString().padStart(2, '0');
+                    const slotDate = date.toISOString().split('T')[0]; // Format ISO untuk tanggal
+
+                    // Periksa apakah slot ini sudah dipesan dari data booking
+                    const isBooked = bookedSlots.some(slot => slot.booking_date === slotDate && hour >= parseInt(
+                        slot
+                        .start_time) && hour < parseInt(slot.end_time));
+
                     timeSlot.innerHTML = `
-                    <small style="font-size: 0.8em;">60 Menit</small>
-                    <div>${hour.toString().padStart(2, '0')}:00 - ${(hour + 1).toString().padStart(2, '0')}:00</div>
-                    <div class="price">{{ 'Rp ' . number_format($news->price, 2, ',', '.') }}</div>
-                    <div class="status">Available</div>
-                `;
+                        <small style="font-size: 0.8em;">60 Menit</small>
+                        <div>${startHour}:00 - ${endHour}:00</div>
+                        <div class="price">{{ 'Rp ' . number_format($news->price, 2, ',', '.') }}</div>
+                        <div class="status">${isBooked ? 'Booked' : 'Available'}</div>
+                    `;
+
+                    // Tambahkan class "booked" jika sudah dipesan
+                    if (isBooked) {
+                        timeSlot.classList.remove('available');
+                        timeSlot.classList.add('booked');
+                    }
+
                     colDiv.appendChild(timeSlot);
                 }
 

@@ -62,8 +62,28 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <br>
                             <!-- DETAIL -->
+                            <div class="row">
+                                <!-- CATEGORY -->
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="category_id" class="font-weight-bold">CHOOSE CATEGORY <span
+                                                class="text-danger">*</span></label>
+                                        <select id="category_id" name="category_id" class="select2 form-control"
+                                            required="">
+                                            <option value="">Choose</option>
+                                            @foreach ($category as $item)
+                                                <option value="{{ $item->id }}"> {{ $item->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a valid member
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <!-- TITLE -->
                                 <div class="col-6 mt-3">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\Label;
 use App\Models\News;
+use App\Models\EventCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -24,11 +25,14 @@ class ArticleController extends Controller
     {
         $label = Label::all();
         $ordering = News::pluck('ordering')->last() + 1;
-        return view('admin.article.create', compact('label', 'ordering'));
+        $category = EventCategory::where('status', 'ACTIVE')->get();
+        return view('admin.article.create', compact('label', 'ordering', 'category'));
     }
 
     public function store(Request $request): RedirectResponse
     {
+        $category = EventCategory::find($request->category_id);
+
         // Validasi data yang diterima dari form
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -66,16 +70,21 @@ class ArticleController extends Controller
             $imageFile3->storePubliclyAs('news', $imageName3, 'public'); // Menyimpan file dengan nama spesifik
 
             $image = new News;
-            $image->image = $imageName;
-            $image->image2 = $imageName2;
-            $image->image3 = $imageName3;
-            $image->title = $request->input('title');
-            $image->desc = $request->input('desc');
-            $image->ordering = $request->input('ordering');
-            $image->status = $request->input('status');
-            $image->email = $request->input('email');
-            $image->phone = $request->input('phone');
-            $image->location = $request->input('location');
+            $image->image       = $imageName;
+            $image->image2      = $imageName2;
+            $image->image3      = $imageName3;
+            $image->title       = $request->input('title');
+            $image->desc        = $request->input('desc');
+            $image->ordering    = $request->input('ordering');
+            $image->status      = $request->input('status');
+            $image->email       = $request->input('email');
+            $image->phone       = $request->input('phone');
+            $image->location    = $request->input('location');
+            $image->category_id = $category->id;
+            // Tetapkan nilai null pada kolom booking_date, start_time, dan end_time
+            $image->booking_date = null;
+            $image->start_time = null;
+            $image->end_time = null;
             $image->save();
         }
 
@@ -91,7 +100,8 @@ class ArticleController extends Controller
     {
         $data = News::findOrFail($id);
         $label = Label::all();
-        return view('admin.article.edit', compact('data', 'label'));
+        $category = EventCategory::where('status', 'ACTIVE')->get();
+        return view('admin.article.edit', compact('data', 'label', 'category'));
     }
 
     public function update(Request $request, $id)
@@ -164,6 +174,9 @@ class ArticleController extends Controller
         $image->phone = $request->input('phone');
         $image->location = $request->input('location');
         $image->updated_by = strtoupper($request->user()->username);
+        $image->booking_date = null;
+        $image->start_time = null;
+        $image->end_time = null;
         $image->save();
 
 

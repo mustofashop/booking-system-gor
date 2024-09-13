@@ -301,7 +301,7 @@ class WebsiteController extends Controller
         ]);
     }
 
-    public function showNewsDetail($id, Request $request)
+    public function showNewsDetail($id)
     {
         // Menu
         $navbars = Navbar::with('navbarsub')
@@ -324,13 +324,10 @@ class WebsiteController extends Controller
         // News
         $news = News::find($id);
 
-        // Ambil tanggal yang dipilih dari request
-        $selectedDate = $request->input('date', null);
-
-        // Ambil data booking dari database berdasarkan tanggal yang dipilih
-        $bookings = DB::table('setup_news')
-            ->whereDate('booking_date', $selectedDate)
-            ->get(['start_time', 'end_time', 'status_booking']);
+        // Ambil data booking (date, start_time, end_time) dari model News
+        $bookedSlots = News::where('id', $id)
+            ->select('booking_date', 'start_time', 'end_time')
+            ->get();
 
         return view('front.news-detail', [
             'navbars' => $navbars,
@@ -339,7 +336,7 @@ class WebsiteController extends Controller
             'button' => $button,
             'image' => $image,
             'news' => $news,
-            'bookings' => $bookings
+            'bookedSlots' => $bookedSlots // Kirim data booking ke view
         ]);
     }
 
